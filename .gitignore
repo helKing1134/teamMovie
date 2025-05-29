@@ -1,5 +1,5 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,eclipse
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,eclipse
+# Edited for Dynamic Web Project compatibility
 
 ### Eclipse ###
 .metadata
@@ -10,15 +10,11 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
 .loadpath
 .recommenders
 
 # External tool builders
 .externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
 
 # PyDev specific (Python IDE for Eclipse)
 *.pydevproject
@@ -59,28 +55,14 @@ local.properties
 .scala_dependencies
 .worksheet
 
-# Uncomment this line if you wish to ignore the project description file.
-# Typically, this file would be tracked if it contains build/dependency configurations:
-#.project
-
-### Eclipse Patch ###
 # Spring Boot Tooling
 .sts4-cache/
 
 ### Java ###
-# Compiled class file
 *.class
-
-# Log file
 *.log
-
-# BlueJ files
 *.ctxt
-
-# Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.nar
@@ -88,9 +70,13 @@ local.properties
 *.zip
 *.tar.gz
 *.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
 
-# End of https://www.toptal.com/developers/gitignore/api/java,eclipse
+### 👇 반드시 포함해야 할 항목은 무시하지 않음 ###
+# DO NOT ignore these for Eclipse Dynamic Web Projects
+# .project
+# .classpath
+# .settings/
+
+# End of .gitignore
