@@ -111,7 +111,6 @@
                 <c:when test="${empty loginUser}">
                     <a href="${contextRoot}/register">회원가입</a>
                     <a data-toggle="modal" data-target="#loginModal">로그인</a>
-                    <a href="${contextRoot}/support">고객센터</a>
                 </c:when>
                 <c:otherwise>
                     <span>${loginUser.userName}님 환영합니다</span>
