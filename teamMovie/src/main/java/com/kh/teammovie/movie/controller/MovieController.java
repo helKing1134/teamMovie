@@ -121,6 +121,12 @@ public class MovieController {
 		return "movie/seatSelectPage";
 		
 	}
+	@PostMapping("movie/payment")
+	public String forwardMoviePayment() {
+		
+		return "movie/paymentConfirm";
+		
+	}
 	
 	
 
