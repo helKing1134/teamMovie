@@ -31,4 +31,16 @@ public class Movie {
 	private String status;
 //	POSTER_PATH
 	private String posterPath;
+
+	
+public Movie(int movieId, String movieTitle, String description, String status) {
+	super();
+	this.movieId = movieId;
+	this.movieTitle = movieTitle;
+	this.description = description;
+	this.status = status;
+}
+	
+	
+	
 }
