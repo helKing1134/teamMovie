@@ -6,4 +6,81 @@
 <!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
 <mapper namespace="movieMapper">
 
+	
+	<resultMap type="Movie" id="movieResultMap">
+		<result property="movieId" column="MOVIE_ID" />
+		<result property="typeId" column="TYPE_ID" />
+		<result property="movieTitle" column="MOVIE_TITLE" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="director" column="DIRECTOR" />
+		<result property="duration" column="DURATION" />
+		<result property="rating" column="RATING" />
+		<result property="releaseDate" column="RELEASE_DATE" />
+		<result property="status" column="STATUS" />
+		<result property="posterPath" column="POSTER_PATH" />
+		<collection property="genreArr" ofType="Genre">
+			<result property="genreId" column="GENRE_ID"/>
+			<result property="genre" column="GNERE"/>
+		</collection>
+		<collection property="actorArr" ofType="Actor">
+			<result property="actorId" column="ACTOR_ID"/>
+			<result property="actorName" column="ACTOR_NAME"/>
+		</collection>
+	</resultMap>
+	
+	<select id="movieList" resultMap="movieResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		FROM MOVIE
+		JOIN MOVIE_GENRE USING (MOVIE_ID)
+		JOIN GENRE USING (GENRE_ID)
+		JOIN MOVIE_ACTOR USING (MOVIE_ID)
+		JOIN ACTOR USING (ACTOR_ID)
+		WHERE MOVIE_ID IN (
+		    SELECT MOVIE_ID
+		    FROM(
+		        SELECT MOVIE_ID, ROW_NUMBER() OVER (ORDER BY RELEASE_DATE DESC) RN
+		        FROM MOVIE
+		        )
+		    WHERE RN BETWEEN #{startRow} AND #{endRow}
+		)
+		AND
+		<choose>
+			<when test="currentStatus == 'all'">
+				STATUS IN ('S','P')
+			</when>
+			<when test="currentStatus == 'now'">
+				STATUS = 'S'
+			</when>
+			<when test="currentStatus == 'coming'">
+				STATUS = 'P'
+			</when>
+		</choose>
+		<if test="condition != '' and keyword != ''">
+		AND
+			<choose>
+				<when test="condition == 'title'">
+					MOVIE_TITLE
+				</when>
+				<when test="condition == 'director'">
+					DIRECTOR
+				</when>
+				<when test="condition == 'actor'">
+					ACTOR_NAME
+				</when>
+				<otherwise>
+					GNERE
+				</otherwise>
+			</choose>
+		LIKE '%' || #{keyword} || '%'
+		</if>
+								
+	</select>
+	
+	
+	
+
 </mapper>

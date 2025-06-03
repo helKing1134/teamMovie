@@ -10,4 +10,10 @@
  	
  	</settings>
  	
+ 	<typeAliases>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Movie" alias="Movie"/>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Actor" alias="Actor"/>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Genre" alias="Genre"/>
+ 	</typeAliases>
+ 	
 </configuration>
