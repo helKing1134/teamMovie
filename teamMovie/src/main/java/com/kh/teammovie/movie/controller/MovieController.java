@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teammovie.movie.model.vo.Movie;
+import com.kh.teammovie.schedule.model.dto.ScheduleWithTitle;
 import com.kh.teammovie.schedule.model.vo.Schedule;
-import com.kh.teammovie.screen.model.dto.ScheduleWithTitle;
 
 @Controller
 public class MovieController {

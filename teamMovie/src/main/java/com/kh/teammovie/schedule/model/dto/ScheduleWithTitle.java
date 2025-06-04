@@ -1,4 +1,4 @@
-package com.kh.teammovie.screen.model.dto;
+package com.kh.teammovie.schedule.model.dto;
 
 import java.sql.Date;
 
