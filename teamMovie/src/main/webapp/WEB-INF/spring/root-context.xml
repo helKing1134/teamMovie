@@ -15,6 +15,8 @@
 	 	<property name="username" value="MOVIE"/>
 	 	<property name="password" value="MOVIE"/>
 	 </bean>
+
+
 		
 	<!-- 2단계 : mybatis에서 제공하는 sql명령어 실행을 위한 도구 등록 -->
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">

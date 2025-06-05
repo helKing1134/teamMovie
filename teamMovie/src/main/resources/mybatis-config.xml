@@ -14,6 +14,7 @@
  		<typeAlias type="com.kh.teammovie.movie.model.vo.Movie" alias="Movie"/>
  		<typeAlias type="com.kh.teammovie.movie.model.vo.Actor" alias="Actor"/>
  		<typeAlias type="com.kh.teammovie.movie.model.vo.Genre" alias="Genre"/>
+ 		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
  	</typeAliases>
  	
 </configuration>
