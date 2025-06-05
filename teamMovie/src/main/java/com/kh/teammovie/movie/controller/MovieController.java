@@ -16,30 +16,35 @@ import com.kh.teammovie.movie.model.vo.Movie;
 
 @Controller
 @RequestMapping("/movies")
-public class MovieController {
+public class MovieController { //written by 이수한
 	
 	
 	@Autowired
 	private MovieService service;
+
 	
-	@GetMapping("")//(동기)영화목록 페이지 위임 요청
+	
+	/*====================영화 목록 조회 메서드=====================*/
+
+	
+	
+	
+	@GetMapping("")//(동기)전체 영화 목록 페이지 위임 요청
 	public String allMovieListView() {
 		return "movie/movieAll";
 	}
 	
-	@ResponseBody
-	@GetMapping(value =  "/all", produces = "application/json;charset=utf-8") //(비동기)전체영화목록 조회 맵핑 주소
-	public ArrayList<Movie> movieListAll(int page) { //위임 시 영화 목록 담을 Model 객체
-		
-		System.out.println(page);
+	@ResponseBody //(비동기)전체 영화 목록 가져오기
+	@GetMapping(value =  "/all.mv", produces = "application/json;charset=utf-8") 
+	public ArrayList<Movie> movieListAll(int page) {
 		
 		ArrayList<Movie> movieListAll = service.movieListAll(page);
 		
 		return movieListAll;
 	}
 	
-	@ResponseBody
-	@GetMapping(value = "searchOfAll", produces = "application/json;charset = utf-8")
+	@ResponseBody //(비동기)전체 영화에서 검색필터링된 목록 가져오기
+	@GetMapping(value = "searchOfAll.mv", produces = "application/json;charset = utf-8")
 	public ArrayList<Movie> searchOfAllMovie(int page
 								  ,String condition
 								  ,String keyword
@@ -52,121 +57,77 @@ public class MovieController {
 		return service.searchOfAllMovie(page,searchMap); 
 	}
 	
-	@GetMapping("screening")
+	@GetMapping("screening") //(동기)상영중인 영화 목록 페이지 위임 요청
 	public String screeningMovieListView() {
 		return "movie/movieScreening";
 	}
 	
-	@GetMapping("coming")
+	@ResponseBody //(비동기)상영중인 영화 목록 가져오기
+	@GetMapping(value =  "/screening.mv", produces = "application/json;charset=utf-8")
+	public ArrayList<Movie> screeningMovieList(int page) { 
+		
+		ArrayList<Movie> screeningMovieList = service.screeningMovieList(page);
+		
+		return screeningMovieList;
+	}
+	
+	@ResponseBody //(비동기)상영중인 영화에서 검색필터링된 목록 가져오기
+	@GetMapping(value = "searchOfScreening.mv", produces = "application/json;charset = utf-8")
+	public ArrayList<Movie> searchOfScreeningMovie(int page
+								  ,String condition
+								  ,String keyword
+								  ) {
+		HashMap<String,String> searchMap = new HashMap<>();
+		
+		searchMap.put("condition", condition);
+		searchMap.put("keyword", keyword);
+		
+		return service.searchOfScreeningMovie(page,searchMap); 
+	}
+	
+	@GetMapping("coming") //(동기)상영 예정 영화 목록 페이지 위임 요청
 	public String comingMovieListView() {
 		return "movie/movieComing";
 	}
 	
-	/*
-	//스크롤 내릴때마다 실행될 메서드(영화 목록 계속 가져오기 위함)
-	@ResponseBody
-	@GetMapping(value = "list.mv", produces = "application/json; charset=utf-8")
-	public HashMap<String,Object> movieList(int startRow  
-										   ,int endRow
-										   ,String currentStatus
-										   ,String condition
-										   ,String keyword
-										   ){
+	@ResponseBody //(비동기)상영 예정 영화 목록 가져오기
+	@GetMapping(value =  "/coming.mv", produces = "application/json;charset=utf-8")
+	public ArrayList<Movie> comingMovieList(int page) { 
 		
-		System.out.println("condtion : " + condition + " keyword : " + keyword);
-		System.out.println("currentStatus : " + currentStatus);
-		System.out.println("startRow : " + startRow);
-		System.out.println("endRow : " + endRow);
-		HashMap<String,Object> map = new HashMap<>();
-		map.put("startRow",startRow);
-		map.put("endRow",endRow);
-		map.put("currentStatus", currentStatus);
-		map.put("condition", condition);
-		map.put("keyword", keyword);
+		ArrayList<Movie> comingMovieList = service.comingMovieList(page);
 		
-		int totalCount = service.movieCount(); //영화 총 개수 (ROW_NUM으로 식별해놓은 영화개수)
-		System.out.println("전체 영화 개수(변하지 않아야 함) : " + totalCount);
-		ArrayList<Movie> movieList = service.movieList(map);//탭건색,검색어 입력 시 8개 단위 영화 리스트
-		System.out.println("movieList 개수 : " + movieList.size());
+		return comingMovieList;
+	}
+	
+	@ResponseBody //(비동기)상영 예정 영화에서 검색필터링된 목록 가져오기
+	@GetMapping(value = "searchOfComing.mv", produces = "application/json;charset = utf-8")
+	public ArrayList<Movie> searchOfComingMovie(int page
+											   ,String condition
+											   ,String keyword
+											   ) {
+		HashMap<String,String> searchMap = new HashMap<>();
 		
-		boolean hasNext = startRow <= totalCount; //무조건 시작행이 전체 개수보다 작아야 한다!!! 그때만 true!!!
+		searchMap.put("condition", condition);
+		searchMap.put("keyword", keyword);
 		
-		HashMap<String,Object> result = new HashMap<>();
-		result.put("movieList", movieList);
-		result.put("hasNext", hasNext);
-		
-		return result;
+		return service.searchOfComingMovie(page,searchMap); 
 	}
 	
 	
 	
+	/*====================영화 상세 조회 메서드=====================*/
 	
 	
-	@ResponseBody
-	@GetMapping(value = "/now", produces = "application/json;charset=utf-8") //(비동기)상영중인 영화목록 조회 맵핑 주소
-	public ArrayList<Movie> movieNowList(int page){
+	
+	@GetMapping("detail.mv")
+	public String movieDetail(int mvId
+							 ,Model model) { //매개변수 mvId = movieId(영화 아이디)
 		
-		ArrayList<Movie> movieNowList = service.movieNowList(page);
+		Movie movie = service.movieDetail(mvId);
+		model.addAttribute("movie",movie);
 		
-		return movieNowList;
+		return "movie/movieDetail";
 	}
-	
-	@ResponseBody
-	@GetMapping(value = "/soon", produces = "application/json;charset=utf-8") //(비동기)상영예정인 영화목록 조회 맵핑 주소
-	public ArrayList<Movie> movieSoonList(int page){
-		
-		ArrayList<Movie> movieSoonList = service.movieSoonList(page);
-		
-		return movieSoonList;
-	}
-	
-	@ResponseBody
-	@GetMapping(value = "/allSearch", produces = "application/json;charset=utf-8") //(비동기)상영예정인 영화목록 조회 맵핑 주소
-	public ArrayList<Movie> movieAllSearchList(int page,String condition,String keyword){
-		
-		HashMap<String,String> map = new HashMap<>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
-		ArrayList<Movie> movieAllSearchList = service.movieAllSearchList(page,map);
-		System.out.println(page + condition + keyword);
-		
-		return movieAllSearchList;
-	}
-	
-	@ResponseBody
-	@GetMapping(value = "/nowSearch", produces = "application/json;charset=utf-8") //(비동기)상영예정인 영화목록 조회 맵핑 주소
-	public ArrayList<Movie> movieNowSearchList(int page,String condition,String keyword){
-		
-		HashMap<String,String> map = new HashMap<>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
-		ArrayList<Movie> movieNowSearchList = service.movieNowSearchList(page,map);
-		
-		return movieNowSearchList;
-	}
-	
-	@ResponseBody
-	@GetMapping(value = "/soonSearch", produces = "application/json;charset=utf-8") //(비동기)상영예정인 영화목록 조회 맵핑 주소
-	public ArrayList<Movie> movieSoonSearchList(int page,String condition,String keyword){
-		
-		HashMap<String,String> map = new HashMap<>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
-		ArrayList<Movie> movieSoonSearchList = service.movieSoonSearchList(page,map);
-		
-		return movieSoonSearchList;
-	}
-	*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

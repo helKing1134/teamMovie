@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class Genre {
 	private int genreId;//	GENRE_ID	NUMBER
-	private String genre;//	GNERE	VARCHAR2(30 BYTE)
+	private String genreName;//	GNERE	VARCHAR2(30 BYTE)
 }

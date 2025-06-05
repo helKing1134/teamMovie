@@ -207,7 +207,38 @@
   text-decoration: none;        /* 밑줄 제거 */
   color: #fff;                  /* 글자색 유지 */
 }
+  .rating-tag {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #fff;
+    padding: 0.25em 0.7em;
+    border-radius: 4px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    margin-right: 0.5em;
+    letter-spacing: 0.03em;
+    text-align: center;
+    min-width: 32px;
+  }
 
+  .all {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    box-shadow: 0 3px 8px rgba(39, 174, 96, 0.6);
+  }
+  .twelve {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    box-shadow: 0 3px 8px rgba(41, 128, 185, 0.6);
+  }
+  .fifteen {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    box-shadow: 0 3px 8px rgba(211, 84, 0, 0.6);
+  }
+  .nineteen {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    box-shadow: 0 3px 8px rgba(192, 57, 43, 0.6);
+  }
 
   
 </style>
@@ -221,13 +252,13 @@
 	<!-- 영화 탭 메뉴 -->
 	<ul class="nav nav-tabs justify-content-center movie-tab-menu">
 	  <li class="nav-item">
-	    <a class="nav-link active" href="movies">전체 영화</a>
+	    <a class="nav-link active" href="${contextRoot}/movies">전체 영화</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="movies/screening">상영 중</a>
+	    <a class="nav-link" href="${contextRoot}/movies/screening">상영 중</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="movies/coming">상영 예정</a>
+	    <a class="nav-link" href="${contextRoot}/movies/coming">상영 예정</a>
 	  </li>
 	</ul>
 
@@ -254,8 +285,9 @@
         </div>
       </form>
     </div>
+
     
-    
+
     	
     		
     	
@@ -291,7 +323,7 @@
   		isLoading = true;
   		$("#loadingSpinner").show();
   		$.ajax({
-  			url : "${contextRoot}/movies/all",
+  			url : "${contextRoot}/movies/all.mv",
   			data : {
   				page : page	
   			},
@@ -311,7 +343,7 @@
 					  							'<div class="col-md-3 mb-4">' +
 											    '<div class="card movie-card h-100">' +
 											      '<div class="poster-wrapper" data-id="' + movie.movieId + '">' +
-												    '<a href="${contextRoot}/detail.mv?mvId=' + movie.movieId + '">' +
+												    '<a href="${contextRoot}/movies/detail.mv?mvId=' + movie.movieId + '">' +
 											        '<img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fDu0T5WE0QAoX2yAqZ1RtlWBn6I.jpg" class="card-img-top poster-img" alt="' + movie.movieTitle + '">' +
 											        '<div class="overlay">' +
 											          '<div class="summary-text">' + movie.description + '</div>' +
@@ -319,13 +351,23 @@
 											        '</a>' +
 											      '</div>' +
 											      '<div class="card-body text-center">' +
-											        '<h5 class="card-title">' + movie.movieTitle + '</h5>' +
+											        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 											        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
 											        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 											      '</div>' +
 											    '</div>' +
 											  '</div>'
 						  						 );
+	  					
+	  					if(movie.rating === '전체'){
+							$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
+						}else if(movie.rating === '12세'){
+							$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
+						}else if(movie.rating === '15세'){
+							$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
+						}else{
+							$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
+						} 
 
 
   				});
@@ -355,7 +397,7 @@
 		isLoading = true;
 		
 		$.ajax({
-			url : "${contextRoot}/movies/searchOfAll",
+			url : "${contextRoot}/movies/searchOfAll.mv",
 			data : {
 				page : page,
 				condition : condition,
@@ -384,21 +426,31 @@
 											'<div class="col-md-3 mb-4">' +
 										    '<div class="card movie-card h-100">' +
 										      '<div class="poster-wrapper" data-id="' + movie.movieId + '">' +
-										      	'<a href="${contextRoot}/detail.mv?mvId=' + movie.movieId + '">' +
+										      	'<a href="${contextRoot}/movies/detail.mv?mvId=' + movie.movieId + '">' +
 										        '<img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fDu0T5WE0QAoX2yAqZ1RtlWBn6I.jpg" class="card-img-top poster-img" alt="' + movie.movieTitle + '">' +
-										        '</a>' +
 										        '<div class="overlay">' +
 										          '<div class="summary-text">' + movie.description + '</div>' +
 										        '</div>' +
+										        '</a>' +
 										      '</div>' +
 										      '<div class="card-body text-center">' +
-										        '<h5 class="card-title">' + movie.movieTitle + '</h5>' +
+										        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 										        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
 										        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 										      '</div>' +
 										    '</div>' +
 										  '</div>'
-					  						 );	
+					  						 );
+					if(movie.rating === '전체'){
+						$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
+					}else if(movie.rating === '12세'){
+						$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
+					}else if(movie.rating === '15세'){
+						$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
+					}else{
+						$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
+					} 
+						
 			});
 			
 			

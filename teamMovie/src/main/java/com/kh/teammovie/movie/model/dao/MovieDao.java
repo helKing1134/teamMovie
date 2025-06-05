@@ -15,7 +15,7 @@ public class MovieDao {
 	public ArrayList<Movie> movieListAll(SqlSessionTemplate sqlSession,int page) {
 		
 		int limit = 4;
-		int offset = (page-1) * limit;
+		int offset = (page - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("movieMapper.movieListAll",null,new RowBounds(offset, limit));
 	}
@@ -23,63 +23,44 @@ public class MovieDao {
 	public ArrayList<Movie> searchOfAllMovie(SqlSessionTemplate sqlSession, int page, HashMap<String, String> searchMap) {
 		
 		int limit = 4;
-		int offset = (page-1) * limit;
+		int offset = (page - 1) * limit;
 		return (ArrayList)sqlSession.selectList("movieMapper.searchOfAllMovie",searchMap,new RowBounds(offset,limit));
 	}
+
+	public ArrayList<Movie> screeningMovieList(SqlSessionTemplate sqlSession, int page) {
+		
+		int limit = 4;
+		int offset = (page - 1) * limit;
+		return (ArrayList)sqlSession.selectList("movieMapper.screeningMovieList",null,new RowBounds(offset, limit));
+	}
+
+	public ArrayList<Movie> searchOfScreeningMovie(SqlSessionTemplate sqlSession,int page,HashMap<String, String> searchMap) {
+		
+		int limit = 4;
+		int offset = (page - 1) * limit;
+		return (ArrayList)sqlSession.selectList("movieMapper.searchOfScreeningMoive",searchMap,new RowBounds(offset,limit));
+	}
+
+	public ArrayList<Movie> comingMovieList(SqlSessionTemplate sqlSession, int page) {
+		
+		int limit = 4;
+		int offset = (page -1) * limit;
+		return (ArrayList)sqlSession.selectList("movieMapper.comingMovieList",null,new RowBounds(offset, limit));
+	}
+
+	public ArrayList<Movie> searchOfComingMovie(SqlSessionTemplate sqlSession,int page,HashMap<String, String> searchMap) {
+		
+		int limit = 4;
+		int offset = (page -1) * limit;
+		return (ArrayList)sqlSession.selectList("movieMapper.searchOfComingMovie", searchMap, new RowBounds(offset, limit));
+	}
+
+	public Movie movieDetail(SqlSessionTemplate sqlSession, int mvId) {
+		
+		return sqlSession.selectOne("movieMapper.movieDetail", mvId);
+	}
 	
-	/*
-	public ArrayList<Movie> movieNowList(SqlSessionTemplate sqlSession, int page) {
-		
-		int limit = 6;
-		int offset = (page-1) * limit;
-		
-		return (ArrayList)sqlSession.selectList("movieMapper.movieNowList",null,new RowBounds(offset,limit));
-	}
-
-	public ArrayList<Movie> movieSoonList(SqlSessionTemplate sqlSession, int page) {
-		
-		int limit = 6;
-		int offset = (page-1) * limit;
-		
-		return (ArrayList)sqlSession.selectList("movieMapper.movieSoonList", null, new RowBounds(offset,limit));
-		
-	}
-
-	public ArrayList<Movie> movieAllSearchList(SqlSessionTemplate sqlSession, int page, HashMap<String, String> map) {
-		
-		int limit = 6;
-		int offset = (page-1) * limit;
-		
-		return (ArrayList)sqlSession.selectList("movieMapper.movieAllSearchList",map,new RowBounds(offset,limit));
-	}
-
-	public ArrayList<Movie> movieNowSearchList(SqlSessionTemplate sqlSession, int page, HashMap<String, String> map) {
-		
-		int limit = 6;
-		int offset = (page-1) * limit;
-		
-		return (ArrayList)sqlSession.selectList("movieMapper.movieNowSearchList",map,new RowBounds(offset,limit));
-	}
-
-	public ArrayList<Movie> movieSoonSearchList(SqlSessionTemplate sqlSession, int page, HashMap<String, String> map) {
-		
-		int limit = 6;
-		int offset = (page-1) * limit;
-		
-		return (ArrayList)sqlSession.selectList("movieMapper.movieSoonSearchList",map,new RowBounds(offset,limit));
-	}
-
-	public ArrayList<Movie> movieList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		
-		System.out.println("map의 conditon : " + map.get("condition"));
-		System.out.println("map의 keyword : " + map.get("keyword"));
-		return (ArrayList)sqlSession.selectList("movieMapper.movieList",map);
-	}
-
-	public int movieCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("movieMapper.movieCount");
-	}
-	*/
+	
 
 	
 	

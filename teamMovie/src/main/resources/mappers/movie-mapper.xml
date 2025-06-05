@@ -18,11 +18,11 @@
 		<result property="releaseDate" column="RELEASE_DATE" />
 		<result property="status" column="STATUS" />
 		<result property="posterPath" column="POSTER_PATH" />
-		<collection property="genreArr" ofType="Genre">
+		<collection property="genres" ofType="Genre">
 			<result property="genreId" column="GENRE_ID"/>
-			<result property="genre" column="GNERE"/>
+			<result property="genreName" column="GENRE_NAME"/>
 		</collection>
-		<collection property="actorArr" ofType="Actor">
+		<collection property="actors" ofType="Actor">
 			<result property="actorId" column="ACTOR_ID"/>
 			<result property="actorName" column="ACTOR_NAME"/>
 		</collection>
@@ -36,6 +36,7 @@
 			  ,POSTER_PATH
 			  ,RELEASE_DATE
 		FROM MOVIE
+		WHERE STATUS IN ('S','P')
 		ORDER BY RELEASE_DATE DESC
 	</select>
 	
@@ -54,7 +55,7 @@
 		WHERE
 		<choose>
 			<when test="condition == 'title'">
-				MOVIE_TITLE
+				LOWER(MOVIE_TITLE)
 			</when>
 			<when test="condition == 'director'">
 				LOWER(DIRECTOR)
@@ -63,19 +64,31 @@
 				LOWER(ACTOR_NAME)
 			</when>
 			<otherwise>
-				GNERE
+				LOWER(GENRE_NAME)
 			</otherwise>
 		</choose>
 		LIKE '%' || LOWER(#{keyword}) || '%'
-		GROUP BY MOVIE_ID,MOVIE_TITLE,RATING,POSTER_PATH,RELEASE_DATE,DESCRIPTION
+		AND STATUS IN ('S','P')
+		GROUP BY MOVIE_ID,MOVIE_TITLE,DESCRIPTION,RATING,POSTER_PATH,RELEASE_DATE
 		ORDER BY RELEASE_DATE DESC
 	</select>
 	
-	
-	<!-- 
-	<select id="movieList" resultMap="movieResultMap">
+	<select id="screeningMovieList" resultMap="movieResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		FROM MOVIE
+		WHERE STATUS = 'S'
+		ORDER BY RELEASE_DATE DESC   
+	</select>
+	
+	<select id="searchOfScreeningMoive" resultMap="movieResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
 		      ,RATING
 		      ,POSTER_PATH
 		      ,RELEASE_DATE
@@ -84,53 +97,88 @@
 		JOIN GENRE USING (GENRE_ID)
 		JOIN MOVIE_ACTOR USING (MOVIE_ID)
 		JOIN ACTOR USING (ACTOR_ID)
-		WHERE MOVIE_ID IN (
-		    SELECT MOVIE_ID
-		    FROM(
-		        SELECT MOVIE_ID, ROW_NUMBER() OVER (ORDER BY RELEASE_DATE DESC) RN
-		        FROM MOVIE
-		        )
-		    WHERE RN BETWEEN #{startRow} AND #{endRow}
-		)
-		AND
+		WHERE
 		<choose>
-			<when test="currentStatus == 'all'">
-				STATUS IN ('S','P')
+			<when test="condition == 'title'">
+				LOWER(MOVIE_TITLE)
 			</when>
-			<when test="currentStatus == 'now'">
-				STATUS = 'S'
+			<when test="condition == 'director'">
+				LOWER(DIRECTOR)
 			</when>
-			<when test="currentStatus == 'coming'">
-				STATUS = 'P'
+			<when test="condition == 'actor'">
+				LOWER(ACTOR_NAME)
 			</when>
+			<otherwise>
+				LOWER(GENRE_NAME)
+			</otherwise>
 		</choose>
-		<if test="condition != '' and keyword != ''">
-		AND
-			<choose>
-				<when test="condition == 'title'">
-					MOVIE_TITLE
-				</when>
-				<when test="condition == 'director'">
-					DIRECTOR
-				</when>
-				<when test="condition == 'actor'">
-					ACTOR_NAME
-				</when>
-				<otherwise>
-					GNERE
-				</otherwise>
-			</choose>
-		LIKE '%' || #{keyword} || '%'
-		</if>
-								
+		LIKE '%' || LOWER(#{keyword}) || '%'
+		AND STATUS = 'S'
+		GROUP BY MOVIE_ID,MOVIE_TITLE,DESCRIPTION,RATING,POSTER_PATH,RELEASE_DATE
+		ORDER BY RELEASE_DATE DESC
 	</select>
 	
-	<select id="movieCount" resultType="_int">
-		SELECT COUNT(*)
+	<select id="comingMovieList" resultMap="movieResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
 		FROM MOVIE
+		WHERE STATUS = 'P'
+		ORDER BY RELEASE_DATE DESC   
+	</select>
+	
+	<select id="searchOfComingMovie" resultMap="movieResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		FROM MOVIE
+		JOIN MOVIE_GENRE USING (MOVIE_ID)
+		JOIN GENRE USING (GENRE_ID)
+		JOIN MOVIE_ACTOR USING (MOVIE_ID)
+		JOIN ACTOR USING (ACTOR_ID)
+		WHERE
+		<choose>
+			<when test="condition == 'title'">
+				LOWER(MOVIE_TITLE)
+			</when>
+			<when test="condition == 'director'">
+				LOWER(DIRECTOR)
+			</when>
+			<when test="condition == 'actor'">
+				LOWER(ACTOR_NAME)
+			</when>
+			<otherwise>
+				LOWER(GENRE_NAME)
+			</otherwise>
+		</choose>
+		LIKE '%' || LOWER(#{keyword}) || '%'
+		AND STATUS = 'P'
+		GROUP BY MOVIE_ID,MOVIE_TITLE,DESCRIPTION,RATING,POSTER_PATH,RELEASE_DATE
+		ORDER BY RELEASE_DATE DESC
 	</select>
 	
 	
-	 -->
+	
+	
+	
+	<select id="movieDetail" resultMap="movieResultMap">
+		SELECT *
+		FROM MOVIE
+		JOIN MOVIE_GENRE USING (MOVIE_ID)
+		JOIN GENRE USING (GENRE_ID)
+		JOIN MOVIE_ACTOR USING (MOVIE_ID)
+		JOIN ACTOR USING (ACTOR_ID)
+		JOIN REVIEW USING (MOVIE_ID)
+		JOIN REVIEW_CRITERIA USING (REVIEW_ID)
+		JOIN CRITERIA USING (CRITERIA_ID)
+		JOIN STILLCUT USING (MOVIE_ID)
+		WHERE MOVIE_ID = #{mvId}
+	</select>
 
 </mapper>

@@ -30,44 +30,34 @@ public class MovieServiceImpl implements MovieService{
 		return dao.searchOfAllMovie(sqlSession,page,searchMap);
 	}
 	
-	/*
 	@Override
-	public ArrayList<Movie> movieNowList(int page) {
-
-		return dao.movieNowList(sqlSession,page);
+	public ArrayList<Movie> screeningMovieList(int page) {
+		return dao.screeningMovieList(sqlSession,page);
 	}
 	
 	@Override
-	public ArrayList<Movie> movieSoonList(int page) {
-		
-		return dao.movieSoonList(sqlSession,page);
+	public ArrayList<Movie> searchOfScreeningMovie(int page, HashMap<String, String> searchMap) {
+		return dao.searchOfScreeningMovie(sqlSession,page,searchMap);
 	}
 	
 	@Override
-	public ArrayList<Movie> movieAllSearchList(int page, HashMap<String, String> map) {
-		return dao.movieAllSearchList(sqlSession,page,map);
+	public ArrayList<Movie> comingMovieList(int page) {
+		return dao.comingMovieList(sqlSession,page);
 	}
 	
 	@Override
-	public ArrayList<Movie> movieNowSearchList(int page, HashMap<String, String> map) {
-		return dao.movieNowSearchList(sqlSession,page,map);
-	}
-	
-	@Override
-	public ArrayList<Movie> movieSoonSearchList(int page, HashMap<String, String> map) {
-		return dao.movieSoonSearchList(sqlSession,page,map);
+	public ArrayList<Movie> searchOfComingMovie(int page, HashMap<String, String> searchMap) {
+		return dao.searchOfComingMovie(sqlSession,page,searchMap);
 	}
 	
 	
 	
-	@Override
-	public ArrayList<Movie> movieList(HashMap<String, Object> map) {
-		return dao.movieList(sqlSession,map);
-	}
+	
+	
 	
 	@Override
-	public int movieCount() {
-		return dao.movieCount(sqlSession);
+	public Movie movieDetail(int mvId) {
+		return dao.movieDetail(sqlSession,mvId);
 	}
-	*/
+	
 }

@@ -10,22 +10,22 @@ public interface MovieService {
 	ArrayList<Movie> movieListAll(int page);
 	
 	ArrayList<Movie> searchOfAllMovie(int page, HashMap<String, String> searchMap);
+
+	ArrayList<Movie> screeningMovieList(int page);
+
+	ArrayList<Movie> searchOfScreeningMovie(int page, HashMap<String, String> searchMap);
+
+	ArrayList<Movie> comingMovieList(int page);
+
+	ArrayList<Movie> searchOfComingMovie(int page, HashMap<String, String> searchMap);
+
 	
-	/*
-	ArrayList<Movie> movieNowList(int page);
-
-	ArrayList<Movie> movieSoonList(int page);
-
-	ArrayList<Movie> movieAllSearchList(int page, HashMap<String, String> map);
-
-	ArrayList<Movie> movieNowSearchList(int page, HashMap<String, String> map);
-
-	ArrayList<Movie> movieSoonSearchList(int page, HashMap<String, String> map);
-
-	ArrayList<Movie> movieList(HashMap<String, Object> map);
-
-	int movieCount();
-	*/
+	
+	
+	
+	
+	Movie movieDetail(int mvId);
+	
 
 	
 
