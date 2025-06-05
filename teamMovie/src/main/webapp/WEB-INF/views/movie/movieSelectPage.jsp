@@ -71,9 +71,9 @@
 
 <br><br><br><br><br><br><br><br>
  <form id="movieSelectForm" method="post" action="${contextRoot }/movie/reserveSeat">
- 	 <input type="hidden" id="movieId" value="1"/>
- 	 <input type="hidden" id="scheduleId" value="2"/>
- 	 <input type="hidden" id="screenId" value="1"/>
+ 	 <input type="hidden" name="movieId" id="movieId" />
+ 	 <input type="hidden" name="scheduleId" id="scheduleId" />
+ 	 <input type="hidden" name="screenId" id="screenId" />
  	 
     <div align="center">
             <button type="submit" class="btn btn-primary next" disabled>다음으로</button>
@@ -95,7 +95,6 @@
 	    $group.find('.btn-outline-secondary').removeClass('selected');
 	    $btn.addClass('selected');
 	    
-	    checkSelections(); // 모든 카테코리에서 버튼이 선택되었을 경우  다음버튼을 활성화 하는 함수
 	  }
 	});
 	
@@ -104,10 +103,22 @@
 		const $btn = $(e.currentTarget);
 		/* movie-no에 저장된 값을 가져와 movieId에 넣어줌  */
 	    const movieId = $btn.attr('movie-no');
+        //무비선택을 변경하면 상영정보와 상영관 초기화 
+		$('#scheduleId').val('');
+        $('#screenId').val('');
+		
+        // hidden input에 값 저장
+        $('#movieId').val(movieId);
 		
 		/* 버튼 선택 해제시 time-choice 클래스를 비워줌 */
 	    if ($btn.hasClass('selected')) {
 	        $('.time-choice ul').empty(); 
+	        
+	        $('#movieId').val(''); // 폼 안의 영화 아이디 값도 비워줌
+            $('#scheduleId').val('');
+            $('#screenId').val('');
+            
+	        checkFormReady() // 버튼 비활성화 
 	    }else{
 	    	
 	    	/* ajax로 상영정보 요청  */
@@ -124,25 +135,28 @@
 	                	
 	                	console.log(schedule);
 	                	
-	                	const item = `<li><button class="btn btn-outline-secondary">
-	                		<span class="time">
-		                		<strong>
-		                			\${schedule.startTime}
-		                		</strong>
-	                		</span>
-	                		<span class="title">
-	                			<strong title="\${schedule.movieTitle}">
-	                			\${schedule.movieTitle}
-	                			</strong>
-	                			<em>
-	                				\${schedule.language}
-	                			</em
-	                		</span>
-	                		</button></li>`;
+                        const item = `
+                            <li>
+                                <button 
+                                    class="btn btn-outline-secondary schedule-option" 
+                                    data-schedule-id="\${schedule.scheduleId}" 
+                                    data-screen-id="\${schedule.screenId}">
+                                    <span class="time">
+                                        <strong>\${schedule.startTime}</strong>
+                                    </span>
+                                    <span class="title">
+                                        <strong title="\${schedule.movieTitle}">\${schedule.movieTitle}</strong>
+                                        <em>\${schedule.language}</em>
+                                    </span>
+                                </button>
+                            </li>`;
 	                		
 						$list.append(item);
 	                	
 	                });
+	                
+	                //동적 이벤트 바인딩
+	                bindScheduleSelectEvent();
 	    			
 	    		},
 	    		error : function(){
@@ -150,23 +164,53 @@
 	    		}
 	    		
 	    	});
-	    } 
+	    }
+		
+	    checkFormReady(); // 상태 확인
 		
 	});
 	
 	
 	/* 02. 각 클래스의 버튼이 활성화 되었으면 다음버튼 활성화 */
-	function checkSelections() {
-	    const isMovieSelected = $('.movie-choice .btn.selected').length > 0;
-	    const isTheaterSelected = $('.theater-choice .btn.selected').length > 0;
-	    const isTimeSelected = $('.time-choice .btn.selected').length > 0;
+    function checkFormReady() {
+        const movieId = $('#movieId').val();
+        const scheduleId = $('#scheduleId').val();
+        const screenId = $('#screenId').val();
+
+        const $btn = $('.btn.next');
+        
+        
+        if (movieId && scheduleId && screenId) {
+            $btn.prop('disabled', false);
+        } else {
+            $btn.prop('disabled', true);
+        }
+    }
 	
-	    if (isMovieSelected && isTheaterSelected && isTimeSelected) {
-	        $('.btn.next').prop('disabled', false);
-	    } else {
-	        $('.btn.next').prop('disabled', true);
-	    }
-	}
+	/* 03. 상영 시간 선택 이벤트 바인딩 함수  */
+	function bindScheduleSelectEvent() {
+        $('.schedule-option').click(function () {
+        	const $btn = $('.schedule-option');
+        	
+        	console.log($btn);
+        	
+        	if ($btn.hasClass('selected')) {
+        		
+                $('#scheduleId').val('');
+                $('#screenId').val('');
+                checkFormReady();
+				
+			}else{
+	            const scheduleId = $(this).data('schedule-id');
+	            const screenId = $(this).data('screen-id');
+	
+	            $('#scheduleId').val(scheduleId);
+	            $('#screenId').val(screenId);
+	
+	            checkFormReady();
+			}
+        });
+    }
 
 	
 	

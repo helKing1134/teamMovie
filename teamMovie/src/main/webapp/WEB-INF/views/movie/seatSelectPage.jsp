@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,12 +51,16 @@
 		  display: flex;
 		  justify-content: center;
 		  gap: 10px;
-		  position: absolute;
-		  top: 80px; 
-		  left: 50%;
-		  transform: translateX(-50%);
-		  z-index: 10;
+		  margin-bottom: 10px; /* 줄 간격 조절 */
 		}
+		
+		.seat-container {
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center; /* 중앙 정렬 */
+		  margin-top: 80px;
+		}
+
 
 		
 	.seat {
@@ -110,6 +115,7 @@
 	.reserve-decision{
 		position: absolute;
 		right : 150px;
+		color : green;
 	}
 	
 	.confirm {
@@ -178,19 +184,36 @@
 	    <div class="screen-label"><h4>SCREEN</h4></div>
 	  </div>
 	
-	  <div class="seat-row">
-	    <button class="seat" id="A1">A1</button>
-	    <button class="seat" id="A2">A2</button>
-	    <button class="seat" id="A3">A3</button>
-	    <button class="seat" id="A4">A4</button>
-	  </div>
+<c:set var="currentRow" value="0" />
+
+<div class="seat-container">
+	<c:forEach var="seat" items="${stList}" varStatus="status">
+	  <c:if test="${status.index % s.seatsPerRow == 0}">
+	    <div class="seat-row">
+	  </c:if>
+	
+	  <c:set var="seatId" value="${seat.seatCols}${seat.seatRows}" />
+	  <button class="seat" id="${seatId}" data-seat-id="${seat.seatId}">
+	    ${seatId}
+	  </button>
+	
+	  <c:if test="${status.index % s.seatsPerRow == s.seatsPerRow -1}">
+	    </div>
+	  </c:if>
+	</c:forEach>
+</div>
+
+</div>
+
+
 	</div>
 	<div class="reserve-decision">
-		<span><strong>미션임파서블:파이널</strong></span> 
+		<span><strong>${m.movieTitle }</strong></span> 
 		<br>
-		<em>자막</em> <br>
-		<em>제 1상영관</em> <br>
-		11:40 ~ 13:50 <br>
+		<em>${sch.language }</em> <br>
+		<em>${s.screenName }</em> <br>
+		<em>${sch.screeningDate }</em> <br>
+		${sch.startTime } ~ 13:50 <br>
 		<em>선택좌석</em>
 		<div class="decision-seat"></div> <br> <br>
 		

@@ -40,6 +40,23 @@ public Movie(int movieId, String movieTitle, String description, String status) 
 	this.description = description;
 	this.status = status;
 }
+
+
+public Movie(int movieId, int typeId, String movieTitle, String description, String director, String duration,
+		String rating, Date releaseDate, String status) {
+	super();
+	this.movieId = movieId;
+	this.typeId = typeId;
+	this.movieTitle = movieTitle;
+	this.description = description;
+	this.director = director;
+	this.duration = duration;
+	this.rating = rating;
+	this.releaseDate = releaseDate;
+	this.status = status;
+}
+
+
 	
 	
 	
