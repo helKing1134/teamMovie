@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="seatMapper">
+
+	<resultMap type="Seat" id="seatResultMap">
+		<result property="seatId" column="SEAT_ID"/>
+		<result property="screenId" column="SCREEN_ID"/>
+		<result property="seatRows" column="SEAT_ROWS"/>
+		<result property="seatCols" column="SEAT_COLS"/>
+	</resultMap>
+	
+	<select id="getStListBySchId" parameterType="_int" resultMap="seatResultMap">
+		SELECT
+			*
+		FROM
+			seat
+		WHERE
+			screen_id = #{screenId}
+	</select>
+
+</mapper>

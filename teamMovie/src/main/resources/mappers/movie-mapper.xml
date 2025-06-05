@@ -6,4 +6,84 @@
 <!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
 <mapper namespace="movieMapper">
 
+	<!-- 영화 resultMap  -->
+	<resultMap type="Movie" id="movieResultMap">
+		<result property="movieId" column="MOVIE_ID"/>
+		<result property="typeId" column="TYPE_ID"/>
+		<result property="movieTitle" column="MOVIE_TITLE"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="director" column="DIRECTOR"/>
+		<result property="duration" column="DURATION"/>
+		<result property="rating" column="RATING"/>
+		<result property="releaseDate" column="RELEASE_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="posterPath" column="POSTER_PATH"/>
+	</resultMap>
+	
+	<!-- 상영정보 resultMap  -->
+	<resultMap type="Schedule" id="scheduleResultMap">
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="movieId" column="MOVIE_ID"/>
+		<result property="screenId" column="SCREEN_ID"/>
+		<result property="screeningDate" column="SCREENING_DATE"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="language" column="LANGUAGE"/>
+	</resultMap>
+	
+	<select id="movieSelect" parameterType="String" resultMap="movieResultMap">
+		SELECT
+		    movie_id,
+		    type_id,
+		    movie_title,
+		    description,
+		    director,
+		    duration,
+		    rating,
+		    release_date,
+		    status
+		FROM
+		    movie
+		WHERE
+		    status = #{status}
+		
+	</select>
+	
+	<select id="schSelect" parameterType="_int" resultMap="scheduleResultMap">
+		SELECT
+			*
+		FROM
+			schedule
+		WHERE
+			movie_id = #{movieId}
+		
+	</select>
+	
+	<select id="getMovieById" parameterType="_int" resultMap="movieResultMap">
+		SELECT
+		    movie_id,
+		    type_id,
+		    movie_title,
+		    description,
+		    director,
+		    duration,
+		    rating,
+		    release_date,
+		    status
+		FROM
+		    movie
+		WHERE
+		    movie_id = #{movieId}
+	</select>
+	
+	<select id="getSchById" parameterType="_int" resultMap="scheduleResultMap">
+		SELECT
+			*
+		FROM
+			schedule
+		WHERE
+			schedule_id = #{scheduleId}
+	
+	</select>
+	
+
 </mapper>

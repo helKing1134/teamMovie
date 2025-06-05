@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="screenMapper">
+
+	<resultMap type="Screen" id="screenResultMap">
+		<result property="screenId" column="SCREEN_ID"/>
+		<result property="theaterId" column="THEATER_ID"/>
+		<result property="screenName" column="SCREEN_NAME"/>
+		<result property="screenRows" column="SCREEN_ROWS"/>
+		<result property="seatsPerRow" column="SEATS_PER_ROW"/>
+		
+	</resultMap>
+	
+	
+	<select id="getScreenById" parameterType="_int" resultMap="screenResultMap">
+		SELECT
+			*
+		FROM
+			screen
+		WHERE
+			screen_id = #{screenId}
+	
+	</select>
+
+</mapper>
