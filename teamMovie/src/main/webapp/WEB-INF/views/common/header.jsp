@@ -109,21 +109,16 @@
         <div id="header_1_center"></div>
         <div id="header_1_right">
             <c:choose>
-
                 <c:when test="${empty loginUser}">
                     <a href="${contextRoot}/register.me">회원가입</a>
-
                     <a data-toggle="modal" data-target="#loginModal">로그인</a>
                 </c:when>
                 <c:otherwise>
-
                     <span>${loginUser.memberName}님 환영합니다</span>
                     <a href="${contextRoot}/mypage.me">마이페이지</a>
-
                     <a href="${contextRoot}/logout.me">로그아웃</a>
                 </c:otherwise>
             </c:choose>
-                   <a href="${contextRoot}/support">고객센터</a>  <!--보낼 url -->
         </div>
     </div>
     <div id="header_2">
@@ -150,13 +145,10 @@
 
             <form action="${contextRoot}/login.me" method="post">
                 <div class="modal-body">
-
-                    <label for="userId" class="mr-sm-2">ID :</label>
-                    <input type="text" class="form-control mb-2" id="userId" name="memberId" placeholder="아이디 입력">
-
+                    <label for="memberId" class="mr-sm-2">ID :</label>
+                    <input type="text" class="form-control mb-2" id="memberId" name="memberId" placeholder="아이디 입력">
                     <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
-                    <input type="password" class="form-control mb-2" id="userPwd" name="password" placeholder="비밀번호 입력">
-
+                    <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">로그인</button>

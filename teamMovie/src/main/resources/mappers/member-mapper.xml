@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="memberMapper">
+
+<resultMap type="Member" id="memberResultMap">
+	<result property="memberNo" column="MEMBER_NO"/>
+	<result property="memberId" column="MEMBER_ID"/>
+	<result property="password1" column="PASSWORD"/>
+	<result property="memberName" column="MEMBER_NAME"/>
+	<result property="createdDate" column="CREATED_AT"/>
+</resultMap>
+
+<select id="loginMember" parameterType="Member" resultMap="memberResultMap">
+	SELECT MEMBER_NO,MEMBER_ID,MEMBER_NAME,PASSWORD,AGE,EMAIL,PHONE,ROLE,CREATED_AT
+	FROM MEMBER
+	WHERE MEMBER_ID=#{memberId}
+</select>
+
+<insert id="registerMember" parameterType="Member">
+	INSERT INTO MEMBER (
+                    MEMBER_ID,
+                    MEMBER_NAME,
+                    PASSWORD,
+                    AGE,
+                    EMAIL,
+                    PHONE
+                    ) 
+                    VALUES(#{memberId},#{memberName},#{password1},#{age},#{email},#{phone})
+</insert>
+
+<update id="updateMember" parameterType="Member">
+	UPDATE MEMBER
+	SET
+	        MEMBER_NAME = #{memberName},
+	        PASSWORD = #{password1},
+	        EMAIL = #{email},
+	        PHONE= #{phone}
+	WHERE MEMBER_ID = #{memberId}
+</update>    
+
+<select id="dupCheck" resultType="_int">
+	SELECT COUNT(*)
+	FROM MEMBER
+	WHERE MEMBER_ID=#{memberId}
+</select>
+
+<update id="deleteMember" parameterType="Member">
+		UPDATE MEMBER
+		SET "ROLE" ='DELETED'
+		WHERE MEMBER_ID=#{memberId}
+</update>
+
+
+
+
+
+</mapper>

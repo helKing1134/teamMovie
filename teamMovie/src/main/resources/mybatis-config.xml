@@ -7,19 +7,10 @@
  	<settings>
  		<!-- 자바에서 null값이 전달되었을때 mybatis에서 어떻게 처리할것인지에 대한 설정(NULL로 인식해라) -->
  		<setting name="jdbcTypeForNull" value="NULL"/>
+ 	
  	</settings>
  	
  	<typeAliases>
-<<<<<<< HEAD
-		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
-		<typeAlias type="com.kh.teammovie.support.model.vo.Inquiry" alias="Inquiry"/>
-		<typeAlias type="com.kh.teammovie.support.model.vo.InquiryAnswer" alias="InquiryAnswer"/>
-		
-	</typeAliases>
- 	
- 	
-=======
  		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
  	</typeAliases>
->>>>>>> refs/remotes/origin/main
 </configuration>
