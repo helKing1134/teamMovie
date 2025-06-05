@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="memberMapper">
+
+<!-- ResultMap 정의 -->
+    <resultMap id="memberResultMap" type="Member">
+        <id property="memberNo" column="MEMBER_NO"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="age" column="AGE"/>
+        <result property="email" column="EMAIL"/>
+        <result property="phone" column="PHONE"/>
+        <result property="role" column="ROLE"/>
+        <result property="createdAt" column="CREATED_AT"/>
+    </resultMap>
+
+    <!-- 로그인용 -->
+    <select id="loginMember" parameterType="Member" resultMap="memberResultMap">
+        SELECT * FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+        AND PASSWORD = #{password}
+    </select>
+
+</mapper>

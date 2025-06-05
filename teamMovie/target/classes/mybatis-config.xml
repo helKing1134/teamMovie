@@ -10,7 +10,6 @@
  	</settings>
  	
  	<typeAliases>
-<<<<<<< HEAD
 		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.teammovie.support.model.vo.Inquiry" alias="Inquiry"/>
 		<typeAlias type="com.kh.teammovie.support.model.vo.InquiryAnswer" alias="InquiryAnswer"/>
@@ -18,8 +17,4 @@
 	</typeAliases>
  	
  	
-=======
- 		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
- 	</typeAliases>
->>>>>>> refs/remotes/origin/main
 </configuration>

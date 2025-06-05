@@ -20,8 +20,34 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+<!-- 	<interceptors> -->
+<!-- 		<interceptor> -->
+			<!-- /* : 첫번째 레벨 전체 요청 , /** : 추가레벨까지 전체 요청 -->
+			<!--  <mapping path="/*"/> --> <!-- mapping path : 어떤 요청에 동작시킬것인지 -->
+			
+<!-- 			<mapping path="/login.me"/> -->
+			 
+			 <!-- 매핑 묶어서 통합처리 해보기
+			 <mapping path="/*.me"/> 
+			 <exclude-mapping path="/login.me"/> 
+			 <exclude-mapping path="/insert.me"/>
+			 -->
+			 
+			<!-- beans:bean class : 등록할 인터셉터의 풀 경로 -->
+<!-- 			<beans:bean class="com.kh.teammovie.common.interceptor.LoginInterceptor"/> -->
+<!-- 		</interceptor> -->
+<!-- 	</interceptors> -->
 	
 	<context:component-scan base-package="com.kh.teammovie" />
+	
+		 <!-- 파일 업로드 처리용 MultipartResolver 등록하기  -->
+	<beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+		<!-- 업로드 되는 파일에 대한 인코딩 설정 -->
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+		<!-- 용량제한 : 10*1024*1024 로 10MB 정도 설정하기 (계산식이 적용되지 않기때문에 직접 크기 설정)-->
+		<beans:property name="maxUploadSize" value="100000000"/> <!-- 업로드 파일 용량 제한 -->
+		<beans:property name="maxInMemorySize" value="100000000"/> <!-- 임시 메모리 보관 크기설정 -->
+	</beans:bean>
 	
 	
 	
