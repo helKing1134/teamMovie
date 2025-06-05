@@ -28,6 +28,51 @@
 		</collection>
 	</resultMap>
 	
+	<select id="movieListAll" resultMap="movieResultMap">
+		SELECT MOVIE_ID
+			  ,MOVIE_TITLE
+			  ,DESCRIPTION
+			  ,RATING
+			  ,POSTER_PATH
+			  ,RELEASE_DATE
+		FROM MOVIE
+		ORDER BY RELEASE_DATE DESC
+	</select>
+	
+	<select id="searchOfAllMovie" resultMap="movieResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		FROM MOVIE
+		JOIN MOVIE_GENRE USING (MOVIE_ID)
+		JOIN GENRE USING (GENRE_ID)
+		JOIN MOVIE_ACTOR USING (MOVIE_ID)
+		JOIN ACTOR USING (ACTOR_ID)
+		WHERE
+		<choose>
+			<when test="condition == 'title'">
+				MOVIE_TITLE
+			</when>
+			<when test="condition == 'director'">
+				LOWER(DIRECTOR)
+			</when>
+			<when test="condition == 'actor'">
+				LOWER(ACTOR_NAME)
+			</when>
+			<otherwise>
+				GNERE
+			</otherwise>
+		</choose>
+		LIKE '%' || LOWER(#{keyword}) || '%'
+		GROUP BY MOVIE_ID,MOVIE_TITLE,RATING,POSTER_PATH,RELEASE_DATE,DESCRIPTION
+		ORDER BY RELEASE_DATE DESC
+	</select>
+	
+	
+	<!-- 
 	<select id="movieList" resultMap="movieResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
@@ -80,7 +125,12 @@
 								
 	</select>
 	
+	<select id="movieCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MOVIE
+	</select>
 	
 	
+	 -->
 
 </mapper>

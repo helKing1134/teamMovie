@@ -12,14 +12,22 @@ import com.kh.teammovie.movie.model.vo.Movie;
 @Repository
 public class MovieDao {
 
-	public ArrayList<Movie> movieAllList(SqlSessionTemplate sqlSession,int page) {
+	public ArrayList<Movie> movieListAll(SqlSessionTemplate sqlSession,int page) {
 		
-		int limit = 6;
+		int limit = 4;
 		int offset = (page-1) * limit;
 		
-		return (ArrayList)sqlSession.selectList("movieMapper.movieAllList",null,new RowBounds(offset, limit));
+		return (ArrayList)sqlSession.selectList("movieMapper.movieListAll",null,new RowBounds(offset, limit));
 	}
-
+	
+	public ArrayList<Movie> searchOfAllMovie(SqlSessionTemplate sqlSession, int page, HashMap<String, String> searchMap) {
+		
+		int limit = 4;
+		int offset = (page-1) * limit;
+		return (ArrayList)sqlSession.selectList("movieMapper.searchOfAllMovie",searchMap,new RowBounds(offset,limit));
+	}
+	
+	/*
 	public ArrayList<Movie> movieNowList(SqlSessionTemplate sqlSession, int page) {
 		
 		int limit = 6;
@@ -67,6 +75,13 @@ public class MovieDao {
 		System.out.println("map의 keyword : " + map.get("keyword"));
 		return (ArrayList)sqlSession.selectList("movieMapper.movieList",map);
 	}
+
+	public int movieCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("movieMapper.movieCount");
+	}
+	*/
+
+	
 	
 	
 

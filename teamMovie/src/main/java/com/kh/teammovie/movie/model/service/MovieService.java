@@ -7,8 +7,11 @@ import com.kh.teammovie.movie.model.vo.Movie;
 
 public interface MovieService {
 
-	ArrayList<Movie> movieAllList(int page);
-
+	ArrayList<Movie> movieListAll(int page);
+	
+	ArrayList<Movie> searchOfAllMovie(int page, HashMap<String, String> searchMap);
+	
+	/*
 	ArrayList<Movie> movieNowList(int page);
 
 	ArrayList<Movie> movieSoonList(int page);
@@ -20,5 +23,10 @@ public interface MovieService {
 	ArrayList<Movie> movieSoonSearchList(int page, HashMap<String, String> map);
 
 	ArrayList<Movie> movieList(HashMap<String, Object> map);
+
+	int movieCount();
+	*/
+
+	
 
 }

@@ -20,11 +20,17 @@ public class MovieServiceImpl implements MovieService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public ArrayList<Movie> movieAllList(int page) {
+	public ArrayList<Movie> movieListAll(int page) {
 		
-		return dao.movieAllList(sqlSession,page);
+		return dao.movieListAll(sqlSession,page);
 	}
 	
+	@Override
+	public ArrayList<Movie> searchOfAllMovie(int page, HashMap<String, String> searchMap) {
+		return dao.searchOfAllMovie(sqlSession,page,searchMap);
+	}
+	
+	/*
 	@Override
 	public ArrayList<Movie> movieNowList(int page) {
 
@@ -59,4 +65,9 @@ public class MovieServiceImpl implements MovieService{
 		return dao.movieList(sqlSession,map);
 	}
 	
+	@Override
+	public int movieCount() {
+		return dao.movieCount(sqlSession);
+	}
+	*/
 }
