@@ -10,7 +10,10 @@
  	
  	</settings>
  	
+
  	<typeAliases>
  		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
  	</typeAliases>
+
+
 </configuration>
