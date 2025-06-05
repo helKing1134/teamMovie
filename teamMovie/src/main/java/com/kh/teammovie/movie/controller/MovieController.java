@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teammovie.movie.model.service.MovieService;
 import com.kh.teammovie.movie.model.vo.Movie;
+import com.kh.teammovie.request.RqPayment;
 import com.kh.teammovie.schedule.model.dto.SchWithTime;
 import com.kh.teammovie.schedule.model.dto.ScheduleWithTitle;
 import com.kh.teammovie.schedule.model.vo.Schedule;
@@ -118,7 +119,27 @@ public class MovieController {
 		
 	}
 	@PostMapping("movie/payment")
-	public String forwardMoviePayment() {
+	public String forwardMoviePayment(RqPayment rqp, Model model) {
+		
+		int movieId = rqp.getMovieId();
+		int screenId = rqp.getScreenId();
+		int scheduleId = rqp.getScheduleId();
+		List<Integer> seatIds = rqp.getSeatIds();
+		
+		for (int integer : seatIds) {
+			
+			System.out.println("좌석들 : "+integer);
+			
+		}
+		
+		//객체들 불러오기 
+		//영화 
+		Movie m = mvService.getMovieById(movieId);
+		//상영정보
+		Schedule sch = mvService.getSchById(scheduleId);
+		//상영관
+		Screen s = mvService.getScreenById(screenId);
+		
 		
 		return "movie/paymentConfirm";
 		

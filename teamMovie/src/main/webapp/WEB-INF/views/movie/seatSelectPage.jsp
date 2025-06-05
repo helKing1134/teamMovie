@@ -233,7 +233,10 @@
 
 
     <form action="${contextRoot }/movie/payment" id="submitForm" method="post">
-        <input type="hidden" name="seats" value="seat">
+ 	    <input type="hidden" name="movieId" id="movieId" value="${m.movieId}" />
+ 	 	<input type="hidden" name="scheduleId" id="scheduleId" value="${sch.scheduleId }" />
+ 	 	<input type="hidden" name="screenId" id="screenId" value="${s.screenId }" />
+    
     </form>
 
 
@@ -286,18 +289,29 @@ function openMask() {
 	/* 좌석 선택 제한 이벤트 함수  */
 	$('.seat').click(function () {
 	    // 이미 선택된 좌석일 경우 취소
+	   	 const seatId = $(this).data("seat-id");
+	    
 	    if ($(this).hasClass('selected')) {
 	        $(this).removeClass('selected');
 	        $('#nextBtn').prop('disabled', true).addClass('disabled'); //이미 활성화 되었음에도 좌석을 취소하면 다시 비활성화 하도록
 	        selectedSeats = selectedSeats.filter(id => id !== this.id);
 	        bookingSummary();
+	        $(`#submitForm input[type='hidden'][data-seat-id='\${seatId}']`).remove();
 	        
 	        return;
 	    }
+	 // 선택되지 않은 좌석이면: 선택 및 hidden input 생성
+	    const input = $("<input>")
+	      .attr("type", "hidden")
+	      .attr("name", "seatIds")
+	      .attr("data-seat-id", seatId)
+	      .val(seatId);
+	    $("#submitForm").append(input);
 
 	    // 선택 제한 확인
 	    if (selectedSeats.length >= maxSelectableSeats) {
 	    	
+    		// cursor: not-allowed;
 	    	if (maxSelectableSeats < 1) {
 	    		
 	    		alert('관람하실 인원을 먼저 선택해주세요');
@@ -332,6 +346,8 @@ function openMask() {
 	        $(this).addClass('selected');
 	    }
 	});
+	
+	
 
 		
 	
@@ -398,7 +414,12 @@ function openMask() {
 
 	    // 7. 결제 버튼 비활성화
 	    $('#nextBtn').prop('disabled', true).addClass('disabled');
+	    
+	    //8. 좌석 히든 요소 제거
+	    $("input[type='hidden'][name='seatIds']").remove();
 	}
+	
+
 
 	
 	/* 특정 조건을 만족할시 마스킹을 해제할 함수  */
