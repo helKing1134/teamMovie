@@ -9,6 +9,8 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	
+	<button onclick="location.href='movie/select';">영화선택페이지</button>
+	
 	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
