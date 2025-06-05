@@ -119,7 +119,7 @@
   <!-- 탭 메뉴 -->
   <ul class="nav nav-tabs tab-menu" id="movieTab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" id="synopsis-tab" data-toggle="tab" href="#synopsis" role="tab">주요정보</a>
+      <a class="nav-link active" id="mainInfo-tab" data-toggle="tab" href="#mainInfo" role="tab">주요정보</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab">실관람평</a>
@@ -130,8 +130,8 @@
   </ul>
 
   <div class="tab-content mt-4">
-    <!-- 시놉시스 -->
-    <div class="tab-pane fade show active" id="synopsis" role="tabpanel">
+    <!-- 주요정보 -->
+    <div class="tab-pane fade show active" id="mainInfo" role="tabpanel">
       <p>${movie.description}</p>
     </div>
 
@@ -164,15 +164,38 @@
 
 
 <script>
-  // 예: 탭 클릭 시 데이터 로딩
-  $('#review-tab').on('shown.bs.tab', function () {
-    // 여기에 AJAX 코드 삽입
-    console.log("실관람평 탭 열림 - AJAX 연결 예정");
-  });
-
-  $('#stillcut-tab').on('shown.bs.tab', function () {
-    // 여기에 AJAX 코드 삽입
-    console.log("스틸컷 탭 열림 - AJAX 연결 예정");
+	function getReviews(){
+		let reviewList = null; 
+		$.ajax({
+			url : "${contextRoot}/movies/reviews.mv",
+			data : {
+				mvId : ${movie.movieId}
+			},
+			success : function(reviews){
+				reviewList = reviews;
+				
+			},
+			error : function(){
+				
+			}
+		});
+		return reviewList;
+	}
+	
+	
+	$(function(){
+		
+		$("#mainInfo-tab").on('shown.bs.tab', function(){
+			console.log(getReviews());
+		});
+		
+	    // 예: 탭 클릭 시 데이터 로딩
+		$('#review-tab').on('shown.bs.tab', function () {
+		});
+		
+	    $('#stillcut-tab').on('shown.bs.tab', function () {
+		
+	});
   });
 </script>
 </body>

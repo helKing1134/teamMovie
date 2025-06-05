@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.teammovie.movie.model.vo.Movie;
+import com.kh.teammovie.movie.model.vo.Review;
 
 @Repository
 public class MovieDao {
@@ -58,6 +59,10 @@ public class MovieDao {
 	public Movie movieDetail(SqlSessionTemplate sqlSession, int mvId) {
 		
 		return sqlSession.selectOne("movieMapper.movieDetail", mvId);
+	}
+
+	public ArrayList<Review> getReviews(SqlSessionTemplate sqlSession, int mvId) {
+		return (ArrayList)sqlSession.selectList("movieMapper.getReviews", mvId);
 	}
 	
 	

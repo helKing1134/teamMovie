@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teammovie.movie.model.service.MovieService;
 import com.kh.teammovie.movie.model.vo.Movie;
+import com.kh.teammovie.movie.model.vo.Review;
 
 
 @Controller
@@ -127,6 +128,15 @@ public class MovieController { //written by 이수한
 		model.addAttribute("movie",movie);
 		
 		return "movie/movieDetail";
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "reviews.mv", produces = "application/json;charset=utf-8")
+	public ArrayList<Review> getReviews(int mvId){
+		
+		ArrayList<Review> reviews = service.getReviews(mvId);
+		
+		return reviews;
 	}
 	
 	

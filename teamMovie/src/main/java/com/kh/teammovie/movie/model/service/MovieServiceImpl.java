@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.teammovie.movie.model.dao.MovieDao;
 import com.kh.teammovie.movie.model.vo.Movie;
+import com.kh.teammovie.movie.model.vo.Review;
 
 @Service
 public class MovieServiceImpl implements MovieService{
@@ -60,4 +61,8 @@ public class MovieServiceImpl implements MovieService{
 		return dao.movieDetail(sqlSession,mvId);
 	}
 	
+	@Override
+	public ArrayList<Review> getReviews(int mvId) {
+		return dao.getReviews(sqlSession,mvId);
+	}
 }
