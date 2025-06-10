@@ -15,7 +15,7 @@
 </resultMap>
 
 <select id="loginMember" parameterType="Member" resultMap="memberResultMap">
-	SELECT MEMBER_NO,MEMBER_ID,MEMBER_NAME,PASSWORD,AGE,EMAIL,PHONE,ROLE,CREATED_AT
+	SELECT *
 	FROM MEMBER
 	WHERE MEMBER_ID=#{memberId}
 </select>

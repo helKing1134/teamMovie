@@ -73,6 +73,7 @@
     }
 </style>
 
+
 </head>
 <body>
 
@@ -84,11 +85,11 @@
 <div class="inquiry-container">
     <h1>1:1 문의</h1>
 
-    <form method="post" action="${contextRoot}/support/inquiry" enctype="multipart/form-data">
+    <form method="post" action="${contextRoot}/support/inquiry" > <!-- enctype="multipart/form-data" -->
         <div class="row">
             <div class="input-group">
                 <label for="category">문의유형</label>
-                <select id="category" name="category">
+                <select id="category" name="category" required>
                     <option value="">문의유형 선택</option>
                     <option value="예매">예매</option>
                     <option value="환불">환불</option>
@@ -101,11 +102,10 @@
         </div>
 
         <div class="row">
-            <span> 문의자 : ${loginMember.memberId} 님</span>
+            <span> 문의자 : ${loginUser.memberId} 님</span>
         </div>
 
         <div class="input-group">
-        	<input type="hidden" name="inquiryWriter" value="${loginMember.memberNo}">
             <label for="title">제목</label>
             <input type="text" id="title" name="title" required />
         </div>
@@ -128,6 +128,13 @@
         <input type="submit" value="등록하기" />
     </form>
 </div>
+
+
+<script>
+   
+   
+</script>
+
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 

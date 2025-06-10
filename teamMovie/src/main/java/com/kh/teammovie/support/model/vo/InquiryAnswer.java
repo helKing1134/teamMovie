@@ -16,6 +16,5 @@ public class InquiryAnswer {
 	private String answerContent;
 	private Date answeredAt;
 
-	
-
 }
+

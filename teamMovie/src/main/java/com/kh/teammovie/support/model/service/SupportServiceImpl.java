@@ -6,8 +6,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.teammovie.common.model.vo.PageInfo;
 import com.kh.teammovie.support.model.dao.SupportDao;
 import com.kh.teammovie.support.model.vo.Inquiry;
+import com.kh.teammovie.support.model.vo.InquiryAnswer;
 
 @Service
 public class SupportServiceImpl implements SupportService {
@@ -18,22 +20,42 @@ public class SupportServiceImpl implements SupportService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	//문의글 작성
 	@Override
 	public int insertInquiry(Inquiry i) {
 		// TODO Auto-generated method stub
 		return dao.insertInquiry(sqlSession,i);
 	}
 
+//	@Override
+//	public int insertAdmin(Inquiry i) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+
 	@Override
-	public int insertAdmin(Inquiry i) {
+	public ArrayList<Inquiry> inquiryList(PageInfo pi) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dao.inquiryList(sqlSession,pi);
 	}
 
 	@Override
-	public ArrayList<Inquiry> inquiryList(Inquiry i) {
+	public Inquiry inquiryDetail(int bno) {
 		// TODO Auto-generated method stub
-		return dao.inquiryList(sqlSession,i);
+		return dao.inquiryDetail(sqlSession, bno);
 	}
+
+	@Override
+	public int listCount() {
+		// TODO Auto-generated method stub
+		return dao.listCount(sqlSession);
+	}
+
+	@Override
+	public int insertInquiryAnswer(InquiryAnswer a) {
+		// TODO Auto-generated method stub
+		return dao.insertInquiryAnswer(sqlSession,a);
+	}
+
 
 }

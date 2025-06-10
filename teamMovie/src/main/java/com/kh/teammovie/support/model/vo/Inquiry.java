@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
 public class Inquiry {
 	
 	private int inquiryId; 
@@ -18,6 +17,8 @@ public class Inquiry {
 	private String content;
 	private Date createdAt;
 	private String status;
+	private String category;
 	
+
 
 }
