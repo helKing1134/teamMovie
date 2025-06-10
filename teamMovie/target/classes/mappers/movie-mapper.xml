@@ -6,8 +6,8 @@
 <!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
 <mapper namespace="movieMapper">
 
-	
-	<resultMap type="Movie" id="movieResultMap">
+	<!-- 영화목록뷰를 위한 resultMap (written by 이수한) -->
+	<resultMap type="Movie" id="movieListResultMap">
 		<result property="movieId" column="MOVIE_ID" />
 		<result property="typeId" column="TYPE_ID" />
 		<result property="movieTitle" column="MOVIE_TITLE" />
@@ -44,7 +44,7 @@
 		</collection>
 	</resultMap>
 	
-	<select id="movieListAll" resultMap="movieResultMap">
+	<select id="movieListAll" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 			  ,MOVIE_TITLE
 			  ,DESCRIPTION
@@ -56,7 +56,7 @@
 		ORDER BY RELEASE_DATE DESC
 	</select>
 	
-	<select id="searchOfAllMovie" resultMap="movieResultMap">
+	<select id="searchOfAllMovie" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
 		      ,DESCRIPTION
@@ -89,7 +89,7 @@
 		ORDER BY RELEASE_DATE DESC
 	</select>
 	
-	<select id="screeningMovieList" resultMap="movieResultMap">
+	<select id="screeningMovieList" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
 		      ,DESCRIPTION
@@ -101,7 +101,7 @@
 		ORDER BY RELEASE_DATE DESC   
 	</select>
 	
-	<select id="searchOfScreeningMoive" resultMap="movieResultMap">
+	<select id="searchOfScreeningMoive" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
 		      ,DESCRIPTION
@@ -134,7 +134,7 @@
 		ORDER BY RELEASE_DATE DESC
 	</select>
 	
-	<select id="comingMovieList" resultMap="movieResultMap">
+	<select id="comingMovieList" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
 		      ,DESCRIPTION
@@ -146,7 +146,7 @@
 		ORDER BY RELEASE_DATE DESC   
 	</select>
 	
-	<select id="searchOfComingMovie" resultMap="movieResultMap">
+	<select id="searchOfComingMovie" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
 		      ,DESCRIPTION
@@ -183,7 +183,7 @@
 	
 	
 	
-	<select id="movieDetail" resultMap="movieResultMap">
+	<select id="movieDetail" resultMap="movieListResultMap">
 		SELECT *
 		FROM MOVIE
 		JOIN MOVIE_GENRE USING (MOVIE_ID)
@@ -225,12 +225,91 @@
 		ORDER BY CREATE_DATE
 	</select>
 	
-	<select id="getStillCuts" resultMap="movieResultMap">
+	<select id="getStillCuts" resultMap="movieListResultMap">
 		SELECT STILLCUT_FILE
 		FROM MOVIE
 		JOIN STILLCUT USING(MOVIE_ID)
 		WHERE MOVIE_ID = #{mvId}
 	</select>
+	
+	<select id="movieSelect" parameterType="String" resultMap="movieResultMap">
+		SELECT
+		    movie_id,
+		    type_id,
+		    movie_title,
+		    description,
+		    director,
+		    duration,
+		    rating,
+		    release_date,
+		    status
+		FROM
+		    movie
+		WHERE
+		    status = #{status}
+		
+	</select>
+	
+	<select id="schSelect" parameterType="_int" resultMap="scheduleResultMap">
+		SELECT
+			*
+		FROM
+			schedule
+		WHERE
+			movie_id = #{movieId}
+		
+	</select>
+	
+	<select id="getMovieById" parameterType="_int" resultMap="movieResultMap">
+		SELECT
+		    movie_id,
+		    type_id,
+		    movie_title,
+		    description,
+		    director,
+		    duration,
+		    rating,
+		    release_date,
+		    status
+		FROM
+		    movie
+		WHERE
+		    movie_id = #{movieId}
+	</select>
+	
+	<select id="getSchById" parameterType="_int" resultMap="scheduleResultMap">
+		SELECT
+			*
+		FROM
+			schedule
+		WHERE
+			schedule_id = #{scheduleId}
+	</select>
+	
+	
+	<!-- 영화 resultMap  -->
+	<resultMap type="Movie" id="movieResultMap">
+		<result property="movieId" column="MOVIE_ID"/>
+		<result property="typeId" column="TYPE_ID"/>
+		<result property="movieTitle" column="MOVIE_TITLE"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="director" column="DIRECTOR"/>
+		<result property="duration" column="DURATION"/>
+		<result property="rating" column="RATING"/>
+		<result property="releaseDate" column="RELEASE_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="posterPath" column="POSTER_PATH"/>
+	</resultMap>
+	
+	<!-- 상영정보 resultMap  -->
+	<resultMap type="Schedule" id="scheduleResultMap">
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="movieId" column="MOVIE_ID"/>
+		<result property="screenId" column="SCREEN_ID"/>
+		<result property="screeningDate" column="SCREENING_DATE"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="language" column="LANGUAGE"/>
+	</resultMap>
 	
 
 </mapper>
