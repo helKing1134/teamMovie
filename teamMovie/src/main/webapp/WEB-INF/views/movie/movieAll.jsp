@@ -248,7 +248,7 @@
 
   
 
-  	<a href="movies/insertMovie">영화 등록 페이지로</a>
+  	<a href="admin/movieRegisterForm">영화 등록 페이지로</a>
 	<!-- 영화 탭 메뉴 -->
 	<ul class="nav nav-tabs justify-content-center movie-tab-menu">
 	  <li class="nav-item">

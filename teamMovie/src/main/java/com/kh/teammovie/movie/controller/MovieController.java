@@ -18,7 +18,7 @@ import com.kh.teammovie.movie.model.vo.StillCut;
 
 @Controller
 @RequestMapping("/movies")
-public class MovieViewController { //written by 이수한
+public class MovieController { //written by 이수한
 	
 	
 	@Autowired
@@ -151,13 +151,8 @@ public class MovieViewController { //written by 이수한
 		return stillCuts;
 	}
 	
-	/*====================관리자용=====================*/
 	
-	@GetMapping("insertMovie")
-	public String insertMovie() {
-		
-		return "insertMovieForm";
-	}
+	
 	
 	
 	
