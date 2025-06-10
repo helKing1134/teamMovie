@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Criteria {
+public class Criterion {
 	private int criteriaId;//	CRITERIA_ID	NUMBER
 	private String criteria;//	CRITERIA	VARCHAR2(30 BYTE)
 }

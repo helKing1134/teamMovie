@@ -26,7 +26,8 @@ public class Movie {
 	//영화 관련 다른 테이블
 	private ArrayList<Genre> genres; //영화 1개당 갖고 있는 장르들
 	private ArrayList<Actor> actors; //영화 1개당 갖고 있는 배우들
-	private ArrayList<StillCut> stillCut; //영화 1개당 갖고 있는 스틸컷들
+	private ArrayList<StillCut> stillCuts; //영화 1개당 갖고 있는 스틸컷들
+	private ArrayList<Review> reviews; //영화 1개당 갖고 있는 리뷰들
 	
 	
 	

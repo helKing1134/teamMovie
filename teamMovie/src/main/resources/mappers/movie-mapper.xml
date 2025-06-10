@@ -26,6 +26,22 @@
 			<result property="actorId" column="ACTOR_ID"/>
 			<result property="actorName" column="ACTOR_NAME"/>
 		</collection>
+		<collection property="reviews" ofType="Review">
+			<result property="reviewId" column="REVIEW_ID"/>
+			<result property="memberNo" column="MEMBER_NO"/>
+			<result property="movieId" column="MOVIE_ID"/>
+			<result property="reviewContent" column="REVIEW_CONTENT"/>
+			<result property="reviewRating" column="reviewRating"/>
+			<collection property="criteria" ofType="Criterion">
+				<result property="criteriaId" column="CRITERIA_ID"/>
+				<result property="criteria" column="CRITERIA"/>
+			</collection>
+		</collection>
+		<collection property="stillCuts" ofType="StillCut">
+			<result property="stillCutId" column="STILLCUT_ID"/>
+			<result property="fileLevel" column="FILE_LEVEL"/>
+			<result property="stillCutFile" column="STILLCUT_FILE"/>
+		</collection>
 	</resultMap>
 	
 	<select id="movieListAll" resultMap="movieResultMap">
@@ -177,5 +193,44 @@
 		JOIN STILLCUT USING (MOVIE_ID)
 		WHERE MOVIE_ID = #{mvId}
 	</select>
+	
+	
+	
+	<resultMap type="Review" id="reviewResultMap">
+		<result property="reviewId" column="REVIEW_ID"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="movieId" column="MOVIE_ID"/>
+		<result property="reviewContent" column="REVIEW_CONTENT"/>
+		<result property="reviewId" column="REVIEW_ID"/>
+		<result property="reviewRating" column="REVIEW_RATING"/>
+		<result property="reviewWriter" column="MEMBER_ID"/>
+		<collection property="criteria" ofType="Criterion">
+			<result property="criteriaId" column="CRITERIA_ID"/>
+			<result property="criteria" column="CRITERIA"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getReviews" resultMap="reviewResultMap">
+		SELECT REVIEW_ID
+			  ,REVIEW_CONTENT
+		      ,REVIEW_RATING
+		      ,MEMBER_ID
+		      ,CRITERIA
+		FROM MOVIE
+		JOIN REVIEW USING(MOVIE_ID)
+		JOIN REVIEW_CRITERIA USING(REVIEW_ID)
+		JOIN CRITERIA USING(CRITERIA_ID)
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE MOVIE_ID = #{mvId}
+		ORDER BY CREATE_DATE
+	</select>
+	
+	<select id="getStillCuts" resultMap="movieResultMap">
+		SELECT STILLCUT_FILE
+		FROM MOVIE
+		JOIN STILLCUT USING(MOVIE_ID)
+		WHERE MOVIE_ID = #{mvId}
+	</select>
+	
 
 </mapper>

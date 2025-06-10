@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.teammovie.movie.model.dao.MovieDao;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
+import com.kh.teammovie.movie.model.vo.StillCut;
 
 @Service
 public class MovieServiceImpl implements MovieService{
@@ -64,5 +65,10 @@ public class MovieServiceImpl implements MovieService{
 	@Override
 	public ArrayList<Review> getReviews(int mvId) {
 		return dao.getReviews(sqlSession,mvId);
+	}
+	
+	@Override
+	public ArrayList<StillCut> getStillCuts(int mvId) {
+		return dao.getStillCuts(sqlSession,mvId);
 	}
 }

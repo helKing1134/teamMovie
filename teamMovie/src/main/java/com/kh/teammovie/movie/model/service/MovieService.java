@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
+import com.kh.teammovie.movie.model.vo.StillCut;
 
 public interface MovieService {
 
@@ -28,6 +29,8 @@ public interface MovieService {
 	Movie movieDetail(int mvId);
 
 	ArrayList<Review> getReviews(int mvId);
+
+	ArrayList<StillCut> getStillCuts(int mvId);
 	
 
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
+import com.kh.teammovie.movie.model.vo.StillCut;
 
 @Repository
 public class MovieDao {
@@ -63,6 +64,10 @@ public class MovieDao {
 
 	public ArrayList<Review> getReviews(SqlSessionTemplate sqlSession, int mvId) {
 		return (ArrayList)sqlSession.selectList("movieMapper.getReviews", mvId);
+	}
+
+	public ArrayList<StillCut> getStillCuts(SqlSessionTemplate sqlSession, int mvId) {
+		return (ArrayList)sqlSession.selectList("movieMapper.getStillCuts", mvId);
 	}
 	
 	

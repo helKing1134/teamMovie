@@ -68,6 +68,19 @@
     textarea::placeholder {
       color: #aaa;
     }
+    
+    /* 스틸컷 그리드 레이아웃 */
+	.stillCut-grid {
+	  display: grid;
+	  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	  gap: 15px;
+	}
+	.stillCut-grid img {
+	  width: 100%;
+	  border-radius: 10px;
+	  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+    
   </style>
 </head>
 <body>
@@ -125,14 +138,13 @@
       <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab">실관람평</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="stillcut-tab" data-toggle="tab" href="#stillcut" role="tab">스틸컷</a>
+      <a class="nav-link" id="stillCut-tab" data-toggle="tab" href="#stillCut" role="tab">스틸컷</a>
     </li>
   </ul>
 
   <div class="tab-content mt-4">
     <!-- 주요정보 -->
     <div class="tab-pane fade show active" id="mainInfo" role="tabpanel">
-      <p>${movie.description}</p>
     </div>
 
     <!-- 실관람평 -->
@@ -140,7 +152,6 @@
       <div class="review-box">
         <!-- 비동기 리뷰 목록 삽입 위치 -->
         <div id="reviewList">
-          <p>리뷰 데이터를 불러오는 중...</p>
         </div>
 
         <!-- 리뷰 작성 -->
@@ -152,9 +163,8 @@
     </div>
 
     <!-- 스틸컷 -->
-    <div class="tab-pane fade" id="stillcut" role="tabpanel">
-      <div id="stillcutList">
-        <p>스틸컷 데이터를 불러오는 중...</p>
+    <div class="tab-pane fade" id="stillCut" role="tabpanel">
+      <div id="stillCutList" class="stillCut-grid">
       </div>
     </div>
   </div>
@@ -164,39 +174,85 @@
 
 
 <script>
+
 	function getReviews(){
-		let reviewList = null; 
+		
+		
 		$.ajax({
 			url : "${contextRoot}/movies/reviews.mv",
 			data : {
 				mvId : ${movie.movieId}
 			},
 			success : function(reviews){
-				reviewList = reviews;
+				console.log(reviews); //리뷰 잘 가져오는지 테스트용
+				let html = "";		
+				
+				reviews.forEach(function(review){
+					let criteriaHtml = "";
+					review.criteria.forEach(function(criterion){
+							criteriaHtml += "<span class='badge badge-secondary mr-1'>" + criterion.criteria + "</span>";
+					});
+					
+			        html += "<div class='review-item bg-dark text-light p-3 mb-3 rounded'>";
+			        html += "  <div class='d-flex justify-content-between align-items-center mb-2'>";
+			        html += "    <strong>" + review.reviewWriter + "</strong>";
+			        html += "    <span class='badge badge-info'>평점: " + review.reviewRating + "</span>";
+			        html += "  </div>";
+			        html += "  <div class='mb-2'>" + criteriaHtml + "</div>";
+			        html += "  <p class='mb-0'>" + review.reviewContent + "</p>";
+			        html += "</div>";
+					
+					
+				});				
+				$("#reviewList").html(html);
+				$("#mainInfo").html("<p>${movie.description}</p>" + html);
 				
 			},
 			error : function(){
-				
+				$("#reviewList").html("<p class='text-danger'>리뷰를 불러오는 데 실패했어요 😢</p>");
 			}
 		});
-		return reviewList;
+		
+	}
+	
+	function getStillCuts(){
+		$.ajax({
+			url : "${contextRoot}/movies/stillCuts.mv",
+			data : {
+				mvId : ${movie.movieId}
+			},
+			success : function(stillCuts){
+				console.log(stillCuts);
+				let html = "";
+				stillCuts.forEach(function(stillCut){
+					html += "<img src='https://media.themoviedb.org/t/p/w500_and_h282_face/bZiuynt0RzxldXScTJCPfDEvRhI.jpg' alt='엑박'>";
+				});
+				$("#stillCutList").html(html);
+			},
+			error : function(){
+				$("#stillCutList").html("<p class='text-danger'>화면을 불러오는 데 실패했어요 😢</p>");
+			}
+		});
 	}
 	
 	
 	$(function(){
 		
+		getReviews();
+		
+		
 		$("#mainInfo-tab").on('shown.bs.tab', function(){
-			console.log(getReviews());
+			getReviews();
 		});
 		
-	    // 예: 탭 클릭 시 데이터 로딩
 		$('#review-tab').on('shown.bs.tab', function () {
+			getReviews();
 		});
 		
-	    $('#stillcut-tab').on('shown.bs.tab', function () {
-		
-	});
-  });
+	    $('#stillCut-tab').on('shown.bs.tab', function () {
+			getStillCuts();
+		});
+    });
 </script>
 </body>
 </html>
