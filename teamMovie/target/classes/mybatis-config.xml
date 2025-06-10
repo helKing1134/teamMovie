@@ -10,7 +10,15 @@
  	
  	</settings>
  	
+ 	<!-- 별칭 부여 section -->
  	<typeAliases>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Movie" alias="Movie"/>
+ 		<typeAlias type="com.kh.teammovie.schedule.model.vo.Schedule" alias="Schedule"/>
+ 		<typeAlias type="com.kh.teammovie.screen.model.vo.Screen" alias="Screen"/>
+ 		<typeAlias type="com.kh.teammovie.seat.model.vo.Seat" alias="Seat"/>
  		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
+ 		<typeAlias type="com.kh.teammovie.support.model.vo.Inquiry" alias="Inquiry"/>
+		<typeAlias type="com.kh.teammovie.support.model.vo.InquiryAnswer" alias="InquiryAnswer"/>
  	</typeAliases>
+ 	
 </configuration>

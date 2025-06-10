@@ -22,6 +22,7 @@
 
 <insert id="registerMember" parameterType="Member">
 	INSERT INTO MEMBER (
+					MEMBER_NO,
                     MEMBER_ID,
                     MEMBER_NAME,
                     PASSWORD,
@@ -29,7 +30,7 @@
                     EMAIL,
                     PHONE
                     ) 
-                    VALUES(#{memberId},#{memberName},#{password1},#{age},#{email},#{phone})
+                    VALUES(SEQ_MEMBER.NEXTVAL,#{memberId},#{memberName},#{password1},#{age},#{email},#{phone})
 </insert>
 
 <update id="updateMember" parameterType="Member">
