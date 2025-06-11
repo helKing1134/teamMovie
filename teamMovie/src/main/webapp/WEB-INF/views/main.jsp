@@ -399,6 +399,7 @@
         $('#videoCarousel').carousel('next');
     }
 	
+<<<<<<< HEAD
     // 자동 슬라이드 (5초마다 상태 체크 후 재생 안 되면 다음 슬라이드)
     function autoSlide() {
         setInterval(() => {
@@ -420,6 +421,14 @@
     });
 </script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<!-- <%@ include file="/WEB-INF/views/common/footer.jsp" %> -->
+
+	<button onclick="location.href='movie/select';">영화선택페이지</button>
+	
+	
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	
+	
+
 </body>
 </html>

@@ -1,19 +1,67 @@
 package com.kh.teammovie.movie.model.vo;
 
-import java.util.Date;
+
+import java.sql.Date;
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data  // @Getter, @Setter, @ToString, @EqualsAndHashCode 포함
-@NoArgsConstructor // 기본 생성자
-@AllArgsConstructor // 모든 필드 생성자
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Movie {
-    private int movieId;         // 예: 영화 고유 ID
-    private String title;        // 영화 제목
-    private String genre;        // 장르
-    private int rate;            // 예매율
-    private String releaseDate;  // 개봉일 (String 또는 Date)
-    private String posterPath;   // 포스터 이미지 경로
-    private String gifPath;      // GIF 이미지 경로 (hover용)
+	//영화 테이블
+	private int movieId;//	MOVIE_ID	NUMBER
+	private int typeId;//	TYPE_ID	NUMBER
+	private String movieTitle;//	MOVIE_TITLE	VARCHAR2(100 BYTE)
+	private String description;//	DESCRIPTION	VARCHAR2(500 BYTE)
+	private String director;//	DIRECTOR	VARCHAR2(15 BYTE)
+	private String duration;//	DURATION	VARCHAR2(100 BYTE)
+	private String rating;//	RATING	VARCHAR2(20 BYTE)
+	private Date releaseDate;//	RELEASE_DATE	DATE
+	
+	private Date endDate; // (6.10) endDate 필드 추가 (by 이수한)
+	
+	private String status;//	STATUS	VARCHAR2(9 BYTE)
+	private String posterPath;//	POSTER_PATH	VARCHAR2(100 BYTE)
+	
+	//영화 관련 다른 테이블
+	private ArrayList<Genre> genres; //영화 1개당 갖고 있는 장르들
+	private ArrayList<Actor> actors; //영화 1개당 갖고 있는 배우들
+	private ArrayList<StillCut> stillCuts; //영화 1개당 갖고 있는 스틸컷들
+	private ArrayList<Review> reviews; //영화 1개당 갖고 있는 리뷰들
+	
+
+		
+	public Movie(int movieId, String movieTitle, String description, String status) {
+		super();
+		this.movieId = movieId;
+		this.movieTitle = movieTitle;
+		this.description = description;
+		this.status = status;
+	}
+	
+	
+	public Movie(int movieId, int typeId, String movieTitle, String description, String director, String duration,
+			String rating, Date releaseDate, String status) {
+		super();
+		this.movieId = movieId;
+		this.typeId = typeId;
+		this.movieTitle = movieTitle;
+		this.description = description;
+		this.director = director;
+		this.duration = duration;
+		this.rating = rating;
+		this.releaseDate = releaseDate;
+		this.status = status;
+	}
+
+
+	
+	
+	
 }
