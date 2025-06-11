@@ -31,6 +31,9 @@ public class Movie {
 	private ArrayList<StillCut> stillCuts; //영화 1개당 갖고 있는 스틸컷들
 	private ArrayList<Review> reviews; //영화 1개당 갖고 있는 리뷰들
 	
+	//사용자 및 관리자로부터 값을 얻어오기 위해 필요한 필드
+	private String movieType; //영화 타입
+	
 
 		
 	public Movie(int movieId, String movieTitle, String description, String status) {

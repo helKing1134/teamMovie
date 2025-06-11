@@ -1,5 +1,8 @@
 package com.kh.teammovie.movie.controller;
 
+import java.io.File;
+
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -33,6 +36,7 @@ public class AdminMovieController {
 	}
 	
 	
+	//관리자 영화 등록용 메서드
 	@PostMapping("registerMovie")
 	public String registerMovie(Movie movie
 							   ,String releaseDateStr
@@ -42,6 +46,14 @@ public class AdminMovieController {
 							   ,MultipartFile posterFile
 							   ,ArrayList<MultipartFile> stillCutFiles) {
 		
+		Movie insertMovie = setMovieStatus(movie, releaseDateStr, endDateStr);
+
+	    return "redirect:/movies";
+	}
+
+	// 영화 STATUS 설정을 위한 메서드
+	private Movie setMovieStatus(Movie movie, String releaseDateStr, String endDateStr) {
+ 
 		// 개봉날짜 < 시간 < 종영날짜 : 상영중인 영화 ("S")
 		// 종영날짜 < 시간 : 상영종료 영화 ("E")
 		// 시간 < 개봉날짜 : 개봉예정 영화 ("P")
@@ -62,30 +74,40 @@ public class AdminMovieController {
 	    } else {
 	        status = "S"; // 상영중
 	    }
-
+	    
+	    
 	    // 상태 및 날짜를 Movie 객체에 세팅
 	    movie.setReleaseDate(Date.valueOf(releaseDate));
 	    movie.setEndDate(Date.valueOf(endDate));
 	    movie.setStatus(status);
-
-	    System.out.println("movie : " + movie);
-	    System.out.println("posterFile : " + posterFile);
-	    System.out.println("stillCutFiles : " + stillCutFiles);
-	    System.out.println("status : " + status);
-	    
-	    return "redirect:/movies";
+		return movie;
 	}
 	
-	//파일 서버 업로드 처리 메서드
-	/*
-	public String saveFile(HttpSession session,MultipartFile file) {
+	
+	//아래 2개는 파일 서버 업로드 처리 메서드
+	//1.파일 서버 업로드 시 저장될 이름 얻는 메서드
+	public String getSavedPosterName(HttpSession session,Movie movie,MultipartFile file) {
 		
-		String currentTime = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now());
+		String movieTitle = movie.getMovieTitle();
+		String originName = file.getOriginalFilename();
+		String ext = originName.substring(originName.lastIndexOf('.'));
 		
-		int ranNum = (int)(Math.random() * 90000) + 10000;
+		//서버 내부 저장용 패스(사용자 접근 위험 높긴 하지만 임의로 설정해놨습니다) by 이수한
+		String path = session.getServletContext().getRealPath("/resources/poster/");
+		String saveName = movieTitle + "_포스터" + ext;
+		String savePath = path + saveName;
 		
+		return savePath;
 	}
-	*/
+	//2.파일 서버 업로드 처리 메서드
+	public void savePoster(String savePath, MultipartFile file) {
+		
+		try {
+			file.transferTo(new File(savePath));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	

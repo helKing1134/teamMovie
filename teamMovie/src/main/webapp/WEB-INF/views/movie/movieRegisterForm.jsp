@@ -45,6 +45,14 @@
     </div>
     
     <div class="form-group">
+      <label for="movieType">타입</label>
+      <br>
+      <input type="checkbox" name="movieType" id="live" value="live"> <label for="live">인물 영화</label>
+      <input type="checkbox" name="movieType" id="animated" value="animated"> <label for="animated">애니메이션 영화</label>
+      <input type="checkbox" name="movieType" id="hybrid" value="hybrid"> <label for="hybrid">하이브리드 영화</label>
+    </div>
+    
+    <div class="form-group">
       <label for="rating">연령제한</label>
       <select name="rating">
       	<option value="전체">전체
