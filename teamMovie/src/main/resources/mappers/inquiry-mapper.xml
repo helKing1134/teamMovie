@@ -10,6 +10,8 @@
     <resultMap id="inquiryResultMap" type="Inquiry">
         <id property="inquiryId" column="INQUIRY_ID" />
         <result property="inquiryWriter" column="INQUIRY_WRITER" />
+        <result property="title" column="TITLE" />
+        <result property="content" column="CONTENT" />
         <result property="createdAt" column="CREATED_AT" />
     </resultMap>
     
@@ -21,7 +23,7 @@
     </resultMap>
     
     <!-- 문의글 등록 -->
-    <insert id="insertInquiry" parameterType="Inquiry">
+    <insert id="insertInquiry" parameterType="Inquiry" >
         
         INSERT INTO INQUIRY (
 		    INQUIRY_ID,
@@ -38,7 +40,7 @@
 		    #{title},
 		    #{content},
 		    SYSDATE,
-		    #{status},
+		    'N',
 		    #{category})
     </insert>
     
@@ -90,7 +92,8 @@
 		    INQUIRY_ANSWER_SEQ.NEXTVAL,
 		    #{inquiryId},
 		    #{answerContent},
-		    #{answeredAt}
+		   SYSDATE)
+		   
     </insert>
 	 
 	 

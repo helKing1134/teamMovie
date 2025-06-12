@@ -10,6 +10,39 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
+    <style>
+        .content {
+            background-color:rgb(247, 245, 245);
+            width:80%;
+            margin:auto;
+        }
+        .innerOuter {
+            border:1px solid lightgray;
+            width:80%;
+            margin:auto;
+            padding:5% 10%;
+            background-color:white;
+        }
+
+        #boardList {text-align:center;}
+        #boardList>tbody>tr:hover {cursor:pointer;}
+
+        #pagingArea {width:fit-content; margin:auto;}
+        
+        #searchForm {
+            width:80%;
+            margin:auto;
+        }
+        #searchForm>* {
+            float:left;
+            margin:5px;
+        }
+        .select {width:20%;}
+        .text {width:53%;}
+        .searchBtn {width:20%;}
+    </style>
+
+
 <div class="container mt-5 mb-5">
 	<h2 class="mb-4">문의글 관리</h2>
 
@@ -89,6 +122,87 @@
 	<c:if test="${empty list}">
 		<p class="text-center text-muted mt-4">등록된 문의가 없습니다.</p>
 	</c:if>
+	
+	
+	
+	
+			<!-- 
+				검색시 검색어와 선택상자가 작성한것으로 남아있도록 처리 하기 
+				페이징바 클릭했을때 페이징처리된 결과가 보여지도록 요청처리 
+			 -->
+			<!-- list.bo 또는 search.bo  -->
+			<c:url var="url" value="${empty map?'list.bo':'search.bo'}">
+				<c:if test="${not empty map }"> <!-- 검색 -->
+					<c:param name="condition">${map.condition }</c:param>
+					<c:param name="keyword" value="${map.keyword }" />
+				</c:if>
+				<c:param name="currentPage"></c:param>
+			</c:url>
+			
+			
+			<form id="pageForm" method="post" action="${contextRoot}/inquiryList">
+			    <input type="hidden" name="currentPage" id="currentPageInput" />
+			</form>
+			
+			<div id="pagingArea">
+			    <ul class="pagination">
+			        <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+			            <li class="page-item">
+			                <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
+			            </li>
+			        </c:forEach>
+			    </ul>
+			</div>
+			
+			<script>
+			    function goToPage(pageNumber) {
+			        document.getElementById("currentPageInput").value = pageNumber;
+			        document.getElementById("pageForm").submit();
+			    }
+			</script>
+
+
+            <br clear="both"><br>
+
+            <form id="searchForm" action="${contextRoot }/search.bo" method="get" align="center">
+                <div class="select">
+                    <select class="custom-select" name="condition">
+                        <option value="writer">작성자</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                    </select>
+                </div>
+                <div class="text">
+                    <input type="text" class="form-control" name="keyword" value="${map.keyword }">
+                </div>
+                <button type="submit" class="searchBtn btn btn-secondary">검색</button>
+            </form>
+            <br><br>
+        </div>
+        <br><br>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

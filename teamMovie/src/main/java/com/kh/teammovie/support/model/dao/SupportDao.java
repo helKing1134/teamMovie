@@ -14,7 +14,7 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 public class SupportDao {
 	
 	public int insertInquiry(SqlSessionTemplate sqlSession, Inquiry i) {
-		
+	    
 		return sqlSession.insert("inquiryMapper.insertInquiry",i);
 	}
 	
@@ -55,8 +55,14 @@ public class SupportDao {
 
 	public int insertInquiryAnswer(SqlSessionTemplate sqlSession, InquiryAnswer a) {
 		// TODO Auto-generated method stub
+		
 		return sqlSession.insert("inquiryMapper.insertInquiryAnswer",a);
 	}
+	
+
+//    public void updateInquiryStatus(int inquiryId) {
+//        sqlSession.update("updateInquiryStatus", inquiryId);
+//    }
 
 	
 }

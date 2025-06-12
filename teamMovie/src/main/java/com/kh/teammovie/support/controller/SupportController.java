@@ -2,6 +2,7 @@ package com.kh.teammovie.support.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.teammovie.common.model.vo.PageInfo;
 import com.kh.teammovie.common.template.Pagination;
@@ -35,25 +36,20 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		@RequestMapping("support/faq")
 		public String faq() {
 			
-			return "support/detail";
+			return "support/faq";
 		}
 		
-//		//관리자 문의 게시판 리스트
-//		@RequestMapping("inquiryList")
-//		public String inquiryList(Inquiry i, Model model) {
-//			
-//			ArrayList<Inquiry> list = service.inquiryList(i);
-//			model.addAttribute("list", list);
-//			
-//			//메인페이지로 보내기
-//			return "support/inquiryList";
-//		}
-//		
+		//자주묻는질문
+		@RequestMapping("admin")
+		public String admin() {
+			
+			return "support/admin";
+		}
+
 		//관리자 문의 게시판 리스트
 		@RequestMapping("inquiryList")
 		public String inquiryList(@RequestParam(value="currentPage",defaultValue="1")
-		int currentPage
-		,Model model) throws Exception {
+		int currentPage,Model model) throws Exception {
 			
 			//추가적으로 필요한 값 
 			int listCount = service.listCount(); //총 게시글 개수
@@ -72,59 +68,42 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		}
 		
 		
-		
-		
-		
-//		//관리자 문의 답변
-//		@RequestMapping("inquiryAnswer")
-//		public String inquiryAnswer() {
-//			
-//			return "support/inquiryAnswer";
-//		}
-//		
-		
-		
-		
-//		@PostMapping("inquiryAdmin")
-//		public String sinquiryAdmin(Inquiry i
-//									,HttpSession session
-//									,Model model) {
-//			int result = service.insertAdmin(i);
-//			
-//			if(result>0) {
-//				session.setAttribute("alertMsg", "문의가 제출되었습니다.");
-//				return "redirect:/";
-//			}else {
-//				//회원가입 실패시 - 회원가입에 실패하였습니다. 메시지와 함께 에러페이지로 포워딩(위임) - model 객체 이용
-//				model.addAttribute("errorMsg","문의 제출에 실패하였습니다.");
-//				return "redirect:/";}
-//		}
-		
-		
-		//1대1 문의 get
+		//1대1 문의(get)
 		@RequestMapping("support/inquiry")
-		public String inquiry() {
-			
+		public String inquiry(HttpSession session, HttpServletRequest request, RedirectAttributes ra) {
+
+//		    // 로그인한 사용자 객체를 세션에서 가져옴
+//		    Object loginUser = session.getAttribute("loginUser");
+//
+//		    if (loginUser == null) {
+//		        // 비로그인 상태: 로그인 알림 메시지 전달 + 로그인 모달 유도
+//		        ra.addFlashAttribute("alertMsg", "로그인 후 이용 가능합니다.");
+//		        return "redirect:/"; // 홈으로 리다이렉트 (모달이 뜨도록 처리)
+//		    }
+		    
 			return "support/inquiry";
 		}
 		
-		//1대1 문의 get
+		//1대1 문의(post)
 		@PostMapping("support/inquiry")
 		public String inquiry(Inquiry i
 							,HttpSession session
 							,Model model) {
 			
 		    Member loginUser = (Member) session.getAttribute("loginUser");
+		    
+		    System.out.println(i);
 
 		    if (loginUser != null) {
-		        i.setInquiryWriter(loginUser.getMemberNo());  // ★ 외래키 직접 설정
+		        i.setInquiryWriter(loginUser.getMemberNo());  
 		    } else {
 		        model.addAttribute("errorMsg", "로그인이 필요한 서비스입니다.");
 		        return "common/errorPage";
 		    }
 		    
 			int result = service.insertInquiry(i);
-			
+
+		    System.out.println(i);
 			
 			if(result>0) {
 				session.setAttribute("alertMsg", "문의가 제출되었습니다.");
@@ -138,24 +117,19 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		}
 
 		
-		//메소드명 boardDetail() - SELECT
-		//조회수 증가 메소드명 increaseCount() - DML  
-		//조회수 증가가 성공이라면 게시글 조회해서 상세페이지로 전달 및 이동 
-		//실패시 오류발생 메시지를 담고 에러페이지로 위임처리하기
+		//관리자 문의 확인(get)
 		@RequestMapping("detail")
-		public String inquiryDetail(int bno,
-								Model model) {
+		public String inquiryDetail(int bno, Model model) {
 			
 				Inquiry i = service.inquiryDetail(bno);
 				
 				model.addAttribute("i",i);
 
 				return "support/detail";
-			
 		}
 		
 		
-		//문의 답변
+		//관리자 문의 답변(post)
 		@PostMapping("detail")
 		public String Answer(InquiryAnswer a
 							,HttpSession session
@@ -165,12 +139,10 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 			
 			if(result>0) {
 				session.setAttribute("alertMsg", "답변이 제출되었습니다.");
-				return "redirect:/";
+				return "redirect:/inquiryList";
 			}else {
 				model.addAttribute("errorMsg","답변에 실패하였습니다.");
-				
-				return "redirect:/";
-			
+				return "redirect:/inquiryList";
 			}
 		}
 		

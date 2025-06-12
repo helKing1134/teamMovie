@@ -31,6 +31,8 @@
     </table>
 
     <!-- 답변 작성 폼 -->
+  <c:choose>
+  <c:when test="${i.status == 'N'}">
     <form action="${contextRoot}/detail" method="post">
         <input type="hidden" name="inquiryId" value="${i.inquiryId}">
 
@@ -44,6 +46,28 @@
             <a href="${contextRoot}/inquiryList" class="btn btn-secondary">목록으로</a>
         </div>
     </form>
+    
+  </c:when>
+  <c:otherwise>
+    <!-- 답변 완료된 경우 -->
+    <div class="form-group">
+      <label>등록된 답변</label>
+      <div class="border p-3 bg-light" style="min-height:150px;">
+        <c:out value="${answer.answerContent}" escapeXml="true"/>
+      </div>
+    </div>
+    <div class="text-right mt-3">
+      <a href="${contextRoot}/inquiryList" class="btn btn-secondary">목록으로</a>
+    </div>
+  </c:otherwise>
+</c:choose>
+    
+    
+    
+    
+    
+    
+    
 </div>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %> 
