@@ -6,9 +6,62 @@
   <meta charset="UTF-8">
   <title>영화 등록</title>
   <%@ include file="../common/header.jsp" %>
+  
+  <!-- 
+  	 SummerNote 라이브러리 추가
+	 html태그 그대로 db에 저장을 위해 필요한 css 및 js 추가했습니다 (written by 이수한)
+   -->
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/lang/summernote-ko-KR.min.js"></script>
+  <!--
+  	 jQuery UI CSS & JS 추가 
+  	 배우 입력시 필요한 css와 js 추가했습니다 (written by 이수한)
+  -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  
+  <style>
+  	.autocomplete-box {
+  border: 1px solid #ccc;
+  max-height: 180px;
+  overflow-y: auto;
+  background-color: white;
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
+.actor-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.actor-card {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: background-color 0.2s;
+}
+.actor-card:hover {
+  background-color: #f0f0f0;
+}
+  	
+  </style>
+  
 </head>
 <body>
 <div class="container mt-5">
@@ -23,33 +76,51 @@
       <label for="director">감독</label>
       <input type="text" class="form-control" id="director" name="director">
     </div>
-
+	
+	<!-- 
+		동명이인 처리와 actorId값을 자동으로 서버로 전달하기 위한 로직 필요
+		jQuery + jQuery UI 자동완성 로직 필요
+		UI관련 css 및 js <head>태그에 추가 
+	 -->
     <div class="form-group">
-	  <label>배우(주연)</label>
-	  
-	  <div id="actors-container">
-	    <input type="text" class="form-control mb-2" name="actorName" placeholder="예: 박보검">
+	  <label for="actor">출연 배우</label>
+	  <div class="input-group">
+	    <input type="text" class="form-control" id="actorName" name="actorName" placeholder="배우를 선택하세요" readonly>
+	    <!-- 배우 ID들을 여기에 hidden으로 넣음 -->
+  		<div id="selectedActorsContainer"></div>
+	    <div class="input-group-append">
+	      <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#actorModal">
+	        배우 선택
+	      </button>
+	    </div>
 	  </div>
-	  <button type="button" class="btn btn-sm btn-secondary" id="add-actor">+ 배우 추가</button>
+	  
 	</div>
+	
+
+
+
+
 	
     <div class="form-group">
       <label for="genre">장르</label>
       <br>
-      <input type="checkbox" name="genreName" id="action" value="action"> <label for="action">액션</label>
-      <input type="checkbox" name="genreName" id="drama" value="drama"> <label for="drama">드라마</label>
-      <input type="checkbox" name="genreName" id="comedy" value="comedy"> <label for="comedy">코미디</label>
-      <input type="checkbox" name="genreName" id="romance" value="romance"> <label for="romance">로맨스</label>
-      <input type="checkbox" name="genreName" id="sf" value="sf"> <label for="sf">SF</label>
-      <input type="checkbox" name="genreName" id="horror" value="horror"> <label for="horror">공포</label>
+      <c:forEach var="genre" items="${currentGenreList}" varStatus="vs">
+	      <input type="checkbox" name="genreNames" id="${genre.genreName}" value="${genre.genreName}"> 
+          <label for="${genre.genreName}">${genre.genreName}</label> &nbsp;
+	      <c:if test="${vs.count % 5 == 0}">
+	      	<br>
+	      </c:if>
+      </c:forEach>
     </div>
     
     <div class="form-group">
       <label for="movieType">타입</label>
       <br>
-      <input type="checkbox" name="movieType" id="live" value="live"> <label for="live">인물 영화</label>
-      <input type="checkbox" name="movieType" id="animated" value="animated"> <label for="animated">애니메이션 영화</label>
-      <input type="checkbox" name="movieType" id="hybrid" value="hybrid"> <label for="hybrid">하이브리드 영화</label>
+      <c:forEach var="type" items="${currentTypeList}">
+	      <input type="radio" name="movieType" id="${type.movieType}" value="${type.movieType}"> <label for="${type.movieType}">${type.movieType}</label> 
+	      
+      </c:forEach>
     </div>
     
     <div class="form-group">
@@ -95,7 +166,8 @@
     <button type="submit" class="btn btn-primary" id="registerBtn">영화 등록</button>
   </form>
 </div>
-
+	<jsp:include page="actorEnroll.jsp"/>
+	
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
@@ -106,10 +178,6 @@
 		      placeholder: '줄거리를 입력하세요...'
 		    });
 		    
-		    $("#add-actor").on("click",function(){
-				let inputEl = $("<input type='text' class='form-control mb-2' name='actorName' placeholder='예: 박보검'>");
-				$("#actors-container").append(inputEl);
-			});
 		  });
 	</script>
 

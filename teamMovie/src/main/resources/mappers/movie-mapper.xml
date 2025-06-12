@@ -232,6 +232,47 @@
 		WHERE MOVIE_ID = #{mvId}
 	</select>
 	
+	
+	<!-- 관리자용 -->
+	<select id="findActors" resultMap="actorResultMap">
+		SELECT *
+		FROM ACTOR
+		WHERE ACTOR_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="getActorList" resultMap="actorResultMap">
+		SELECT *
+		FROM ACTOR
+	</select>
+	
+	<select id="getTypeList" resultMap="typeResultMap">
+		SELECT *
+		FROM TYPE
+	</select>
+	
+	<select id="getGenreList" resultMap="genreResultMap">
+		SELECT *
+		FROM GENRE
+	</select>
+	
+	<resultMap type="Actor" id="actorResultMap">
+		<result property="actorId" column="ACTOR_ID"/>
+		<result property="actorName" column="ACTOR_NAME"/>
+		<result property="birthDate" column="BIRTH_DATE"/>
+		<result property="imagePath" column="IMAGE_PATH"/>
+	</resultMap>
+	
+	<resultMap type="Type" id="typeResultMap">
+		<result property="typeId" column="TYPE_ID"/>
+		<result property="movieType" column="MOVIE_TYPE"/>
+	</resultMap>
+	
+	<resultMap type="Genre" id="genreResultMap">
+		<result property="genreId" column="GENRE_ID"/>
+		<result property="genreName" column="GENRE_NAME"/>
+	</resultMap>
+	
+	
 	<select id="movieSelect" parameterType="String" resultMap="movieResultMap">
 		SELECT
 		    movie_id,

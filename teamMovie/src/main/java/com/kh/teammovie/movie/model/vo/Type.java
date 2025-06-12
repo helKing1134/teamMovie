@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Genre {
-	private int genreId;//	GENRE_ID	NUMBER
-	private String genreName;//	GENRE_NAME	VARCHAR2(30 BYTE)
+public class Type {
+	private int typeId;//	TYPE_ID	NUMBER
+	private String movieType;//	MOVIE_TYPE	VARCHAR2(20 BYTE)
 }

@@ -1,17 +1,21 @@
 package com.kh.teammovie.movie.model.service;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.teammovie.movie.model.dao.MovieDAO;
+import com.kh.teammovie.movie.model.vo.Actor;
+import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
 import com.kh.teammovie.movie.model.vo.StillCut;
-import com.kh.teammovie.movie.model.dao.MovieDAO;
+import com.kh.teammovie.movie.model.vo.Type;
 import com.kh.teammovie.schedule.model.vo.Schedule;
 import com.kh.teammovie.screen.model.vo.Screen;
 import com.kh.teammovie.seat.model.vo.Seat;
@@ -55,6 +59,81 @@ public class MovieServiceImpl implements MovieService {
 	public ArrayList<Movie> searchOfComingMovie(int page, HashMap<String, String> searchMap) {
 		return mvDAO.searchOfComingMovie(sqlSession,page,searchMap);
 	}
+	
+	//확인중...(필요없어지면 지우겠습니다 by 이수한)
+	@Override
+	public ArrayList<Actor> findActors(String keyword) {
+		return mvDAO.findActors(sqlSession,keyword);
+	}
+	
+	@Override
+	public ArrayList<Actor> getActorList() {
+		return mvDAO.getActorList(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<Type> getTypeList() {
+		return mvDAO.getTypeList(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<Genre> getGenreList() {
+		return mvDAO.getGenreList(sqlSession);
+	}
+	
+	
+	@Transactional
+	@Override
+	public int registerMovie(Movie movie, String[] actorNames, String[] genreNames, ArrayList<StillCut> stillCuts) {
+		
+		int movieId = mvDAO.getMovieIdForRegister(sqlSession); //영화 등록을 위해 movieId값 받아오기
+		movie.setMovieId(movieId);
+		
+		int result = 0; //MOVIE 테이블에 영화 등록을 위한 판별용 result값
+		if(movieId > 0) {//MOVIE 테이블에 영화 등록을 위한 식별용 MOVIE_ID값을 정상적으로 받아온 상황
+			result = mvDAO.registerMovie(movie);
+			
+			if(result > 0) { //MOVIE 테이블에 영화가 정상적으로 등록
+				//ACTOR 테이블에 등록 처리
+				//동일한 배우 존재 가능하므로 그에 따른 로직 처리
+				//단, 동명이인 배우는 없다고 가정
+				//그것까지 고려하면 관리자가 배우 등록할때 식별자도 같이 등록해야함(관리자가 배우마다 식별자를 같이 등록해야함)
+				for(String actorName : actorNames) {
+					if(mvDAO.checkEqualActor(actorName) == 0){ //배우가 ACTOR 테이블에 존재하지 않을시
+						int result2 = mvDAO.registerActor(actorName); 
+						if(result2 > 0) { //배우가 ACTOR 테이블에 정상적으로 등록
+							//MOVIE_ACTOR 테이블에도 추가해야함
+							int actorId = mvDAO.getActorIdForRegister(sqlSession,actorName);
+							
+							if(actorId > 0){//MOVIE_ACTOR 테이블에 등록을 위한 식별용 ACTOR_ID값을 정상적으로 받아온 상황
+								int result3 = mvDAO.registerMovieActor(sqlSession,movieId,actorId);
+								
+							}else {//MOVIE_ACTOR 테이블에 등록을 하기 위한 식별용 ACTOR_ID값조차 제대로 안 구해진 상황
+								return actorId;
+								
+							}
+						}else { //ACTOR 테이블에 배우 등록 실패
+							return result2;
+						}
+					}else {//배우가 ACTOR 테이블에 이미 존재할시
+					}
+					
+				}
+			}else { //MOVIE 테이블에 영화 등록 실패
+				return result;
+			}
+			
+		}else {//영화 등록을 위한 식별용 MOVIE_ID값조차 제대로 안 구해진 상황
+			return movieId; 
+		}
+		
+		
+		
+		
+		//return mvDAO.registerMovie(sqlSession,movie,actorNames,genreNames,stillCuts);
+	}
+	
+	
 	
 	
 	

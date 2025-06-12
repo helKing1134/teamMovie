@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.teammovie.movie.model.vo.Actor;
+import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.schedule.model.vo.Schedule;
 import com.kh.teammovie.screen.model.vo.Screen;
 import com.kh.teammovie.seat.model.vo.Seat;
 import com.kh.teammovie.movie.model.vo.Review;
 import com.kh.teammovie.movie.model.vo.StillCut;
+import com.kh.teammovie.movie.model.vo.Type;
+
 import org.apache.ibatis.session.RowBounds;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -76,8 +80,9 @@ public class MovieDAO {
 		return (ArrayList)sqlSession.selectList("movieMapper.getStillCuts", mvId);
 	}
 		
-		
-
+	public ArrayList<Actor> findActors(SqlSessionTemplate sqlSession, String keyword) {
+		return (ArrayList)sqlSession.selectList("movieMapper.findActors",keyword);
+	}
 		
 		
 		
@@ -119,6 +124,24 @@ public class MovieDAO {
 		// TODO Auto-generated method stub
 		return (ArrayList) sqlSession.selectList("seatMapper.getStListBySchId", screenId);
 	}
+
+	
+	// 현재 배우 목록 조회해오기
+	public ArrayList<Actor> getActorList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("movieMapper.getActorList");
+	}
+	
+	// 현재 영화 타입 목록 조회해오기
+	public ArrayList<Type> getTypeList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("movieMapper.getTypeList");
+	}
+	
+	// 현재 영화 장르 목록 조회해오기
+	public ArrayList<Genre> getGenreList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("movieMapper.getGenreList");
+	}
+
+	
 	
 	
 

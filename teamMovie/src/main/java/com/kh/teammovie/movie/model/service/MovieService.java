@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
+import com.kh.teammovie.movie.model.vo.Actor;
+import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
 import com.kh.teammovie.movie.model.vo.StillCut;
-
+import com.kh.teammovie.movie.model.vo.Type;
 import com.kh.teammovie.schedule.model.vo.Schedule;
 import com.kh.teammovie.screen.model.vo.Screen;
 import com.kh.teammovie.seat.model.vo.Seat;
@@ -36,6 +38,12 @@ public interface MovieService {
 
 	ArrayList<StillCut> getStillCuts(int mvId);
 	
+	//관리자가 배우 이름 입력했을 때 "비동기"로 배우 리스트 가져오기
+	ArrayList<Actor> findActors(String keyword);
+	// 관리자 영화 등록 메소드
+	int registerMovie(Movie movie, String[] actorNames, String[] genreNames, ArrayList<StillCut> stillCuts);
+	
+	
 
 
 
@@ -59,6 +67,22 @@ public interface MovieService {
 	
 	// 상영관 아이디를 가지고 좌석 목록 가져오기
 	ArrayList<Seat> getStListBySchId(int screenId);
+	
+	
+	
+	//현재 배우 목록 가져오기
+	ArrayList<Actor> getActorList();
+	
+	//현재 영화 타입 목록 가져오기
+	ArrayList<Type> getTypeList();
+	
+	//현재 영화 장르 목록 가져오기
+	ArrayList<Genre> getGenreList();
+	
+	
+	
+	
+	
 	
 	
 

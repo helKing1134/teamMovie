@@ -31,7 +31,11 @@
 		<beans:property name="maxInMemorySize" value="100000000"/> <!-- 임시 메모리 보관 크기설정 -->
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kh.teammovie" />
+	<!-- root-context에서 등록한 컴포넌트들은 제외시키기(중복충돌방지) -->
+	<context:component-scan base-package="com.kh.teammovie" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	</context:component-scan>
 	
 	
 	
