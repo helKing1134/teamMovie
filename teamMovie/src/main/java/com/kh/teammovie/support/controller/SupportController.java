@@ -1,5 +1,6 @@
 package com.kh.teammovie.support.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,8 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		public String main() {
 			return "support/main"; //jsp
 		}
+		
+		
 		
 		//자주묻는질문
 		@RequestMapping("support/faq")
@@ -67,19 +70,36 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 			return "support/inquiryList";
 		}
 		
+		@RequestMapping("deleteAnswer")
+		public String deleteAnswer(int bno,HttpSession session) {
+			
+			
+			int result = service.deleteAnswer(bno);
+			int result2 = service.updateStatus(bno);
+			
+			
+			if(result>0 && result2>0) {
+				session.setAttribute("alertMsg", "답변이 삭제되었습니다.");
+				
+				return "redirect:/inquiryList";
+				
+			}else {
+				session.setAttribute("alertMsg", "답변 삭제에 실패하였습니다.");
+				
+				return "redirect:/inquiryList";
+			}
+			
+		}
 		
 		//1대1 문의(get)
 		@RequestMapping("support/inquiry")
-		public String inquiry(HttpSession session, HttpServletRequest request, RedirectAttributes ra) {
+		public String inquiry(@RequestParam(value="loginRequired", required=false) String loginRequired,
+                HttpSession session, Model model) {
 
-//		    // 로그인한 사용자 객체를 세션에서 가져옴
-//		    Object loginUser = session.getAttribute("loginUser");
-//
-//		    if (loginUser == null) {
-//		        // 비로그인 상태: 로그인 알림 메시지 전달 + 로그인 모달 유도
-//		        ra.addFlashAttribute("alertMsg", "로그인 후 이용 가능합니다.");
-//		        return "redirect:/"; // 홈으로 리다이렉트 (모달이 뜨도록 처리)
-//		    }
+		    // 로그인한 사용자 객체를 세션에서 가져옴
+		    Object loginUser = session.getAttribute("loginUser");
+		    model.addAttribute("loginUser", loginUser); // null일 수도 있음
+		    model.addAttribute("loginRequired", loginRequired); // 로그인 모달 띄울지 판단용
 		    
 			return "support/inquiry";
 		}
@@ -110,7 +130,6 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 				return "redirect:/";
 			}else {
 				model.addAttribute("errorMsg","문의 제출에 실패하였습니다.");
-				
 				return "redirect:/";
 			
 			}
@@ -122,7 +141,8 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		public String inquiryDetail(int bno, Model model) {
 			
 				Inquiry i = service.inquiryDetail(bno);
-				
+				InquiryAnswer a = service.answerDetail(bno);
+				model.addAttribute("a",a);
 				model.addAttribute("i",i);
 
 				return "support/detail";
@@ -136,8 +156,10 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 							,Model model) {
 		    
 			int result = service.insertInquiryAnswer(a);
+			int result2 = service.updateStatus(a.getInquiryId()); // 상태 업데이트
+			System.out.println("컨트롤러");
 			
-			if(result>0) {
+			if(result>0 && result2>0) {
 				session.setAttribute("alertMsg", "답변이 제출되었습니다.");
 				return "redirect:/inquiryList";
 			}else {

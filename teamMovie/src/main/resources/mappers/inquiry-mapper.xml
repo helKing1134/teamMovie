@@ -64,24 +64,8 @@
 	</select>
 	
 	 
-	<select id="inquiryDetail" resultMap="inquiryResultMap">
-		SELECT * FROM INQUIRY
-		WHERE INQUIRY_ID = #{bno}
-		<!-- 
-		AND STATUS = 'Y'
-		-->
-	</select>
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-     <insert id="insertInquiryAnswer" parameterType="InquiryAnswer">
-        
+     <insert id="insertInquiryAnswer" parameterType="InquiryAnswer">    
         INSERT INTO INQUIRY_ANSWER (
 		    ANSWER_ID,
 			INQUIRY_ID,
@@ -93,14 +77,46 @@
 		    #{inquiryId},
 		    #{answerContent},
 		   SYSDATE)
-		   
     </insert>
+    
+    
+	<update id="updateStatus" parameterType="int">
+    UPDATE INQUIRY
+    SET STATUS = CASE 
+                    WHEN STATUS = 'Y' THEN 'N'
+                    ELSE 'Y'
+                END
+    WHERE INQUIRY_ID = #{inquiryId}
+	</update>
 	 
 	 
 	 
 	 
 	 
 	 
+	 
+	 
+	<select id="inquiryDetail" resultMap="inquiryResultMap">
+		SELECT * FROM INQUIRY
+		WHERE INQUIRY_ID = #{bno}
+		<!-- 
+		AND STATUS = 'Y'
+		-->
+	</select>
+	 
+	 
+	<select id="answerDetail" resultMap="inquiryAnswerResultMap">
+		SELECT * FROM INQUIRY_ANSWER
+		WHERE INQUIRY_ID = #{bno}
+		<!-- 
+		AND STATUS = 'Y'
+		-->
+	</select>
+	
+	<delete id="deleteAnswer" parameterType="_int">
+	 	DELETE FROM INQUIRY_ANSWER
+	 	WHERE INQUIRY_ID = #{bno}
+	</delete>
 	 
 	 
 	 

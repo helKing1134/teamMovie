@@ -44,6 +44,11 @@ public class SupportDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("inquiryMapper.inquiryDetail",bno);
 	}
+	public InquiryAnswer answerDetail(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("inquiryMapper.answerDetail",bno);
+	}
+	
 	
 	
 	
@@ -59,10 +64,18 @@ public class SupportDao {
 		return sqlSession.insert("inquiryMapper.insertInquiryAnswer",a);
 	}
 	
+	
+	public int updateStatus(SqlSessionTemplate sqlSession, int inquiryId) {
+	    return sqlSession.update("inquiryMapper.updateStatus", inquiryId);
+	}
 
-//    public void updateInquiryStatus(int inquiryId) {
-//        sqlSession.update("updateInquiryStatus", inquiryId);
-//    }
+
+	public int deleteAnswer(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("inquiryMapper.deleteAnswer",bno);		
+	}
+
+
 
 	
 }

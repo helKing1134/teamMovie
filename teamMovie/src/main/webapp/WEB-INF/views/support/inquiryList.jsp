@@ -85,10 +85,10 @@
 									</c:otherwise>
 								</c:choose></td>
 							<td><a
-								href="${contextRoot}/inquiryAnswer?no=${i.inquiryId}"
+								href="${contextRoot}/detail?bno=${i.inquiryId}"
 								class="btn btn-sm btn-outline-primary">답변</a> <a
 								
-								href="${contextRoot}/deleteInquiry.sp?no=${i.inquiryId}"
+								href="${contextRoot}/deleteAnswer?bno=${i.inquiryId}"
 								class="btn btn-sm btn-outline-danger"
 								onclick="return confirm('삭제하시겠습니까?');">삭제</a></td>
 						</tr>

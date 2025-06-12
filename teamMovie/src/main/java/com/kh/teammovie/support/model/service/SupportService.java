@@ -19,10 +19,17 @@ public interface SupportService {
 		
 		//관리자 문의 게시판 상세조회
 		Inquiry inquiryDetail(int bno);
+		InquiryAnswer answerDetail(int bno);
 		
 		//게시글 개수 조회 메소드
 		int listCount();
 		
 		//관리자 답변
 		int insertInquiryAnswer(InquiryAnswer a);
+
+		int updateStatus(int inquiryId);
+
+		int deleteAnswer(int bno);
+
+		
 }

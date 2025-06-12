@@ -48,19 +48,30 @@
     </form>
     
   </c:when>
-  <c:otherwise>
-    <!-- 답변 완료된 경우 -->
-    <div class="form-group">
-      <label>등록된 답변</label>
-      <div class="border p-3 bg-light" style="min-height:150px;">
-        <c:out value="${answer.answerContent}" escapeXml="true"/>
-      </div>
-    </div>
+<c:otherwise>
+    <hr class="my-4" />
+
+    <table class="table" style="background-color: transparent; border: none;">
+        <tr>
+            <th style="width: 20%;">답변 내용</th>
+            <td colspan="3" style="min-height: 200px; vertical-align: top; padding: 0.75rem 1.25rem;">${a.answerContent}</td>
+        </tr>
+        <tr>
+            <th style="width: 20%; font-size: 0.9em;">답변일</th>
+            <td colspan="3" style="font-size: 0.9em;">${a.answeredAt}</td>
+        </tr>
+    </table>
+
     <div class="text-right mt-3">
-      <a href="${contextRoot}/inquiryList" class="btn btn-secondary">목록으로</a>
+        <a href="${contextRoot}/inquiryList" class="btn btn-secondary">목록으로</a>
     </div>
-  </c:otherwise>
-</c:choose>
+</c:otherwise>
+
+
+
+
+
+ </c:choose>
     
     
     

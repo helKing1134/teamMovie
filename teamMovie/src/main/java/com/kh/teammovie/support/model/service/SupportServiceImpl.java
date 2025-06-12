@@ -26,6 +26,12 @@ public class SupportServiceImpl implements SupportService {
 		// TODO Auto-generated method stub
 		return dao.insertInquiry(sqlSession,i);
 	}
+	
+	@Override
+	public int deleteAnswer(int bno) {
+		// TODO Auto-generated method stub
+		return dao.deleteAnswer(sqlSession, bno);
+	}
 
 //	@Override
 //	public int insertAdmin(Inquiry i) {
@@ -46,6 +52,12 @@ public class SupportServiceImpl implements SupportService {
 	}
 
 	@Override
+	public InquiryAnswer answerDetail(int bno) {
+		// TODO Auto-generated method stub
+		return dao.answerDetail(sqlSession, bno);
+	}
+
+	@Override
 	public int listCount() {
 		// TODO Auto-generated method stub
 		return dao.listCount(sqlSession);
@@ -56,6 +68,18 @@ public class SupportServiceImpl implements SupportService {
 		// TODO Auto-generated method stub
 		return dao.insertInquiryAnswer(sqlSession,a);
 	}
+
+	@Override
+	public int updateStatus(int inquiryId) {
+		// TODO Auto-generated method stub
+		return dao.updateStatus(sqlSession,inquiryId);
+	}
+
+
+
+	
+
+
 
 
 }

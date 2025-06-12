@@ -1,5 +1,6 @@
 package com.kh.teammovie.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +27,31 @@ public class MemberController {
 	
 	
 	@RequestMapping("login.me")
-	public String loginMember(Member m, HttpSession session, Model model) {
-		//System.out.println(bcrypt.encode(m.getPassword1()));
-		Member loginUser = service.loginMember(m);
-		//System.out.println(loginUser.getPassword1());
-		
-		if (loginUser != null && bcrypt.matches(m.getPassword1(),loginUser.getPassword1())) {
-			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("alertMsg", "성공적으로 로그인 하였습니다.");
-			return "redirect:/";
-		} else {
-			model.addAttribute("errorMsg", "잘못 입력하셨습니다. 다시 로그인을 시도하여 주세요.");
-			//viewResolver가 WEB-INF/views/ 와 .jsp를 붙여서 경로를 완성해준다
-			return "common/errorPage";
-		}
+	public String loginMember(Member m, HttpSession session, Model model, HttpServletRequest request) {
+	    Member loginUser = service.loginMember(m);
+
+	    if (loginUser != null && bcrypt.matches(m.getPassword1(), loginUser.getPassword1())) {
+	        session.setAttribute("loginUser", loginUser);
+	        session.setAttribute("alertMsg", "성공적으로 로그인 하였습니다.");
+
+	        String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
+	        session.removeAttribute("redirectAfterLogin");
+	        
+	        
+	        if (redirectUrl != null) {
+	            return "redirect:" + redirectUrl;
+	        } else {
+	            return "redirect:" + "/";
+	        }
+	    } else {
+	        model.addAttribute("errorMsg", "잘못 입력하셨습니다. 다시 로그인을 시도하여 주세요.");
+	        return "common/errorPage";
+	    }
 	}
+
+
+
+	
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 		session.removeAttribute("loginUser");
