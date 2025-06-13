@@ -1,14 +1,17 @@
 package com.kh.teammovie.movie.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.teammovie.movie.model.dao.MovieDAO;
 import com.kh.teammovie.movie.model.vo.Movie;
+import com.kh.teammovie.movie.model.vo.Review;
+import com.kh.teammovie.movie.model.vo.StillCut;
+import com.kh.teammovie.movie.model.dao.MovieDAO;
 import com.kh.teammovie.schedule.model.vo.Schedule;
 import com.kh.teammovie.screen.model.vo.Screen;
 import com.kh.teammovie.seat.model.vo.Seat;
@@ -21,6 +24,58 @@ public class MovieServiceImpl implements MovieService {
 	
 	@Autowired
 	private MovieDAO mvDAO;
+	
+	@Override
+	public ArrayList<Movie> movieListAll(int page) {
+		
+		return mvDAO.movieListAll(sqlSession,page);
+	}
+	
+	@Override
+	public ArrayList<Movie> searchOfAllMovie(int page, HashMap<String, String> searchMap) {
+		return mvDAO.searchOfAllMovie(sqlSession,page,searchMap);
+	}
+	
+	@Override
+	public ArrayList<Movie> screeningMovieList(int page) {
+		return mvDAO.screeningMovieList(sqlSession,page);
+	}
+	
+	@Override
+	public ArrayList<Movie> searchOfScreeningMovie(int page, HashMap<String, String> searchMap) {
+		return mvDAO.searchOfScreeningMovie(sqlSession,page,searchMap);
+	}
+	
+	@Override
+	public ArrayList<Movie> comingMovieList(int page) {
+		return mvDAO.comingMovieList(sqlSession,page);
+	}
+	
+	@Override
+	public ArrayList<Movie> searchOfComingMovie(int page, HashMap<String, String> searchMap) {
+		return mvDAO.searchOfComingMovie(sqlSession,page,searchMap);
+	}
+	
+	
+	
+	
+	
+	
+	@Override
+	public Movie movieDetail(int mvId) {
+		return mvDAO.movieDetail(sqlSession,mvId);
+	}
+	
+	@Override
+	public ArrayList<Review> getReviews(int mvId) {
+		return mvDAO.getReviews(sqlSession,mvId);
+	}
+	
+	@Override
+	public ArrayList<StillCut> getStillCuts(int mvId) {
+		return mvDAO.getStillCuts(sqlSession,mvId);
+	}
+
 
 	@Override
 	//현재 상영중인 영화목록 가져오기

@@ -14,6 +14,7 @@
     <!-- Static resource handler -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
+
     <!-- View Resolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
@@ -30,5 +31,7 @@
             <bean class="com.kh.teammovie.common.interceptor.LoginCheckInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
+
+
 
 </beans>
