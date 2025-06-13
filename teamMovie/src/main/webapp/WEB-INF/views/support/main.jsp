@@ -134,6 +134,7 @@
             <li><a href="${contextRoot}/support/inquiry" id = "inquiry">1:1 문의</a></li>
             <li><a href="${contextRoot}/inquiryList">1:1 관리자 문의목록</a></li>
             <li><a href="${contextRoot}/admin">관리자 페이지</a></li>
+            <li><a href="${contextRoot}/myInquiryList">나의 문의 내역</a></li>
             <li><a href="#">분실물 문의</a></li>
             <li><a href="#">이용약관</a></li>
             <li><a href="#">개인정보처리방침</a></li>

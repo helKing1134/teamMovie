@@ -1,6 +1,9 @@
 package com.kh.teammovie.support.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.kh.teammovie.common.model.vo.PageInfo;
 import com.kh.teammovie.support.model.vo.Inquiry;
@@ -16,6 +19,12 @@ public interface SupportService {
 		
 		//관리자 문의 게시판 목록 
 		ArrayList<Inquiry> inquiryList(PageInfo pi);
+		//나의 문의내역
+		ArrayList<Inquiry> myInquiryList();
+		
+		List<Inquiry> findAllInquiries();
+		List<Inquiry> selectInquiriesByStatuses(@Param("statuses") List<String> statuses);
+		
 		
 		//관리자 문의 게시판 상세조회
 		Inquiry inquiryDetail(int bno);
@@ -30,6 +39,7 @@ public interface SupportService {
 		int updateStatus(int inquiryId);
 
 		int deleteAnswer(int bno);
+
 
 		
 }

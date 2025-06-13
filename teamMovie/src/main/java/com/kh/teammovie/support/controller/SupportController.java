@@ -2,6 +2,7 @@ package com.kh.teammovie.support.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,9 +10,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.teammovie.common.model.vo.PageInfo;
@@ -33,7 +36,24 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 			return "support/main"; //jsp
 		}
 		
+		//나의 문의 내역
+		@RequestMapping("myInquiryList") //url이름
+		public String myInquiryList(Model model) {
+			ArrayList<Inquiry> list = service.myInquiryList();
+			model.addAttribute("list", list);
+			return "support/myInquiryList"; //jsp
+		}
 		
+		@GetMapping("/filterInquiries")
+		@ResponseBody
+		public List<Inquiry> filterInquiries(@RequestParam(required = false) 
+		List<String> statuses) {
+		    if (statuses == null || statuses.isEmpty()) {
+		        return service.findAllInquiries(); // 모든 문의글 반환
+		    }
+		    return service.selectInquiriesByStatuses(statuses); // 상태에 따라 필터링
+		}
+
 		
 		//자주묻는질문
 		@RequestMapping("support/faq")

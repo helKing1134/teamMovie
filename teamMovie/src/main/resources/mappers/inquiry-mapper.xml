@@ -117,6 +117,26 @@
 	 	DELETE FROM INQUIRY_ANSWER
 	 	WHERE INQUIRY_ID = #{bno}
 	</delete>
+	
+	
+<select id="selectAllInquiries" resultType="Inquiry">
+    SELECT * FROM inquiry ORDER BY created_at DESC
+</select>
+
+<select id="selectInquiriesByStatuses" resultType="Inquiry">
+    SELECT * FROM inquiries
+    <where>
+        <if test="list != null and list.size() > 0">
+            status IN
+            <foreach collection="list" item="status" open="(" separator="," close=")">
+                #{status}
+            </foreach>
+        </if>
+    </where>
+</select>
+
+
+	
 	 
 	 
 	 

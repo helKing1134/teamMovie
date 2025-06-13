@@ -1,6 +1,7 @@
 package com.kh.teammovie.support.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,17 @@ public class SupportServiceImpl implements SupportService {
 	public int insertInquiry(Inquiry i) {
 		// TODO Auto-generated method stub
 		return dao.insertInquiry(sqlSession,i);
+	}
+	
+	@Override
+	public List<Inquiry> findAllInquiries() {
+	    return dao.selectAllInquiries(sqlSession);
+	}
+
+	@Override
+	public List<Inquiry> selectInquiriesByStatuses(List<String> statuses) {
+		// TODO Auto-generated method stub
+		return dao.selectInquiriesByStatuses(statuses,sqlSession);
 	}
 	
 	@Override
@@ -74,6 +86,13 @@ public class SupportServiceImpl implements SupportService {
 		// TODO Auto-generated method stub
 		return dao.updateStatus(sqlSession,inquiryId);
 	}
+
+	@Override
+	public ArrayList<Inquiry> myInquiryList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

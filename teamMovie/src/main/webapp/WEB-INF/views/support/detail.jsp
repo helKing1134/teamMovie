@@ -62,9 +62,6 @@
         </tr>
     </table>
 
-    <div class="text-right mt-3">
-        <a href="${contextRoot}/inquiryList" class="btn btn-secondary">목록으로</a>
-    </div>
 </c:otherwise>
 
 

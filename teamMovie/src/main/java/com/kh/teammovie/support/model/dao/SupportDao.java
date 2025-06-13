@@ -1,6 +1,7 @@
 package com.kh.teammovie.support.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -73,6 +74,18 @@ public class SupportDao {
 	public int deleteAnswer(SqlSessionTemplate sqlSession, int bno) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("inquiryMapper.deleteAnswer",bno);		
+	}
+
+
+	public List<Inquiry> selectAllInquiries(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("inquiryMapper.selectAllInquiries");
+	}
+
+
+	public List<Inquiry> selectInquiriesByStatuses(List<String> statuses,SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("inquiryMapper.selectInquiriesByStatuses",statuses);
 	}
 
 

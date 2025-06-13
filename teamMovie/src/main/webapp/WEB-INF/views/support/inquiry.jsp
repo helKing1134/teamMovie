@@ -57,7 +57,6 @@
 
                 <div class="text-right mt-3">
                     <button type="submit" class="btn btn-primary">등록하기</button>
-                    <a href="${pageContext.request.contextPath}/support/inquiryList" class="btn btn-secondary">목록으로</a>
                 </div>
             </form>
         </c:when>

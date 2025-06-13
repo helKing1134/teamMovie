@@ -42,10 +42,16 @@
         .searchBtn {width:20%;}
     </style>
 
-
 <div class="container mt-5 mb-5">
 	<h2 class="mb-4">문의글 관리</h2>
-
+	
+	<!-- 필터 체크박스 -->
+<div class="mb-3" style="text-align: right;">
+    <label class="mr-2"><input type="checkbox" class="status-filter" value="N"> 답변대기</label>
+    <label class="ml-3"><input type="checkbox" class="status-filter" value="Y"> 답변완료</label>
+</div>
+	
+	
 	<table id="inquiryList" class="table table-hover text-center">
 		<thead class="thead-dark">
 			<tr>
@@ -118,6 +124,62 @@
 					$("option[value=${map.condition}]").attr("selected",true);
 				});
 			</script>
+			
+			<script>
+$(function(){
+    $(".status-filter").on("change", function(){
+        const selectedStatuses = $(".status-filter:checked").map(function(){
+            return $(this).val();
+        }).get();
+
+        $.ajax({
+            url: "${contextRoot}/filterInquiries",
+            type: "GET",
+            data: { statuses: selectedStatuses },
+            traditional: true, // 배열을 쿼리스트링으로 보낼 때 필요
+            success: function(data){
+                // 테이블 바디 업데이트
+                let tbody = $("#inquiryList tbody");
+                tbody.empty();
+
+                if(data.length === 0){
+                    tbody.append('<tr><td colspan="7">조회된 게시글이 없습니다.</td></tr>');
+                } else {
+                    data.forEach(function(i){
+                        let statusBadge = "";
+                        if(i.status === 'N'){
+                            statusBadge = '<span class="badge badge-warning">답변대기</span>';
+                        } else if(i.status === 'Y'){
+                            statusBadge = '<span class="badge badge-success">답변완료</span>';
+                        } else {
+                            statusBadge = '<span class="badge badge-secondary">처리중</span>';
+                        }
+
+                        tbody.append(`
+                            <tr>
+                                <td>${i.inquiryId}</td>
+                                <td>${i.category}</td>
+                                <td>${i.title}</td>
+                                <td>${i.inquiryWriter}</td>
+                                <td>${i.createdAt}</td>
+                                <td>${statusBadge}</td>
+                                <td>
+                                    <a href="${contextRoot}/detail?bno=${i.inquiryId}" class="btn btn-sm btn-outline-primary">답변</a>
+                                    <a href="${contextRoot}/deleteAnswer?bno=${i.inquiryId}" class="btn btn-sm btn-outline-danger" onclick="return confirm('삭제하시겠습니까?');">삭제</a>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                }
+            },
+            error: function(){
+                alert("데이터 로딩 실패");
+            }
+        });
+    });
+});
+</script>
+			
 
 	<c:if test="${empty list}">
 		<p class="text-center text-muted mt-4">등록된 문의가 없습니다.</p>
@@ -180,27 +242,7 @@
             <br><br>
         </div>
         <br><br>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 </div>
