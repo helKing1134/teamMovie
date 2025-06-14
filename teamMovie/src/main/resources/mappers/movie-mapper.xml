@@ -18,6 +18,11 @@
 		<result property="releaseDate" column="RELEASE_DATE" />
 		<result property="status" column="STATUS" />
 		<result property="posterPath" column="POSTER_PATH" />
+		<result property="movieType" column="MOVIE_TYPE" />
+		<collection property="criteria" ofType="Criterion">
+			<result property="criteriaId" column="CRITERIA_ID"/>
+			<result property="criteria" column="CRITERIA"/>
+		</collection>
 		<collection property="genres" ofType="Genre">
 			<result property="genreId" column="GENRE_ID"/>
 			<result property="genreName" column="GENRE_NAME"/>
@@ -191,6 +196,9 @@
 		JOIN MOVIE_ACTOR USING (MOVIE_ID)
 		JOIN ACTOR USING (ACTOR_ID)
 		JOIN STILLCUT USING (MOVIE_ID)
+		JOIN TYPE USING (TYPE_ID)
+		JOIN CRITERIA_TYPE USING (TYPE_ID)
+		JOIN CRITERIA USING (CRITERIA_ID)
 		WHERE MOVIE_ID = #{mvId}
 	</select>
 	
@@ -222,7 +230,7 @@
 		JOIN CRITERIA USING(CRITERIA_ID)
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE MOVIE_ID = #{mvId}
-		ORDER BY CREATE_DATE
+		ORDER BY CREATE_DATE DESC
 	</select>
 	
 	<select id="getStillCuts" resultMap="movieListResultMap">
@@ -231,6 +239,25 @@
 		JOIN STILLCUT USING(MOVIE_ID)
 		WHERE MOVIE_ID = #{mvId}
 	</select>
+	
+	<select id="getReviewId" resultType="_int">
+		SELECT SEQ_REVIEW.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insertReview">
+		INSERT INTO REVIEW(REVIEW_ID
+						  ,MEMBER_NO
+						  ,MOVIE_ID
+						  ,REVIEW_CONTENT
+						  ,REVIEW_RATING)
+			   VALUES(#{reviewId},#{memberNo},#{movieId},#{reviewContent},#{reviewRating})
+	</insert>
+	
+	<insert id="insertReviewCriteria">
+		INSERT INTO REVIEW_CRITERIA
+			   VALUES(#{reviewId},#{criterionId})
+	</insert>
 	
 	
 	<!-- 관리자용 -->
@@ -254,6 +281,36 @@
 		SELECT *
 		FROM GENRE
 	</select>
+	
+	<select id="getNextMovieId" resultType="_int">
+		SELECT SEQ_MOVIE.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insertMovie">
+		INSERT INTO MOVIE
+			   VALUES(#{movieId},#{typeId},#{movieTitle},#{description},#{director},#{duration},#{rating},#{releaseDate},#{status},#{posterPath},#{endDate})
+	</insert>
+	
+	<insert id="insertMovieActor">
+		INSERT INTO MOVIE_ACTOR
+			   VALUES(#{movieId},#{actorId})
+	</insert>
+	
+	<insert id="insertMovieGenre">
+		INSERT INTO MOVIE_GENRE
+			   VALUES(#{movieId},#{genreId})
+	</insert>
+	
+	<insert id="insertStillCut">
+		INSERT INTO STILLCUT
+			   VALUES(SEQ_STILLCUT.NEXTVAL,#{movieId},#{stillCut.fileLevel},#{stillCut.stillCutFile})
+	</insert>
+	
+	<insert id="registerActor">
+		INSERT INTO ACTOR
+			   VALUES(SEQ_ACTOR.NEXTVAL,#{actorName},#{birthDate},#{imagePath})
+	</insert>
 	
 	<resultMap type="Actor" id="actorResultMap">
 		<result property="actorId" column="ACTOR_ID"/>

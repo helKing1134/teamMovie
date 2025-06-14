@@ -79,7 +79,29 @@
 	  width: 100%;
 	  border-radius: 10px;
 	  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
+	}
+	
+	 .star-rating {
+    direction: rtl;
+    font-size: 2rem;
+    unicode-bidi: bidi-override;
+    display: inline-flex;
+  }
+
+  .star-rating input {
+    display: none;
+  }
+
+  .star-rating label {
+    color: #ccc;
+    cursor: pointer;
+  }
+
+  .star-rating input:checked ~ label,
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: gold;
+  }
     
   </style>
 </head>
@@ -150,16 +172,80 @@
     <!-- 실관람평 -->
     <div class="tab-pane fade" id="review" role="tabpanel">
       <div class="review-box">
-        <!-- 비동기 리뷰 목록 삽입 위치 -->
-        <div id="reviewList">
-        </div>
+       
 
-        <!-- 리뷰 작성 -->
-        <div class="mt-4">
-          <textarea class="form-control review-input mb-2" rows="3" placeholder="리뷰를 입력하세요."></textarea>
-          <button class="btn btn-info btn-sm">리뷰 등록</button>
+	    <!-- 리뷰 작성 -->
+		<div class="mt-4">
+		
+		<c:choose>
+		  	<c:when test="${not empty loginUser}">
+			    <textarea class="form-control review-input mb-2" style="resize:none;" rows="3" placeholder="리뷰를 입력하세요."></textarea>
+		  	</c:when>
+		  	<c:otherwise>
+		  		<textarea class="form-control review-input mb-2 disabled" style="resize:none;" rows="3" placeholder="로그인 후 이용 가능한 서비스입니다." disabled></textarea>
+		  	</c:otherwise>
+		  </c:choose>
+		  <!-- 평가 기준 -->
+		  <div id="reviewCriteriaBox" class="mb-2">
+		  <c:forEach var="c" items="${movie.criteria}">
+		  		  <div class="form-check form-check-inline">
+		  		  	<c:choose>
+		  		  		<c:when test="${not empty loginUser }">
+			  		  		 <input class="form-check-input" type="checkbox" name="reviewCriteria" value="${c.criteriaId}" id="criteria_${c.criteriaId}">
+		  		  		</c:when>
+		  		  		<c:otherwise>
+		  		  			 <input disabled class="form-check-input" type="checkbox" name="reviewCriteria" value="${c.criteriaId}" id="criteria_${c.criteriaId}">
+		  		  		</c:otherwise>
+		  		  	</c:choose>
+			           		 <label class="form-check-label" for="criteria_${c.criteriaId}">${c.criteria}</label>
+		           
+		          </div>
+		  </c:forEach>
+			  </div>
+		  
+	      <!-- 평점 선택 -->
+		  <div class="form-group mb-2">
+		  <label>평점</label>
+		  <div class="star-rating">
+		  	<c:choose>
+		  		<c:when test="${not empty loginUser}">
+				    <input type="radio" name="rating" id="star10" value="10"><label for="star10">★</label>
+				    <input type="radio" name="rating" id="star9" value="9"><label for="star9">★</label>
+				    <input type="radio" name="rating" id="star8" value="8"><label for="star8">★</label>
+				    <input type="radio" name="rating" id="star7" value="7"><label for="star7">★</label>
+				    <input type="radio" name="rating" id="star6" value="6"><label for="star6">★</label>
+				    <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+				    <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+				    <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+				    <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+				    <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+		  		</c:when>
+		  		<c:otherwise>
+		  			<input disabled type="radio" name="rating" id="star10" value="10"><label for="star10">★</label>
+				    <input disabled type="radio" name="rating" id="star9" value="9"><label for="star9">★</label>
+				    <input disabled type="radio" name="rating" id="star8" value="8"><label for="star8">★</label>
+				    <input disabled type="radio" name="rating" id="star7" value="7"><label for="star7">★</label>
+				    <input disabled type="radio" name="rating" id="star6" value="6"><label for="star6">★</label>
+				    <input disabled type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+				    <input disabled type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+				    <input disabled type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+				    <input disabled type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+				    <input disabled type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+		  		</c:otherwise>
+		  	</c:choose>
+	       </div>
+		   </div>
+		   
+		  	<c:if test="${not empty loginUser}">
+		      	<button class="btn btn-info btn-sm">리뷰 등록</button>
+		  	</c:if>
+	    </div>
+	    <br>
+		 <!-- 비동기 리뷰 목록 삽입 위치 -->
+        <div id="reviewList">
+        
         </div>
-      </div>
+	      </div>
     </div>
 
     <!-- 스틸컷 -->
@@ -175,6 +261,67 @@
 
 <script>
 
+	$(function(){
+		
+		
+		getReviews();
+		
+		
+		$("#mainInfo-tab").on('shown.bs.tab', function(){
+			getReviews();
+		});
+		
+		$('#review-tab').on('shown.bs.tab', function () {
+			getReviews();
+		});
+		
+	    $('#stillCut-tab').on('shown.bs.tab', function () {
+			getStillCuts();
+		});
+	    
+	    //리뷰 등록 이벤트 핸들러
+	    $('#review button').on('click', function(){
+	    	const reviewContent = $("#review textarea").val(); //리뷰 내용
+	    	const reviewRating = $("input[name=rating]:checked").val(); //리뷰 평점
+	    	const memberNo = "${loginUser.memberNo}"; //리뷰 작성자 no
+	    	const movieId = ${movie.movieId}; //참조 movieId
+	    	let checkedCriteria = [];
+	    	$("input[name=reviewCriteria]:checked").each(function () {
+	    	  checkedCriteria.push($(this).val());
+	    	});
+	    	
+	    	$.ajax({
+	    		url : "${contextRoot}/movies/registerReview.mv",
+	    		data : {
+	    			movieId : movieId,
+	    			reviewContent : reviewContent,
+	    			reviewRating : reviewRating,
+	    			memberNo : memberNo,
+	    			selectedCriterionId : checkedCriteria
+	    		},
+	    		traditional: true, // 이걸 써줘야 배열이 올바르게 전송(직렬화 구버전)
+	    		type: 'POST',    
+	    		success : function(result){
+	    			if(result > 0){ //리뷰 등록 성공시
+	    				$("input[name=rating]").prop("checked",false);
+	    				$("input[name=reviewCriteria]").each(function (index,criteria) {
+	    			    	  $(criteria).prop("checked",false);
+	    			    	});
+	    				$("#review textarea").val("");
+	    				getReviews();
+	    			}else{
+	    				alert("서버 오류로 인해 리뷰 등록에 실패하였습니다");
+	    				console.log("db접근 실패(result == 0)");
+	    			}
+	    		},
+	    		error : function(){
+	    			alert("서버 오류로 인해 리뷰 등록에 실패하였습니다");
+	    			console.log("error함수 실행됨(서버 비동기 통신 자체 실패)");
+	    		}
+	    	});
+	    })
+	});
+	
 	function getReviews(){
 		
 		
@@ -184,7 +331,6 @@
 				mvId : ${movie.movieId}
 			},
 			success : function(reviews){
-				console.log(reviews); //리뷰 잘 가져오는지 테스트용
 				let html = "";		
 				
 				reviews.forEach(function(review){
@@ -205,7 +351,8 @@
 					
 				});				
 				$("#reviewList").html(html);
-				$("#mainInfo").html("<p>${movie.description}</p>" + html);
+				//summernote는 큰따옴표로 속성값이 묶이는 관계로 작은 따옴표 사용해서 문자열 결합
+				$("#mainInfo").html('${movie.description}<br><br><br>' + html); 
 				
 			},
 			error : function(){
@@ -236,23 +383,7 @@
 	}
 	
 	
-	$(function(){
-		
-		getReviews();
-		
-		
-		$("#mainInfo-tab").on('shown.bs.tab', function(){
-			getReviews();
-		});
-		
-		$('#review-tab').on('shown.bs.tab', function () {
-			getReviews();
-		});
-		
-	    $('#stillCut-tab').on('shown.bs.tab', function () {
-			getStillCuts();
-		});
-    });
+	
 </script>
 </body>
 </html>

@@ -30,6 +30,7 @@ public class Movie {
 	private ArrayList<Actor> actors; //영화 1개당 갖고 있는 배우들
 	private ArrayList<StillCut> stillCuts; //영화 1개당 갖고 있는 스틸컷들
 	private ArrayList<Review> reviews; //영화 1개당 갖고 있는 리뷰들
+	private ArrayList<Criterion> criteria; //영화 1개당(영화 타입 1개당) 갖고 있는 평가 기준들
 	
 	//사용자 및 관리자로부터 값을 얻어오기 위해 필요한 필드
 	private String movieType; //영화 타입

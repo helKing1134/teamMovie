@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.HashMap;
 
 import com.kh.teammovie.movie.model.vo.Actor;
+import com.kh.teammovie.movie.model.vo.Criterion;
 import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
@@ -41,7 +42,7 @@ public interface MovieService {
 	//관리자가 배우 이름 입력했을 때 "비동기"로 배우 리스트 가져오기
 	ArrayList<Actor> findActors(String keyword);
 	// 관리자 영화 등록 메소드
-	int registerMovie(Movie movie, String[] actorNames, String[] genreNames, ArrayList<StillCut> stillCuts);
+	void registerMovie(Movie movie, int[] actorIds, int[] genreIds, ArrayList<StillCut> stillCuts);
 	
 	
 
@@ -78,6 +79,20 @@ public interface MovieService {
 	
 	//현재 영화 장르 목록 가져오기
 	ArrayList<Genre> getGenreList();
+	
+	//등록될 영화 아이디값 가져오기
+	int getNextMovieId();
+	
+	//리뷰 등록하기 전 아이디값 가져오기
+	int getReviewId();
+	
+	//리뷰 등록하기
+	int registerReview(Review review,int[] selectedCriterionId);
+	
+	//배우 등록하기
+	int registerActor(Actor actor);
+	
+	
 	
 	
 	

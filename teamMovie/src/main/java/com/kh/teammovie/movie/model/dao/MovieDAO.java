@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.teammovie.movie.model.vo.Actor;
+import com.kh.teammovie.movie.model.vo.Criterion;
 import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.schedule.model.vo.Schedule;
@@ -140,6 +141,70 @@ public class MovieDAO {
 	public ArrayList<Genre> getGenreList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("movieMapper.getGenreList");
 	}
+	
+	// 등록될 영화 아이디값 조회해오기
+	public int getNextMovieId(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("movieMapper.getNextMovieId");
+	}
+
+	// MOVIE 테이블에 영화 1개 등록하기
+	public int insertMovie(SqlSessionTemplate sqlSession, Movie movie) {
+		return sqlSession.insert("movieMapper.insertMovie",movie);
+	}
+	
+	//MOVIE_ACTOR 테이블에 영화 1개에 해당하는 배우 1명 등록하기(service에서 반복수행됨)
+	public int insertMovieActor(SqlSessionTemplate sqlSession, int movieId, int actorId) {
+		
+		HashMap<String,Integer> movieActorMap = new HashMap<>();
+		movieActorMap.put("movieId", movieId);
+		movieActorMap.put("actorId", actorId);
+		
+		return sqlSession.insert("movieMapper.insertMovieActor",movieActorMap);
+	}
+	
+	//MOVIE_GENRE 테이블에 영화 1개에 해당하는 장르 1개 등록하기(service에서 반복수행됨)
+	public int insertMovieGenre(SqlSessionTemplate sqlSession, int movieId, int genreId) {
+		
+		HashMap<String,Integer> movieGenreMap = new HashMap<>();
+		movieGenreMap.put("movieId", movieId);
+		movieGenreMap.put("genreId", genreId);
+		
+		return sqlSession.insert("movieMapper.insertMovieGenre",movieGenreMap);
+	}
+	
+	//STILLCUT 테이블에 영화 1개에 해당하는 스틸컷 1개 등록하기(service에서 반복수행됨)
+	public int insertStillCut(SqlSessionTemplate sqlSession, int movieId, StillCut stillCut) {
+		
+		HashMap<String,Object> stillCutMap = new HashMap<>();
+		stillCutMap.put("movieId", movieId);
+		stillCutMap.put("stillCut", stillCut);
+		
+		return sqlSession.insert("movieMapper.insertStillCut",stillCutMap);
+	}
+	
+	//REVIEW 테이블에 리뷰 1개 등록
+	public int insertReview(SqlSessionTemplate sqlSession,Review review) {
+		return sqlSession.insert("movieMapper.insertReview",review);
+	}
+	
+	//REVIEW_CRITERIA 테이블에 리뷰 1개당 기준 여러개 등록
+	public int insertReviewCriteria(SqlSessionTemplate sqlSession,int reviewId,int criterionId) {
+		HashMap<String,Integer> reviewCriteriaMap = new HashMap<>();
+		reviewCriteriaMap.put("reviewId", reviewId);
+		reviewCriteriaMap.put("criterionId", criterionId);
+		return sqlSession.insert("movieMapper.insertReviewCriteria",reviewCriteriaMap);
+	}
+
+	public int getReviewId(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("movieMapper.getReviewId");
+	}
+
+	public int registerActor(SqlSessionTemplate sqlSession, Actor actor) {
+		return sqlSession.insert("movieMapper.registerActor", actor);
+	}
+	
+	
+	
 
 	
 	

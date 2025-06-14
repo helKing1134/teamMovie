@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
 
@@ -57,58 +58,112 @@ public class AdminMovieController {
 	@GetMapping(value = "findActors.mv", produces = "application/json;charset=utf-8")
 	public ArrayList<Actor> findActors(String keyword){
 		
-		System.out.println(keyword);
-		return service.findActors(keyword);
-	}
-	
-	
-	
-	//관리자 영화 등록용 메서드
-	@PostMapping("registerMovie")
-	public String registerMovie(Movie movie
-							   ,String releaseDateStr
-							   ,String endDateStr
-							   ,String[] actorNames
-							   ,String[] genreNames
-							   ,MultipartFile posterFile
-							   ,ArrayList<MultipartFile> stillCutFiles
-							   ,HttpSession session) {
+		System.out.println("keyword : " + keyword);
 		
-		setMovieStatus(movie, releaseDateStr, endDateStr); //개봉일,종영일,상태값 설정
-		setPosterPathForSave(session, movie, posterFile); //포스터경로 설정
-		
-		ArrayList<StillCut> stillCuts = new ArrayList<StillCut>();
-		int i = 1; //스틸컷 FILE_LEVEL을 위한 변수
-		ArrayList<String> stillCutPaths = new ArrayList<String>(); //스틸컷 저장 경로 담을 변수
-		
-		for(MultipartFile file : stillCutFiles) {
-			
-			String stillCutPath = getStillCutPathForSave(session, movie, file);
-			StillCut stillCut = new StillCut();
-			stillCut.setFileLevel(i++);
-			stillCut.setStillCutFile(stillCutPath);
-			stillCuts.add(stillCut);
-			stillCutPaths.add(stillCutPath);
-		}
-		
-		int result = service.registerMovie(movie,actorNames,genreNames,stillCuts);
-		
-		if(result> 0) { //MOVIE,ACTOR,GENRE,MOVIE_ACTOR,MOVIE_GENRE 테이블 및 STILLCUT 테이블 DB 저장 성공시
-			saveFile(movie.getPosterPath(), posterFile); //포스터 서버에 저장
-			
-			for(int j = 0; j < stillCutFiles.size(); j++) {
-				saveFile(stillCutPaths.get(j), stillCutFiles.get(j)); //스틸컷 서버에 저장
-			}
-			session.setAttribute("alertMsg", movie.getMovieTitle() + " 영화가 정상적으로 등록되었습니다.");
-			
+		if("".equals(keyword)) {
+			return service.getActorList();
 		}else {
-			session.setAttribute("alertMsg", "영화 등록에 실패하였습니다. 다시 시도해주세요");
-			
+			return service.findActors(keyword);
 		}
 
-	    return "redirect:/movies";
+		
 	}
-
+	
+	//MOVIE,MOVIE_ACTOR,MOVIE_GENRE,STILLCUT에 등록
+	@PostMapping("registerMovie")
+	public String registerMovie(int[] actorIds
+							 ,int[] genreIds
+							 ,Movie movie
+							 ,String releaseDateStr
+							 ,String endDateStr
+							 ,MultipartFile posterFile
+							 ,ArrayList<MultipartFile> stillCutFiles
+							 ,HttpSession session) {
+		
+		//0. 등록될 영화 movieId값 db에서 꺼내오기
+		int movieId = service.getNextMovieId();
+		//0-1. movieId값이 정상적으로 꺼내졌다면
+		if(movieId > 0) {
+			//0-2. movieId값을 세팅
+			movie.setMovieId(movieId);
+			
+			//1. 영화 개봉일 세팅
+			Date releaseDate = Date.valueOf(releaseDateStr);
+			movie.setReleaseDate(releaseDate);
+			
+			//2. 영화 종영일 세팅
+			Date endDate = Date.valueOf(endDateStr);
+			movie.setEndDate(endDate);
+			
+			//3. 영화 Status값 세팅
+			setMovieStatus(movie, releaseDateStr, endDateStr);
+			
+			//4. 영화 포스터 경로 세팅 *이후 db 저장 성공시 서버에 저장될 포스터 경로 posterPath변수에 담아놓기
+			String posterPath = setAndGetPosterPathForSave(session, movie, posterFile);
+			
+			//5. 스틸컷 저장 경로 모~~~~~두 얻기
+			ArrayList<StillCut> stillCuts = new ArrayList<>();
+			int fileLevel = 1; //fileLevel 1부터 시작
+			
+			//*이후 db 저장 성공시 서버에 저장될 스틸컷 경로 담을 컬렉션
+			ArrayList<String> stillCutPathList = new ArrayList<>();
+			
+			
+			for(MultipartFile file : stillCutFiles) {
+				
+				String stillCutPath = getStillCutPathForSave(session, movie, file);
+				StillCut stillCut = new StillCut();
+				stillCut.setStillCutFile(stillCutPath);
+				stillCut.setFileLevel(fileLevel++);
+				stillCut.setMovieId(movieId);
+				stillCuts.add(stillCut);
+				stillCutPathList.add(stillCutPath);
+			}
+			
+			try {
+				//6. 영화,배우,장르,스틸컷 관련 데이터들 db로 넘기기
+				service.registerMovie(movie, actorIds, genreIds, stillCuts);
+				//밑에 코드 시행된다면 모두 정상적으로 등록 성공한것임
+				
+				//7 .이제 서버에 저장하기
+				
+				saveFile(posterPath, posterFile);
+				
+				for(int i = 0; i < stillCutFiles.size(); i++) {
+					saveFile(stillCutPathList.get(i), stillCutFiles.get(i));
+				}
+				
+				
+				session.setAttribute("alertMsg", "영화 등록에 성공했습니다");
+				return "redirect:/movies";
+				
+			}catch(RuntimeException e){
+				session.setAttribute("alertMsg", "영화 등록에 실패했습니다(DB 접근 오류)");
+				System.out.println(e.getMessage());
+				return "redirect:/admin/movieRegisterForm";
+			}
+			
+			
+		}//movieId값 정상적으로 db에서 꺼내진 경우
+		else {//movieId값 자체를 db에서 꺼내는데 실패한 경우
+			session.setAttribute("alertMsg", "서버 오류로 영화 등록에 실패하였습니다(movieId값 조회 오류)");
+			return "redirect:/admin/movieRegisterForm";
+		}
+	}
+	
+	@ResponseBody
+	@GetMapping("registerActor.mv")
+	public int registerActor(Actor actor) {
+		
+		return service.registerActor(actor);
+	}
+	
+	
+	
+	
+	
+	
+	
 	// 영화 STATUS 설정을 위한 메서드
 	private void setMovieStatus(Movie movie, String releaseDateStr, String endDateStr) {
  
@@ -143,7 +198,7 @@ public class AdminMovieController {
 	
 	//아래는 파일 서버 업로드 처리 메서드
 	//1.파일 서버 업로드 시 저장될 이름 얻는 메서드 (포스터,스틸컷)
-	public void setPosterPathForSave(HttpSession session,Movie movie,MultipartFile file) {
+	public String setAndGetPosterPathForSave(HttpSession session,Movie movie,MultipartFile file) {
 		
 		String currentTime = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
 		int ranNum = (int)(Math.random() * 90000) + 10000;
@@ -158,6 +213,7 @@ public class AdminMovieController {
 		
 		
 		movie.setPosterPath(savePath);
+		return savePath;
 	}
 	
 	public String getStillCutPathForSave(HttpSession session,Movie movie,MultipartFile file) {

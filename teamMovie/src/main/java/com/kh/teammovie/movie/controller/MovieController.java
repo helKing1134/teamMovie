@@ -1,12 +1,14 @@
 package com.kh.teammovie.movie.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -151,7 +153,36 @@ public class MovieController { //written by 이수한
 		return stillCuts;
 	}
 	
+	/*====================영화 리뷰 등록 메서드=====================*/
 	
+	@ResponseBody
+	@PostMapping("registerReview.mv")
+	public int registerReview(Review review
+							 ,int[] selectedCriterionId) {
+		
+		
+		System.out.println("review : " + review); //rating 확인
+		
+		int reviewId = service.getReviewId();
+		if(reviewId > 0) { //reviewId값 db에서 제대로 가져옴
+			review.setReviewId(reviewId);
+			try {
+				
+				int result = service.registerReview(review,selectedCriterionId);
+				//모두 잘 등록됐으면 아래 문장 실행됨
+				return result;
+				
+			}catch(RuntimeException e){
+				
+				System.out.println(e.getMessage());
+				return 0;
+			}
+		}else {//reviewId값 db에서 가져오기 실패
+			return reviewId; 
+		}
+		
+		
+	}
 	
 	
 	
