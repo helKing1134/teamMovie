@@ -6,12 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Actor {
-	private String actorId;//	ACTOR_ID	NUMBER
-	private String actorName;//	ACTOR_NAME	VARCHAR2(15 BYTE)
-	private Date birthDate;//	BIRTH_DATE	DATE
-	private String imagePath;//	IMAGE_PATH	VARCHAR2(100 BYTE)
+	
+//	ACTOR_ID	NUMBER
+	private int actorId;
+//	ACTOR_NAME	VARCHAR2(15 BYTE)
+	private String actorName;
+//	BIRTH_DATE	DATE
+	private Date birthDate;
+//	IMAGE_PATH	VARCHAR2(100 BYTE)
+	private String imagePath;
+
 }

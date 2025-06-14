@@ -2,6 +2,7 @@ package com.kh.teammovie.movie.model.vo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class Movie {
 	private Date releaseDate;//	RELEASE_DATE	DATE
 	
 	private Date endDate; // (6.10) endDate 필드 추가 (by 이수한)
+	
+	
+
 	
 	private String status;//	STATUS	VARCHAR2(9 BYTE)
 	private String posterPath;//	POSTER_PATH	VARCHAR2(100 BYTE)

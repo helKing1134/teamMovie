@@ -53,6 +53,9 @@
 .actor-card:hover {
   background-color: #f0f0f0;
 }
+
+<<<<<<< HEAD
+
   </style>
   
 </head>
@@ -374,7 +377,9 @@
 	    </div>
 	  </div>
 	</div>
-	
+
+  	
+
 	
 	<jsp:include page="../common/footer.jsp" />
 

@@ -47,7 +47,8 @@
 			<result property="fileLevel" column="FILE_LEVEL"/>
 			<result property="stillCutFile" column="STILLCUT_FILE"/>
 		</collection>
-	</resultMap>
+		</resultMap>
+
 	
 	<select id="movieListAll" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
@@ -146,6 +147,7 @@
 		      ,RATING
 		      ,POSTER_PATH
 		      ,RELEASE_DATE
+		      ,STATUS
 		FROM MOVIE
 		WHERE STATUS = 'P'
 		ORDER BY RELEASE_DATE DESC   
@@ -336,7 +338,7 @@
 		    type_id,
 		    movie_title,
 		    description,
-		    director,
+		    director, 
 		    duration,
 		    rating,
 		    release_date,
@@ -408,6 +410,58 @@
 		<result property="startTime" column="START_TIME"/>
 		<result property="language" column="LANGUAGE"/>
 	</resultMap>
+	
+	<!-- 영화 상태 변경 쿼리 -->
+	<update id="updateMvStatus" parameterType="_int">
+		UPDATE movie
+		SET status = 'P'
+		WHERE
+			movie_id = #{movieId}
+	</update>
+	
+	
+	
+	<!--
+	 석현님 이거 s가 screening이라 상영중 아니에요? p가 상영 예정 아니었나요?
+	-->		
+	<!-- STATUS가 'S'(schedule 예고작)인 영화만을 가져오기, staus 넘겨받기  -->
+	<!-- 
+		<select id="comingMovieList" resultMap="movieListResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		      ,STATUS 
+		FROM MOVIE
+		WHERE STATUS = 'S'
+		ORDER BY RELEASE_DATE DESC   
+	</select>
+	-->
+	
+		
+	
+
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
 	
 
 </mapper>

@@ -19,4 +19,5 @@ public class Review {
 	
 	private ArrayList<Criterion> criteria; //평가 기준들
 	
+	
 }

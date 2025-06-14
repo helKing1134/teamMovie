@@ -11,7 +11,7 @@ public class SeatExpirationScheduler {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	@Scheduled(fixedRate = 1000 * 60 * 1)
+	@Scheduled(fixedRate = 1000 * 15 * 1)
 	public void runCheck() {
 		
 		int deleted = sqlSession.delete("reservedSeatMapper.deleteTempSeats");

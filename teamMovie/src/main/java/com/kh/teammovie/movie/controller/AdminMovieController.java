@@ -162,6 +162,8 @@ public class AdminMovieController {
 	
 	
 	
+
+	
 	
 	
 	// 영화 STATUS 설정을 위한 메서드

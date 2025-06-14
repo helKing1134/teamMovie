@@ -6,10 +6,45 @@
 <!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
 <mapper namespace="reservedSeatMapper">
 
+	<resultMap type="ReservedSeat" id="rsResultMap">
+		<result property="reservedSeatId" column="RESERVED_SEAT_ID"/>
+		<result property="seatId" column="SEAT_ID"/>
+		<result property="paymentId" column="PAYMENT_ID"/>
+		<result property="status" column="STATUS"/>
+		<result property="createdAt" column="CREATED_AT"/>
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="seatSelector" column="SEAT_SELECTOR"/>
+	
+	</resultMap>
+
 	<delete id="deleteTempSeats">
 		DELETE FROM reserved_seat
 		WHERE status = 'TEMP'
 		AND created_at &lt; SYSDATE - (1 / 1440)
 	</delete>
+	
+	<delete id="deleteTempSeatsImmediately" parameterType="map">
+		DELETE FROM reserved_seat
+		WHERE status = 'TEMP'
+		AND SCHEDULE_ID = #{scheduleId}
+		AND SEAT_SELECTOR = #{memberId}
+	</delete>
+	
+	<select id="rsSelect" resultMap="rsResultMap">
+		SELECT 
+			*
+		FROM 
+			reserved_seat
+	
+	</select>
+	
+	<select id="getRSeatsBySchedule" parameterType="_int" resultMap="rsResultMap">
+		SELECT
+			*
+		FROM
+			reserved_seat
+		WHERE
+			schedule_id = #{scheduleId}
+	</select>
 
 </mapper>

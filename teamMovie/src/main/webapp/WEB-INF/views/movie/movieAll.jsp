@@ -248,6 +248,7 @@
 
   
 
+<<<<<<< HEAD
   	<a href="admin/movieRegisterForm">영화 등록 페이지로</a>
 	<!-- 영화 탭 메뉴 -->
 	<ul class="nav nav-tabs justify-content-center movie-tab-menu">
@@ -449,6 +450,7 @@
 						$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 					}else{
 						$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
+
 					} 
 						
 			});

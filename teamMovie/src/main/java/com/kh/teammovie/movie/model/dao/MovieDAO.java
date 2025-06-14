@@ -201,7 +201,25 @@ public class MovieDAO {
 
 	public int registerActor(SqlSessionTemplate sqlSession, Actor actor) {
 		return sqlSession.insert("movieMapper.registerActor", actor);
+
+
 	}
+	
+	
+		
+	
+		
+
+	
+
+
+
+	
+
+	
+
+
+	
 	
 	
 	

@@ -1,7 +1,6 @@
 package com.kh.teammovie.movie.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +97,7 @@ public class MovieController { //written by 이수한
 	@GetMapping(value =  "/coming.mv", produces = "application/json;charset=utf-8")
 	public ArrayList<Movie> comingMovieList(int page) { 
 		
+		//예고작 가져오기
 		ArrayList<Movie> comingMovieList = service.comingMovieList(page);
 		
 		return comingMovieList;
@@ -152,7 +152,6 @@ public class MovieController { //written by 이수한
 		
 		return stillCuts;
 	}
-	
 	/*====================영화 리뷰 등록 메서드=====================*/
 	
 	@ResponseBody
@@ -180,9 +179,16 @@ public class MovieController { //written by 이수한
 		}else {//reviewId값 db에서 가져오기 실패
 			return reviewId; 
 		}
-		
-		
 	}
+	
+//	김석현 수정 영화 관리 페이지
+	@GetMapping("adjustment")//(동기)전체 영화 목록 페이지 위임 요청
+	public String adjustMovieView() {
+		
+		
+		return "movie/movieModulation";
+	}
+	
 	
 	
 	

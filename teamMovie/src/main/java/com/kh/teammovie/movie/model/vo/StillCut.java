@@ -12,4 +12,11 @@ public class StillCut {
 	private int movieId;//	MOVIE_ID	NUMBER
 	private int fileLevel;//	FILE_LEVEL	NUMBER
 	private String stillCutFile;//	STILLCUT_FILE	VARCHAR2(100 BYTE)
+	
+	
+	public void setStillCutFile(String stillCutPath) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
