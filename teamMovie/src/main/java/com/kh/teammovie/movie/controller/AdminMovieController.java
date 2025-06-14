@@ -59,6 +59,7 @@ public class AdminMovieController {
 	public ArrayList<Actor> findActors(String keyword){
 		
 		System.out.println("keyword : " + keyword);
+		System.out.println(service.getActorList());
 		
 		if("".equals(keyword)) {
 			return service.getActorList();
