@@ -51,7 +51,7 @@
             width: 30%;
         }
         
-		        #passwordModal {
+	        #passwordModal {
 		    display: none; /* 처음에는 숨김 */
 		    position: fixed;
 		    z-index: 1000;
@@ -102,29 +102,51 @@
                     <input type="text" class="form-control" name="memberName" value="${loginUser.memberName}" />
                 </div>
 				
-				<div class="mb-3">
-                    <label class="form-label">비밀번호</label>
-                    <input type="password" class="form-control" name="password1" placeholder="변경할 비밀번호를 입력하세요" />
-                </div>
+				<c:set var="genderCode" value="${fn:substring(loginUser.idNum, 6, 7)}" />
+
+				<c:set var="genderText">
+    			<c:choose>
+        		<c:when test="${genderCode == '1' || genderCode == '3'}">남자</c:when>
+        		<c:when test="${genderCode == '2' || genderCode == '4'}">여자</c:when>
+        		<c:otherwise>알 수 없음</c:otherwise>
+    			</c:choose>
+				</c:set>
+				
 				
 
-                <div class="mb-3">
-                    <label class="form-label readonly">나이</label>
-                    <input type="number" class="form-control" name="age" value="${loginUser.age}" readonly/>
-                </div>
+				<!-- 기존 생년월일 다음에 추가 -->
+				<div class="mb-3">
+					<label class="form-label readonly">성별</label> <input type="text"
+						class="form-control" name="gender" value="${genderText}" readonly />
+				</div>
 
-                <div class="mb-3">
-                    <label class="form-label">이메일</label>
-                    <input type="email" class="form-control" name="email" value="${loginUser.email}" />
-                </div>
+				<div class="mb-3">
+					<label class="form-label">이메일</label> <input type="email"
+						class="form-control" name="email" value="${loginUser.email}" />
+				</div>
 
-                <div class="mb-3">
+				<div class="mb-3">
                     <label class="form-label">전화번호</label>
                     <input type="text" class="form-control" name="phone" value="${loginUser.phone}" />
                 </div>
         
+
+                <br>
+				<!-- 환불 현황 페이지 전환  -->
+				<div style="text-align: center;" >
+				  <button type="button" id="recentRefundBtn" class="btn btn-primary2" 
+				          onclick="location.href='<%= request.getContextPath() %>/refund.me?refundId=${rfList[0].refundId}'" 
+				          style="background-color:blue; color:white; font-weight:bold;">
+				    최근 환불 이력
+				  </button>
+				</div>
+				  
                <br>
                 <div style="text-align: center;">
+               	<div>
+               	<a href="${contextRoot}/support/myInquiryList.jsp" type="button" class="btn btn-primary0 " id="myInquiryListButton" style="background-color:#00FF7F; color:white; font-weight:bold; text-align: center;"> 문의내역 보기</a>
+                </div>
+                <br>
                	<div>
                	<button type="button" class="btn btn-primary" id="changePwdButton" data-bs-toggle="modal" data-bs-target="#changePwd" style="background-color:gray; color:white; font-weight:bold;text-align: center;"> 비밀번호 수정하기</button>
                 </div>
@@ -222,7 +244,20 @@
  	document.getElementById("newPasswordHidden").value=document.getElementById("newPasswordHidden").value;
  	document.getElementById("confirmPasswordHidden").value=document.getElementById("confirmPassword").value;
  
- 
+ 	/* 페이지 이동시 작동 함수 */
+  window.onload = function () {
+    // JSTL 표현식을 안전하게 문자열로 감싸서 처리
+    var rfListSize = ${empty rfList ? 0 : fn:length(rfList)};
+    
+    var btn = document.getElementById("recentRefundBtn");
+    console.log(btn);
+    if (btn && rfListSize === 0) {
+      btn.disabled = true;
+      btn.style.backgroundColor = 'gray';
+    }
+  };
+ 	
+ 	
  	function checkCurrentPassword(){
  		const currentPassword = document.getElementById("currentPassword").value;
  		

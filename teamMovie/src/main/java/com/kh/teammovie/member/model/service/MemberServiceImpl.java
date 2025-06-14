@@ -42,4 +42,10 @@ public class MemberServiceImpl implements MemberService  {
 		return dao.deleteMebmer(sqlSession,m);
 	}
 
+	@Override
+	public int updatePassword(Member loginUser) {
+		
+		return dao.updatePassword(sqlSession,loginUser);
+	}
+
 }

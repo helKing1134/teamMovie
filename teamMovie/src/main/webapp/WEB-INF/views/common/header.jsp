@@ -124,8 +124,7 @@
     <div id="header_2">
         <ul>
             <li><a href="${contextRoot}/movies">영화</a></li>
-            <li><a href="${contextRoot}/booking">예매</a></li>
-            <li><a href="${contextRoot}/theaters">극장</a></li>
+            <li><a href="${contextRoot}/movie/select">예매</a></li>
             <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
         </ul>
     </div>

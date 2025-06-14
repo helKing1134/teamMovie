@@ -8,6 +8,23 @@
 <meta charset="UTF-8">
 <title>좌석 선택 페이지</title>
 <style type="text/css">
+	
+	body {
+	  margin: 0;
+	  font-family: 'Noto Sans KR', sans-serif;
+	  background-color: #f8f9fa;
+	}
+	
+	.container {
+	  display: grid;
+	  grid-template-columns: 2fr 1fr; /* 좌: 좌석, 우: 영화 정보 */
+	  gap: 40px; /* 좌우 간격 조절 */
+	  align-items: start;
+	  max-width: 1200px;
+	  margin: 0 auto;
+	}
+
+	
 	.screen-wraper {
 	
 	  position: relative;
@@ -38,28 +55,27 @@
 	  z-index: 3;
 	}
 	
-
 	
-		.seat-area {
-		  display: flex;
-		  flex-direction: column;
-		  align-items: center; /* 모든 seat-row를 중앙 정렬 */
-		  gap: 10px;
-		}
-		
-		.seat-row {
-		  display: flex;
-		  justify-content: center;
-		  gap: 10px;
-		  margin-bottom: 10px; /* 줄 간격 조절 */
-		}
-		
-		.seat-container {
-		  display: flex;
-		  flex-direction: column;
-		  align-items: center; /* 중앙 정렬 */
-		  margin-top: 80px;
-		}
+	.seat-area {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center; /* 모든 seat-row를 중앙 정렬 */
+	  gap: 10px;
+	}
+	
+	.seat-row {
+	  display: flex;
+	  justify-content: center;
+	  gap: 10px;
+	  margin-bottom: 10px; /* 줄 간격 조절 */
+	}
+	
+	.seat-container {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center; /* 중앙 정렬 */
+	  margin-top: 80px;
+	}
 
 
 		
@@ -100,13 +116,21 @@
 		
 	#mask-target {
 	  width: 500px;
-	  height: 686px;
+	  height: 486px;
 	  position: relative;
 	  margin: 0 auto;
 	}
+	.text{
+		color : white;
+		align-items: center;
+		flex-direction: column;
+	}
 	
 	.reserve-div{
-		display: flex;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  gap: 20px;
 	}
  	.audience.selected{
        background-color: black;
@@ -157,9 +181,165 @@
 		cursor: not-allowed;
 	}
 	
+	/* 예약좌석은 사용자의 선택을 막음  */
+	.seat-temp {
+	  background: none !important;
+	  background-color: yellow !important;
+	  cursor: not-allowed;
+	  z-index: 9999;
+	}
+	
+	.seat-confirm {
+	  background: none !important;
+	  background-color: red !important;
+	  cursor: not-allowed;
+	  z-index: 9999;
+	}
+	
+	/* === 예약 summarry 부분 === */
+	.reserve-decision {
+	  background-color: #1c1c1c;
+	  color: white;
+	  border-radius: 12px;
+	  right: 200px;
+	  padding: 20px;
+	  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+	  width: 100%;
+	  max-width: 300px;
+	}
+	
+	.left {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  gap: 20px;
+	}
+	.reserve-decision span,
+	.reserve-decision em {
+	  display: block;
+	  margin-bottom: 5px;
+	  font-size: 14px;
+	  color: #ccc;
+	}
+	
+	.reserve-decision strong {
+	  font-size: 16px;
+	  color: #fff;
+	}
+	
+	.decision-seat {
+	  min-height: 20px;
+	  margin-top: 5px;
+	  color: #00d1b2;
+	}
+	
+	.total-payment {
+	  background-color: #2c2c2c;
+	  padding: 20px;
+	  border-radius: 10px;
+	  margin-top: 20px;
+	}
+	
+	.total-payment .text {
+	  display: block;
+	  font-size: 16px;
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	}
+	
+	.total-payment .cost {
+	  font-size: 24px;
+	  font-weight: bold;
+	  color: #00e0cc;
+	}
+	
+	.confirm {
+	  display: flex;
+	  justify-content: space-between;
+	  margin-top: 20px;
+	}
+	
+	.confirm button {
+	  width: 48%;
+	  padding: 12px 0;
+	  border: none;
+	  border-radius: 10px;
+	  font-size: 16px;
+	  font-weight: bold;
+	  cursor: pointer;
+	}
+	
+	.confirm #nextBtn {
+	  background-color: #00c3b5;
+	  color: white;
+	}
+	
+	.confirm #nextBtn:disabled {
+	  background-color: #444;
+	  cursor: not-allowed;
+	}
+	
+	.confirm #reset {
+	  background-color: #444;
+	  color: white;
+	}
+/* === 예약 summarry 부분 === */
+	
+/* 푸터는 항상 아래에 고정됨 */
+.footer {
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  flex-shrink: 0;
+}
 
+/*===관람인원 선택 div 스타일 조정  */
+.audience-selector {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
 
+.audience-selector h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
 
+.audience-selection {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.audience-selection .audience {
+  width: 35px;
+  height: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.audience-selection .audience:hover {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.audience-selection .audience.selected {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+/*===관람인원 선택 div 스타일 조정  */
 
 
 </style>
@@ -167,6 +347,7 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
+<div class="container">
 <div class="reserve-div">
     <div class="audience-selector">
 		<h4>관람인원을 선택해주세요</h4>
@@ -178,42 +359,67 @@
 
         </div>
 	</div>
-	 <div id="mask-target">
-	  <div class="screen-wraper">
-	    <div class="screen-curve"></div>
-	    <div class="screen-label"><h4>SCREEN</h4></div>
-	  </div>
-	
-<c:set var="currentRow" value="0" />
+<div id="mask-target">
+  <div class="screen-wraper">
+    <div class="screen-curve"></div>
+    <div class="screen-label"><h4>SCREEN</h4></div>
+  </div>
 
-<div class="seat-container">
-	<c:forEach var="seat" items="${stList}" varStatus="status">
-	  <c:if test="${status.index % s.seatsPerRow == 0}">
-	    <div class="seat-row">
-	  </c:if>
-	
-	  <c:set var="seatId" value="${seat.seatCols}${seat.seatRows}" />
-	  <button class="seat" id="${seatId}" data-seat-id="${seat.seatId}">
-	    ${seatId}
-	  </button>
-	
-	  <c:if test="${status.index % s.seatsPerRow == s.seatsPerRow -1}">
-	    </div>
-	  </c:if>
-	</c:forEach>
+  <c:set var="currentRow" value="0" />
+
+  <div class="seat-container">
+    <c:forEach var="seat" items="${stList}" varStatus="status">
+      <%-- 줄바꿈 시작 --%>
+      <c:if test="${status.index % s.seatsPerRow == 0}">
+        <div class="seat-row">
+      </c:if>
+
+      <%-- 좌석 ID 설정 --%>
+      <c:set var="seatId" value="${seat.seatCols}${seat.seatRows}" />
+
+      <%-- 예약좌석 상태 파악 --%>
+      <c:set var="seatStatus" value="" />
+      <c:forEach var="rs" items="${rsList}">
+        <c:if test="${rs.seatId == seat.seatId}">
+          <c:set var="seatStatus" value="${rs.status}" />
+        </c:if>
+      </c:forEach>
+
+      <%-- 상태에 따른 버튼 생성 --%>
+      <c:choose>
+        <c:when test="${seatStatus == 'TEMP'}">
+          <button class="seat seat-temp" id="${seatId}" disabled data-seat-id="${seat.seatId}">
+            ${seatId}
+          </button>
+        </c:when>
+        <c:when test="${seatStatus == 'CONFIRM'}">
+          <button class="seat seat-confirm" id="${seatId}" disabled data-seat-id="${seat.seatId}">
+            ${seatId}
+          </button>
+        </c:when>
+        <c:otherwise>
+          <button class="seat" id="${seatId}" data-seat-id="${seat.seatId}">
+            ${seatId}
+          </button>
+        </c:otherwise>
+      </c:choose>
+
+      <%-- 줄바꿈 끝 --%>
+      <c:if test="${status.index % s.seatsPerRow == s.seatsPerRow - 1}">
+        </div>
+      </c:if>
+    </c:forEach>
+  </div>
 </div>
-
+	
 </div>
-
-
-	</div>
-	<div class="reserve-decision">
+<div class="reserve-decision">
 		<span><strong>${m.movieTitle }</strong></span> 
 		<br>
 		<em>${sch.language }</em> <br>
 		<em>${s.screenName }</em> <br>
 		<em>${sch.screeningDate }</em> <br>
-		${sch.startTime } ~ 13:50 <br>
+		${timeMap.startStr } ~ ${timeMap.endStr } <br>
 		<em>선택좌석</em>
 		<div class="decision-seat"></div> <br> <br>
 		
@@ -226,22 +432,24 @@
 			<button class="next" id="reset">초기화</button>
 		</div>
 		
-		
 	</div>
 	
-</div>
-
 
     <form action="${contextRoot }/movie/payment" id="submitForm" method="post">
  	    <input type="hidden" name="movieId" id="movieId" value="${m.movieId}" />
  	 	<input type="hidden" name="scheduleId" id="scheduleId" value="${sch.scheduleId }" />
  	 	<input type="hidden" name="screenId" id="screenId" value="${s.screenId }" />
+ 	 	<input type="hidden" name="memberId"  value=1 />
+ 	 <c:forEach var="rsSeat" items="${rsList }">
+ 	 	<input type="hidden" name="rSeats" value="${rsSeat.reservedSeatId }">
+ 	 </c:forEach>
     
     </form>
 
+<br>
+
 
 	
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
 <script type="text/javascript">
 $(function() {
@@ -253,7 +461,7 @@ $(function() {
 function openMask() {
     const $target = $('#mask-target');
 
-    const $mask = $('<div id="mask"></div>').css({
+    const $mask = $('<div id="mask"><span class="text">^ 관람인원을 선택해 주세요 ^</span></div>').css({
         position: 'absolute',
         top: 0,
         left: 0,
@@ -360,7 +568,7 @@ function openMask() {
 	    $('.decision-seat').text(displaySeats);
 	
 	    // 결제 금액 계산
-	    let total = selectedSeats.length * 12000;
+	    let total = selectedSeats.length * 15000;
 	
 	    // 쉼표 포맷
 	    let formatted = total.toLocaleString('ko-KR');

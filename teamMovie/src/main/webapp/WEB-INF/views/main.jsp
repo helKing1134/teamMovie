@@ -9,7 +9,8 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	
-	<button onclick="location.href='movie/select';">영화선택페이지</button>
+	
+	<button onclick="location.href='admin/refund';">관리자 페이지로</button>
 	
 	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
