@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="paymentMapper">
+
+
+	<!--  결제 resultMap -->
+	<resultMap type="Payment" id="paymentResultMap">
+		<result property="paymentId" column="PAYMENT_ID"/>
+		<result property="memerNo" column="MEMBER_NO"/>
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="amount" column="AMOUNT"/>
+		<result property="method" column="METHOD"/>
+		<result property="paymentTime" column="PAYMENT_TIME"/>
+	</resultMap>
+	
+	<!-- 환불 resultMap  -->
+	<resultMap type="Refund" id="refundResultMap">
+		<result property="refundId" column="REFUND_ID"/>
+		<result property="paymentId" column="PAYMENT_ID"/>
+		<result property="requestUserId" column="REQUEST_USER_ID"/>
+		<result property="refundId" column="REFUND_ID"/>
+		<result property="requestTime" column="REQUEST_TIME"/>
+		<result property="approveTime" column="APPROVE_TIME"/>
+		<result property="status" column="STATUS"/>
+		<result property="rejectReason" column="REJECT_REASON"/>
+	
+	</resultMap>
+	
+	<insert id="insertPayment" parameterType="Payment">
+	    <selectKey resultType="int" keyProperty="paymentId" order="BEFORE">
+	        SELECT seq_payment.NEXTVAL FROM dual
+	    </selectKey>
+		INSERT INTO payment (
+		    payment_id,
+		    member_no,
+		    schedule_id,
+		    amount,
+		    method,
+		    payment_time
+		) VALUES (
+		    #{paymentId},
+		    #{memerNo},
+		    #{scheduleId},
+		    #{amount},
+		    #{method},
+		    SYSDATE
+		)
+	
+	</insert>
+	
+	<select id="findById" parameterType="_int" resultMap="paymentResultMap">
+		SELECT 
+			*
+		FROM
+			payment
+		WHERE
+			payment_id = #{paymentId}
+	
+	</select>
+	
+	<select id="getRefundByRfId" parameterType="_int" resultMap="refundResultMap">
+		SELECT
+			*
+		FROM
+			refund
+		WHERE
+			refund_id = #{refundId}
+	
+	</select>
+	
+		<select id="getRefundByMemberNo" parameterType="String" resultMap="refundResultMap">
+		SELECT
+			*
+		FROM
+			refund
+		WHERE
+			request_user_id = #{memberNo}
+		ORDER BY request_time DESC
+	
+	</select>
+	
+	
+	
+	
+
+
+
+
+
+
+
+</mapper>

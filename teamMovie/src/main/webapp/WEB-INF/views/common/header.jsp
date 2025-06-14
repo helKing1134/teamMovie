@@ -96,8 +96,9 @@
     if(msg != "") {
         alert(msg);
     }
-</script>
-<c:remove var="alertMsg" />
+</script> 
+
+<c:remove var="alertMsg"/>
 
 <div id="header">
     <div id="header_1">
@@ -109,13 +110,13 @@
         <div id="header_1_right">
             <c:choose>
                 <c:when test="${empty loginUser}">
-                    <a href="${contextRoot}/register">회원가입</a>
+                    <a href="${contextRoot}/register.me">회원가입</a>
                     <a data-toggle="modal" data-target="#loginModal">로그인</a>
                 </c:when>
                 <c:otherwise>
-                    <span>${loginUser.userName}님 환영합니다</span>
-                    <a href="${contextRoot}/mypage">마이페이지</a>
-                    <a href="${contextRoot}/logout">로그아웃</a>
+                    <span>${loginUser.memberName}님 환영합니다</span>
+                    <a href="${contextRoot}/mypage.me">마이페이지</a>
+                    <a href="${contextRoot}/logout.me">로그아웃</a>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -123,9 +124,8 @@
     <div id="header_2">
         <ul>
             <li><a href="${contextRoot}/movies">영화</a></li>
-            <li><a href="${contextRoot}/booking">예매</a></li>
-            <li><a href="${contextRoot}/theaters">극장</a></li>
-            <li><a href="${contextRoot}/mypage">마이페이지</a></li>
+            <li><a href="${contextRoot}/movie/select">예매</a></li>
+            <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
         </ul>
     </div>
 </div>
@@ -142,12 +142,12 @@
                 </button>
             </div>
 
-            <form action="${contextRoot}/login" method="post">
+            <form action="${contextRoot}/login.me" method="post">
                 <div class="modal-body">
-                    <label for="userId" class="mr-sm-2">ID :</label>
-                    <input type="text" class="form-control mb-2" id="userId" name="userId" placeholder="아이디 입력">
+                    <label for="memberId" class="mr-sm-2">ID :</label>
+                    <input type="text" class="form-control mb-2" id="memberId" name="memberId" placeholder="아이디 입력">
                     <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
-                    <input type="password" class="form-control mb-2" id="userPwd" name="userPwd" placeholder="비밀번호 입력">
+                    <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">로그인</button>
@@ -158,6 +158,6 @@
     </div>
 </div>
 
-<br clear="both" />
+<br clear="both"/>
 </body>
 </html>

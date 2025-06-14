@@ -10,4 +10,27 @@
  	
  	</settings>
  	
+ 	<!-- 별칭 부여 section -->
+ 	<typeAliases>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Movie" alias="Movie"/>
+ 		<typeAlias type="com.kh.teammovie.schedule.model.vo.Schedule" alias="Schedule"/>
+ 		<typeAlias type="com.kh.teammovie.screen.model.vo.Screen" alias="Screen"/>
+ 		<typeAlias type="com.kh.teammovie.seat.model.vo.Seat" alias="Seat"/>
+ 		<typeAlias type="com.kh.teammovie.seat.model.vo.ReservedSeat" alias="ReservedSeat"/>
+ 		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
+ 		<typeAlias type="com.kh.teammovie.payment.model.vo.Payment" alias="Payment"/>
+ 		<typeAlias type="com.kh.teammovie.reservation.model.vo.Reservation" alias="Reservation"/>
+ 		<typeAlias type="com.kh.teammovie.refund.model.dto.ReqRefundDTO" alias="ReqRefundDTO"/>
+ 		<typeAlias type="com.kh.teammovie.refund.model.vo.Refund" alias="Refund"/>
+ 		<typeAlias type="com.kh.teammovie.refund.model.dto.ReqRefundWithName" alias="ReqRefundWithName"/>
+ 		<!-- 이수한 추가 별칭 -->
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Genre" alias="Genre"/>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Actor" alias="Actor"/>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Criterion" alias="Criterion"/>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Review" alias="Review"/>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.StillCut" alias="StillCut"/>
+ 		<typeAlias type="com.kh.teammovie.movie.model.vo.Type" alias="Type"/>
+ 		
+ 	</typeAliases>
+ 	
 </configuration>

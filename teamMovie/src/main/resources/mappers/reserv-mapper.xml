@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="reservMapper">
+
+
+	<!--  예약 resultMap -->
+	<resultMap type="Reservation" id="reservResultMap">
+		<result property="reservationId" column="RESERVATION_ID"/>
+		<result property="paymentId" column="PAYMENT_ID"/>
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
+	<insert id="insertReserv" parameterType="_int">
+		INSERT INTO reservation (
+		    reservation_id,
+		    payment_id
+		) VALUES (
+		    seq_reservation.NEXTVAL,
+		    #{paymentId}
+		)
+	
+	</insert>
+	
+	
+	
+	
+
+
+
+
+
+
+
+</mapper>

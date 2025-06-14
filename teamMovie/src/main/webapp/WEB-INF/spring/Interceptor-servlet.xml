@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/mvc 
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+<beans:bean id="loginInterceptor" class="com.kh.teammovie.common.interceptor.ReservInterceptor"/>
+ <beans:bean id="adminMovieInterceptor" class="com.kh.teammovie.common.interceptor.RoleRedirectInterceptor"/>
+ <mvc:interceptors>
+ 	<!--created by sh.k 예약 인터셉터  -->
+ 	<mvc:interceptor>
+ 		<mvc:mapping path="/movie/reserveSeat"/>
+ 		<mvc:mapping path="/mypage.me"/>
+ 		<mvc:mapping path="/refund.me"/>
+ 		<mvc:mapping path="/movie/payment"/>
+ 		<!-- 환불 요청  -->
+ 		<mvc:mapping path="/reservation/delete"/>
+ 		<!--결제 처리 controller  -->
+ 		<mvc:mapping path="/movie/payment/process"/>
+ 		<!-- 결제 처리 성공 페이지  -->
+ 		<mvc:mapping path="/movie/payment/success"/>
+ 		<mvc:exclude-mapping path="/resources/**"/>
+ 		<ref bean="loginInterceptor"/>
+ 	</mvc:interceptor>
+ 	
+ 	<!-- 백오피스 영화화면 인터셉터 -->	
+ 	<mvc:interceptor>
+ 		<mvc:mapping path="/movies"/>	
+ 		<ref bean="adminMovieInterceptor"/>
+ 	</mvc:interceptor>
+ 	
+ 	
+ </mvc:interceptors>
+
+
+</beans>
