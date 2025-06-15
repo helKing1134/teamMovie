@@ -409,11 +409,11 @@
 											  '</div>'
 						  						 );
 	  					
-	  					if(movie.rating === '전체관람가'){
+	  					if(movie.rating === '전체'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
 						}else if(movie.rating === '12세'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
-						}else if(movie.rating === '15세 이상 관람가'){
+						}else if(movie.rating === '15세'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 						}else{
 							$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');

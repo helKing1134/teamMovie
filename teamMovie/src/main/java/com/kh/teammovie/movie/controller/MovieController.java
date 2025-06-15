@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.kh.teammovie.movie.model.service.MovieService;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
@@ -42,7 +43,6 @@ public class MovieController { //written by 이수한
 	public ArrayList<Movie> movieListAll(int page) {
 		
 		ArrayList<Movie> movieListAll = service.movieListAll(page);
-		
 		return movieListAll;
 	}
 	
@@ -129,8 +129,11 @@ public class MovieController { //written by 이수한
 	public String movieDetail(int mvId
 							 ,Model model) { //매개변수 mvId = movieId(영화 아이디)
 		
+		
+		System.out.println(mvId);
 		Movie movie = service.movieDetail(mvId);
 		model.addAttribute("movie",movie);
+		System.out.println(movie);
 		
 		return "movie/movieDetail";
 	}

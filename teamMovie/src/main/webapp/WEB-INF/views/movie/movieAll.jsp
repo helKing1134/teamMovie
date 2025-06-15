@@ -340,6 +340,8 @@
   				movieList.forEach(function(movie){
   					console.log(movie);
   					console.log(movie.movieTitle);
+  					console.log(movie.releaseDate);
+  					console.log(movie.movieId);
 	  					$("#movieListAll").append(
 					  							'<div class="col-md-3 mb-4">' +
 											    '<div class="card movie-card h-100">' +
@@ -486,7 +488,7 @@
   			keyword = $("#keyword").val().trim();
   			
   			if(keyword === ''){
-  				alertMsg("검색어를 입력해주세요");
+  				alert("검색어를 입력해주세요");
   				return;
   			}
   			

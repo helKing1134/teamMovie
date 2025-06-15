@@ -3,6 +3,8 @@ package com.kh.teammovie.movie.model.vo;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +21,9 @@ public class Movie {
 	private String director;//	DIRECTOR	VARCHAR2(15 BYTE)
 	private String duration;//	DURATION	VARCHAR2(100 BYTE)
 	private String rating;//	RATING	VARCHAR2(20 BYTE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date releaseDate;//	RELEASE_DATE	DATE
-	
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date endDate; // (6.10) endDate 필드 추가 (by 이수한)
 	
 	

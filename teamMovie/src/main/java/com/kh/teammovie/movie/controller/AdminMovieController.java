@@ -59,7 +59,6 @@ public class AdminMovieController {
 	public ArrayList<Actor> findActors(String keyword){
 		
 		System.out.println("keyword : " + keyword);
-		System.out.println(service.getActorList());
 		
 		if("".equals(keyword)) {
 			return service.getActorList();
@@ -114,6 +113,7 @@ public class AdminMovieController {
 				
 				String stillCutPath = getStillCutPathForSave(session, movie, file);
 				StillCut stillCut = new StillCut();
+				System.out.println(stillCutPath);
 				stillCut.setStillCutFile(stillCutPath);
 				stillCut.setFileLevel(fileLevel++);
 				stillCut.setMovieId(movieId);

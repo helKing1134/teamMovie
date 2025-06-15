@@ -129,7 +129,7 @@
 					},
 					success : function(result){
 						if(result > 0){
-							alert("배우가 성공적으로 등록되었습니다. 배우 목록 새로고침 버튼을 클릭해주세요.");
+							alert("배우가 성공적으로 등록되었습니다.\n배우 목록 새로고침 버튼을 클릭해주세요.");
 							$("#addActorModal").modal("hide");
 						}else{
 							alert("배우 등록에 실패하였습니다");
@@ -176,13 +176,16 @@
 	          actorList.forEach(function (actor) {
 	        	  let actorFlag = true;
 	              let html = "";
-	              html += "<div class='form-check'>";
+	              
 	              for(let i = 0; i < $("input[name=actorIds]").length; i++){
-	            		if(actor.actorId === $("input[name=actorIds]")[i].value){
+	            	  console.log($("input[name=actorIds]")[i].value);
+	            		if(actor.actorId == $("input[name=actorIds]")[i].value){
 	            			actorFlag = false;
 	            			break;
 	            		}
             	  }
+	              console.log(actorFlag);
+	              html += "<div class='form-check'>";
 	           	  if(actorFlag){ //오른쪽 선택된 배우에 대해 중복 없음
 			            html += "<input class='form-check-input actor-checkbox' type='checkbox' ";
 			            html += "value='" + actor.actorId + "' data-name='" + actor.actorName + "' id='actor_" + actor.actorId + "'>";
@@ -193,6 +196,7 @@
 	              html += "<label class='form-check-label' for='actor_" + actor.actorId + "'>";
 	              html += actor.actorName + "(" + actor.birthDate + ")";
 	              html += "</label>"; 
+	              html += "</div>";
 	            	  
 	              
 	            $('#actorSearchResults').append(html);
@@ -207,23 +211,14 @@
 	            console.log(actorName);
 	            
 	            if (this.checked) {
-	        	    let actorFlag = true; 
-
-	            	for(let i = 0; i < $("input[name=actorIds]").length; i++){
-	            		if($("input[name=actorIds]")[i].value === actorId){
-	            			actorFlag = false;
-	            			break;
-	            		}
-	            	}
-	            	
-	            	if(actorFlag){// 중복 검사 통과하면 오른쪽에 추가
+	        	    
 		                let html = "";
 		                html += "<div class='form-check selected-actor' id='selected_" + actorId + "'>";
 		                html += "<input type='hidden' name='actorIds' value='" + actorId + "'>";
 		                html += "<label>" + actorName + "</label>&nbsp;&nbsp;";
 		                html += "</div>";
 		              $('#selectedActors').append(html);
-	            	}
+	            	
 	            }else{
 	            	$("#selected_" + actorId).remove();
 	            }

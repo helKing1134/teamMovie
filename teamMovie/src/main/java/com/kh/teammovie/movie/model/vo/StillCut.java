@@ -14,9 +14,5 @@ public class StillCut {
 	private String stillCutFile;//	STILLCUT_FILE	VARCHAR2(100 BYTE)
 	
 	
-	public void setStillCutFile(String stillCutPath) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

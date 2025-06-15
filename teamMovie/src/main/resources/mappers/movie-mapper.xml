@@ -291,7 +291,7 @@
 	
 	<insert id="insertMovie">
 		INSERT INTO MOVIE
-			   VALUES(#{movieId},#{typeId},#{movieTitle},#{description},#{director},#{duration},#{rating},#{releaseDate},#{status},#{posterPath},#{endDate})
+			   VALUES(#{movieId},#{typeId},#{movieTitle},#{description},#{director},#{duration},#{rating},#{releaseDate},#{status},#{posterPath},#{endDate},NULL)
 	</insert>
 	
 	<insert id="insertMovieActor">
