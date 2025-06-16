@@ -11,19 +11,143 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 	<style type="text/css">
 		
-	.choice-container {
-	  display: flex;
-	  flex-direction: row; /* 기본값이지만 명시적으로 적어줌 */
-	  gap: 20px; /* div들 사이 간격 */
-	}
-	
-	.btn-outline-secondary.selected {
-	  background-color: #6c757d;
-	  color: white;
-	  border-color: #6c757d;
-	}
+.choice-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.choice-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.choice-container li {
+  margin: 8px 0;
+}
+
+.choice-container .btn-outline-secondary {
+  border: 2px solid #ced4da;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 16px;
+  min-width: 180px;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+.choice-container .btn-outline-secondary:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+}
+
+.choice-container .btn-outline-secondary.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.movie-choice, .theater-choice, .time-choice {
+  width: 250px;
+}
+
+.time-choice .btn-outline-secondary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: nowrap;
+}
+
+.time-choice .btn-outline-secondary .time {
+  font-size: 18px;
+  font-weight: bold;
+  color: green;
+}
+
+.time-choice .btn-outline-secondary .title {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.time-choice .btn-outline-secondary .screen {
+  margin-top: 2px;
+  font-size: 13px;
+  color: #666;
+}
+
+
+form .btn.next {
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 12px;
+  margin-top: 40px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+form .btn.next:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+form .btn.next:not(:disabled):hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+
+.schedule-option {
+  border-radius: 10px;
+  background-color: white;
+  border: 2px solid #ccc;
+  padding: 12px;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.schedule-option:hover {
+  background-color: #f8f9fa;
+  border-color: #888;
+}
+
+.schedule-option.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+body {
+  font-family: 'Segoe UI', 'Pretendard', sans-serif;
+  background-color: #fafafa;
+  color: #222;
+}
+
 	ul>li{
 	list-style:none;
+	}
+	
+	/* 상단제목 */
+	.head-title {
+	  width: 100%;
+	  padding: 30px 0 20px;
+	  text-align: center;
+	  border-bottom: 2px solid #e0e0e0;
+	  margin-bottom: 40px;
+	}
+
+	.head-title h3 {
+	  font-size: 28px;
+	  font-weight: 700;
+	  color: #222;
+	  margin: 0;
 	}
 	
 	</style>
@@ -33,8 +157,7 @@
 <body>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
-<h1>예매</h1>
+<div class="head-title"><h3>예매</h3></div>
 
 <div class="choice-container" align="center">
 	<div class="movie-choice">
@@ -74,7 +197,7 @@
  	 <input type="hidden" name="movieId" id="movieId" />
  	 <input type="hidden" name="scheduleId" id="scheduleId" />
  	 <input type="hidden" name="screenId" id="screenId" />
- 	 
+ 	 <input type="hidden" name="memberId" value=1  />
     <div align="center">
             <button type="submit" class="btn btn-primary next" disabled>다음으로</button>
      </div>
@@ -148,6 +271,9 @@
                                         <strong title="\${schedule.movieTitle}">\${schedule.movieTitle}</strong>
                                         <em>\${schedule.language}</em>
                                     </span>
+                                    <span class="screen">
+                                    	<strong>제 \${schedule.screenId}관</strong>
+                                    </span
                                 </button>
                             </li>`;
 	                		

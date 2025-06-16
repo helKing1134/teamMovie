@@ -33,13 +33,19 @@ public class MemberServiceImpl implements MemberService  {
 	}
 
 	@Override
-	public int dupCheck(String memberId) {
+	public int dupCheck(int memberId) {
 		return dao.dupCheck(sqlSession, memberId);
 	}
 
 	@Override
 	public int deleteMember(Member m) {
 		return dao.deleteMebmer(sqlSession,m);
+	}
+
+	@Override
+	public int updatePassword(Member loginUser) {
+		
+		return dao.updatePassword(sqlSession,loginUser);
 	}
 
 }

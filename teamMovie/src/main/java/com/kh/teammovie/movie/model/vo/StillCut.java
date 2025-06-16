@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class StillCut {
 	private int stillCutId;//	STILLCUT_ID	NUMBER
-	//private int movieId;//	MOVIE_ID	NUMBER
+	private int movieId;//	MOVIE_ID	NUMBER
 	private int fileLevel;//	FILE_LEVEL	NUMBER
 	private String stillCutFile;//	STILLCUT_FILE	VARCHAR2(100 BYTE)
+	
+	
+
 }

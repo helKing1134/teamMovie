@@ -10,8 +10,10 @@ public interface MemberService {
 
 	int updateMember(Member m);
 
-	int dupCheck(String memberId);
+	int dupCheck(int memberId);
 
 	int deleteMember(Member m);
+	
+	int updatePassword(Member loginUser);
 
 }

@@ -2,6 +2,9 @@ package com.kh.teammovie.movie.model.vo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +21,13 @@ public class Movie {
 	private String director;//	DIRECTOR	VARCHAR2(15 BYTE)
 	private String duration;//	DURATION	VARCHAR2(100 BYTE)
 	private String rating;//	RATING	VARCHAR2(20 BYTE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date releaseDate;//	RELEASE_DATE	DATE
-	
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date endDate; // (6.10) endDate 필드 추가 (by 이수한)
+	
+	
+
 	
 	private String status;//	STATUS	VARCHAR2(9 BYTE)
 	private String posterPath;//	POSTER_PATH	VARCHAR2(100 BYTE)
@@ -30,6 +37,10 @@ public class Movie {
 	private ArrayList<Actor> actors; //영화 1개당 갖고 있는 배우들
 	private ArrayList<StillCut> stillCuts; //영화 1개당 갖고 있는 스틸컷들
 	private ArrayList<Review> reviews; //영화 1개당 갖고 있는 리뷰들
+	private ArrayList<Criterion> criteria; //영화 1개당(영화 타입 1개당) 갖고 있는 평가 기준들
+	
+	//사용자 및 관리자로부터 값을 얻어오기 위해 필요한 필드
+	private String movieType; //영화 타입
 	
 
 		

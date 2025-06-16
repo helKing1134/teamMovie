@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class Seat {
 //	SEAT_ID	NUMBER
-	private int seatId;
+	private  int seatId;
 //	SCREEN_ID	NUMBER
-	private int screenId;
+	private  int screenId;
 //	SEAT_ROWS	NUMBER
-	private int seatRows;
+	private  int seatRows;
 //	SEAT_COLS	VARCHAR2(9 BYTE)
-	private String seatCols;
+	private  String seatCols;
 	
 
 }

@@ -247,8 +247,9 @@
 
 
   
-
+	<!-- 
   	<a href="admin/movieRegisterForm">영화 등록 페이지로</a>
+  	 -->
 	<!-- 영화 탭 메뉴 -->
 	<ul class="nav nav-tabs justify-content-center movie-tab-menu">
 	  <li class="nav-item">
@@ -339,6 +340,8 @@
   				movieList.forEach(function(movie){
   					console.log(movie);
   					console.log(movie.movieTitle);
+  					console.log(movie.releaseDate);
+  					console.log(movie.movieId);
 	  					$("#movieListAll").append(
 					  							'<div class="col-md-3 mb-4">' +
 											    '<div class="card movie-card h-100">' +
@@ -449,6 +452,7 @@
 						$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 					}else{
 						$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
+
 					} 
 						
 			});
@@ -484,7 +488,7 @@
   			keyword = $("#keyword").val().trim();
   			
   			if(keyword === ''){
-  				alertMsg("검색어를 입력해주세요");
+  				alert("검색어를 입력해주세요");
   				return;
   			}
   			

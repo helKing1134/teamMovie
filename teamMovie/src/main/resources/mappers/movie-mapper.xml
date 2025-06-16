@@ -18,6 +18,11 @@
 		<result property="releaseDate" column="RELEASE_DATE" />
 		<result property="status" column="STATUS" />
 		<result property="posterPath" column="POSTER_PATH" />
+		<result property="movieType" column="MOVIE_TYPE" />
+		<collection property="criteria" ofType="Criterion">
+			<result property="criteriaId" column="CRITERIA_ID"/>
+			<result property="criteria" column="CRITERIA"/>
+		</collection>
 		<collection property="genres" ofType="Genre">
 			<result property="genreId" column="GENRE_ID"/>
 			<result property="genreName" column="GENRE_NAME"/>
@@ -42,7 +47,8 @@
 			<result property="fileLevel" column="FILE_LEVEL"/>
 			<result property="stillCutFile" column="STILLCUT_FILE"/>
 		</collection>
-	</resultMap>
+		</resultMap>
+
 	
 	<select id="movieListAll" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
@@ -97,56 +103,11 @@
 		      ,POSTER_PATH
 		      ,RELEASE_DATE
 		FROM MOVIE
-		WHERE STATUS = 'S'
-		ORDER BY RELEASE_DATE DESC   
-	</select>
-	
-	<select id="searchOfScreeningMoive" resultMap="movieListResultMap">
-		SELECT MOVIE_ID
-		      ,MOVIE_TITLE
-		      ,DESCRIPTION
-		      ,RATING
-		      ,POSTER_PATH
-		      ,RELEASE_DATE
-		FROM MOVIE
-		JOIN MOVIE_GENRE USING (MOVIE_ID)
-		JOIN GENRE USING (GENRE_ID)
-		JOIN MOVIE_ACTOR USING (MOVIE_ID)
-		JOIN ACTOR USING (ACTOR_ID)
-		WHERE
-		<choose>
-			<when test="condition == 'title'">
-				LOWER(MOVIE_TITLE)
-			</when>
-			<when test="condition == 'director'">
-				LOWER(DIRECTOR)
-			</when>
-			<when test="condition == 'actor'">
-				LOWER(ACTOR_NAME)
-			</when>
-			<otherwise>
-				LOWER(GENRE_NAME)
-			</otherwise>
-		</choose>
-		LIKE '%' || LOWER(#{keyword}) || '%'
-		AND STATUS = 'S'
-		GROUP BY MOVIE_ID,MOVIE_TITLE,DESCRIPTION,RATING,POSTER_PATH,RELEASE_DATE
-		ORDER BY RELEASE_DATE DESC
-	</select>
-	
-	<select id="comingMovieList" resultMap="movieListResultMap">
-		SELECT MOVIE_ID
-		      ,MOVIE_TITLE
-		      ,DESCRIPTION
-		      ,RATING
-		      ,POSTER_PATH
-		      ,RELEASE_DATE
-		FROM MOVIE
 		WHERE STATUS = 'P'
 		ORDER BY RELEASE_DATE DESC   
 	</select>
 	
-	<select id="searchOfComingMovie" resultMap="movieListResultMap">
+	<select id="searchOfScreeningMoive" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
 		      ,DESCRIPTION
@@ -179,6 +140,52 @@
 		ORDER BY RELEASE_DATE DESC
 	</select>
 	
+	<select id="comingMovieList" resultMap="movieListResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		      ,STATUS
+		FROM MOVIE
+		WHERE STATUS = 'S'
+		ORDER BY RELEASE_DATE DESC   
+	</select>
+	
+	<select id="searchOfComingMovie" resultMap="movieListResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		FROM MOVIE
+		JOIN MOVIE_GENRE USING (MOVIE_ID)
+		JOIN GENRE USING (GENRE_ID)
+		JOIN MOVIE_ACTOR USING (MOVIE_ID)
+		JOIN ACTOR USING (ACTOR_ID)
+		WHERE
+		<choose>
+			<when test="condition == 'title'">
+				LOWER(MOVIE_TITLE)
+			</when>
+			<when test="condition == 'director'">
+				LOWER(DIRECTOR)
+			</when>
+			<when test="condition == 'actor'">
+				LOWER(ACTOR_NAME)
+			</when>
+			<otherwise>
+				LOWER(GENRE_NAME)
+			</otherwise>
+		</choose>
+		LIKE '%' || LOWER(#{keyword}) || '%'
+		AND STATUS = 'S'
+		GROUP BY MOVIE_ID,MOVIE_TITLE,DESCRIPTION,RATING,POSTER_PATH,RELEASE_DATE
+		ORDER BY RELEASE_DATE DESC
+	</select>
+	
 	
 	
 	
@@ -191,6 +198,9 @@
 		JOIN MOVIE_ACTOR USING (MOVIE_ID)
 		JOIN ACTOR USING (ACTOR_ID)
 		JOIN STILLCUT USING (MOVIE_ID)
+		JOIN TYPE USING (TYPE_ID)
+		JOIN CRITERIA_TYPE USING (TYPE_ID)
+		JOIN CRITERIA USING (CRITERIA_ID)
 		WHERE MOVIE_ID = #{mvId}
 	</select>
 	
@@ -222,7 +232,7 @@
 		JOIN CRITERIA USING(CRITERIA_ID)
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE MOVIE_ID = #{mvId}
-		ORDER BY CREATE_DATE
+		ORDER BY CREATE_DATE DESC
 	</select>
 	
 	<select id="getStillCuts" resultMap="movieListResultMap">
@@ -232,13 +242,103 @@
 		WHERE MOVIE_ID = #{mvId}
 	</select>
 	
+	<select id="getReviewId" resultType="_int">
+		SELECT SEQ_REVIEW.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insertReview">
+		INSERT INTO REVIEW(REVIEW_ID
+						  ,MEMBER_NO
+						  ,MOVIE_ID
+						  ,REVIEW_CONTENT
+						  ,REVIEW_RATING)
+			   VALUES(#{reviewId},#{memberNo},#{movieId},#{reviewContent},#{reviewRating})
+	</insert>
+	
+	<insert id="insertReviewCriteria">
+		INSERT INTO REVIEW_CRITERIA
+			   VALUES(#{reviewId},#{criterionId})
+	</insert>
+	
+	
+	<!-- 관리자용 -->
+	<select id="findActors" resultMap="actorResultMap">
+		SELECT *
+		FROM ACTOR
+		WHERE ACTOR_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="getActorList" resultMap="actorResultMap">
+		SELECT *
+		FROM ACTOR
+	</select>
+	
+	<select id="getTypeList" resultMap="typeResultMap">
+		SELECT *
+		FROM TYPE
+	</select>
+	
+	<select id="getGenreList" resultMap="genreResultMap">
+		SELECT *
+		FROM GENRE
+	</select>
+	
+	<select id="getNextMovieId" resultType="_int">
+		SELECT SEQ_MOVIE.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insertMovie">
+		INSERT INTO MOVIE
+			   VALUES(#{movieId},#{typeId},#{movieTitle},#{description},#{director},#{duration},#{rating},#{releaseDate},#{status},#{posterPath},#{endDate},NULL)
+	</insert>
+	
+	<insert id="insertMovieActor">
+		INSERT INTO MOVIE_ACTOR
+			   VALUES(#{movieId},#{actorId})
+	</insert>
+	
+	<insert id="insertMovieGenre">
+		INSERT INTO MOVIE_GENRE
+			   VALUES(#{movieId},#{genreId})
+	</insert>
+	
+	<insert id="insertStillCut">
+		INSERT INTO STILLCUT
+			   VALUES(SEQ_STILLCUT.NEXTVAL,#{movieId},#{stillCut.fileLevel},#{stillCut.stillCutFile})
+	</insert>
+	
+	<insert id="registerActor">
+		INSERT INTO ACTOR
+			   VALUES(SEQ_ACTOR.NEXTVAL,#{actorName},#{birthDate},#{imagePath})
+	</insert>
+	
+	<resultMap type="Actor" id="actorResultMap">
+		<result property="actorId" column="ACTOR_ID"/>
+		<result property="actorName" column="ACTOR_NAME"/>
+		<result property="birthDate" column="BIRTH_DATE"/>
+		<result property="imagePath" column="IMAGE_PATH"/>
+	</resultMap>
+	
+	<resultMap type="Type" id="typeResultMap">
+		<result property="typeId" column="TYPE_ID"/>
+		<result property="movieType" column="MOVIE_TYPE"/>
+	</resultMap>
+	
+	<resultMap type="Genre" id="genreResultMap">
+		<result property="genreId" column="GENRE_ID"/>
+		<result property="genreName" column="GENRE_NAME"/>
+	</resultMap>
+	
+	
 	<select id="movieSelect" parameterType="String" resultMap="movieResultMap">
 		SELECT
 		    movie_id,
 		    type_id,
 		    movie_title,
 		    description,
-		    director,
+		    director, 
 		    duration,
 		    rating,
 		    release_date,
@@ -310,6 +410,58 @@
 		<result property="startTime" column="START_TIME"/>
 		<result property="language" column="LANGUAGE"/>
 	</resultMap>
+	
+	<!-- 영화 상태 변경 쿼리 -->
+	<update id="updateMvStatus" parameterType="_int">
+		UPDATE movie
+		SET status = 'P'
+		WHERE
+			movie_id = #{movieId}
+	</update>
+	
+	
+	
+	<!--
+	 석현님 이거 s가 screening이라 상영중 아니에요? p가 상영 예정 아니었나요?
+	-->		
+	<!-- STATUS가 'S'(schedule 예고작)인 영화만을 가져오기, staus 넘겨받기  -->
+	<!-- 
+		<select id="comingMovieList" resultMap="movieListResultMap">
+		SELECT MOVIE_ID
+		      ,MOVIE_TITLE
+		      ,DESCRIPTION
+		      ,RATING
+		      ,POSTER_PATH
+		      ,RELEASE_DATE
+		      ,STATUS 
+		FROM MOVIE
+		WHERE STATUS = 'S'
+		ORDER BY RELEASE_DATE DESC   
+	</select>
+	-->
+	
+		
+	
+
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
 	
 
 </mapper>

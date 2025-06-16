@@ -17,6 +17,8 @@ public class RqPayment {
 	private int screenId;
 	// 상영정보 아이디
 	private int scheduleId;
+	// 멤버 번호
+	private int memberId;
 	// 좌석 아이디 List
 	private List<Integer> seatIds;
 	
