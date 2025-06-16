@@ -1,5 +1,7 @@
 package com.kh.teammovie.movie.model.vo;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,10 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Type {
+	private int typeId;//	TYPE_ID	NUMBER
+	private String movieType;//	MOVIE_TYPE	VARCHAR2(20 BYTE)
 	
-//	TYPE_ID	NUMBER
-	private int typeId;
-//	MOVIE_TYPE	VARCHAR2(20 BYTE)
-	private String movieType;
-
+	private ArrayList<Criterion> criteria; //영화타입 1개당 가지는 평가 기준들 
 }

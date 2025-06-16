@@ -113,6 +113,7 @@ public class AdminMovieController {
 				
 				String stillCutPath = getStillCutPathForSave(session, movie, file);
 				StillCut stillCut = new StillCut();
+				System.out.println(stillCutPath);
 				stillCut.setStillCutFile(stillCutPath);
 				stillCut.setFileLevel(fileLevel++);
 				stillCut.setMovieId(movieId);
@@ -151,55 +152,18 @@ public class AdminMovieController {
 		}
 	}
 	
-	
-	
-	//관리자 영화 등록용 메서드
-	/*
-	@PostMapping("registerMovie")
-	public String registerMovie(Movie movie
-							   ,String releaseDateStr
-							   ,String endDateStr
-							   ,String[] actorNames
-							   ,String[] genreNames
-							   ,MultipartFile posterFile
-							   ,ArrayList<MultipartFile> stillCutFiles
-							   ,HttpSession session) {
+	@ResponseBody
+	@GetMapping("registerActor.mv")
+	public int registerActor(Actor actor) {
 		
-		setMovieStatus(movie, releaseDateStr, endDateStr); //개봉일,종영일,상태값 설정
-		setPosterPathForSave(session, movie, posterFile); //포스터경로 설정
-		
-		ArrayList<StillCut> stillCuts = new ArrayList<StillCut>();
-		int i = 1; //스틸컷 FILE_LEVEL을 위한 변수
-		ArrayList<String> stillCutPaths = new ArrayList<String>(); //스틸컷 저장 경로 담을 변수
-		
-		for(MultipartFile file : stillCutFiles) {
-			
-			String stillCutPath = getStillCutPathForSave(session, movie, file);
-			StillCut stillCut = new StillCut();
-			stillCut.setFileLevel(i++);
-			stillCut.setStillCutFile(stillCutPath);
-			stillCuts.add(stillCut);
-			stillCutPaths.add(stillCutPath);
-		}
-		
-		int result = service.registerMovie(movie,actorNames,genreNames,stillCuts);
-		
-		if(result> 0) { //MOVIE,ACTOR,GENRE,MOVIE_ACTOR,MOVIE_GENRE 테이블 및 STILLCUT 테이블 DB 저장 성공시
-			saveFile(movie.getPosterPath(), posterFile); //포스터 서버에 저장
-			
-			for(int j = 0; j < stillCutFiles.size(); j++) {
-				saveFile(stillCutPaths.get(j), stillCutFiles.get(j)); //스틸컷 서버에 저장
-			}
-			session.setAttribute("alertMsg", movie.getMovieTitle() + " 영화가 정상적으로 등록되었습니다.");
-			
-		}else {
-			session.setAttribute("alertMsg", "영화 등록에 실패하였습니다. 다시 시도해주세요");
-			
-		}
-
-	    return "redirect:/movies";
+		return service.registerActor(actor);
 	}
-	*/
+	
+	
+	
+	
+	
+
 	
 	
 	
@@ -220,11 +184,11 @@ public class AdminMovieController {
 	    // 상태 계산
 	    String status;
 	    if (now.isBefore(releaseDate)) {
-	        status = "P"; // 개봉예정
+	        status = "S"; // 개봉예정
 	    } else if (now.isAfter(endDate)) {
 	        status = "E"; // 상영종료
 	    } else {
-	        status = "S"; // 상영중
+	        status = "P"; // 상영중
 	    }
 	    
 	    

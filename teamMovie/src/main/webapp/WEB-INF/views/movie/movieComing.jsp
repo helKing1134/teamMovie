@@ -255,10 +255,10 @@
 	    <a class="nav-link" href="${contextRoot}/movies">전체 영화</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link active" href="${contextRoot}/movies/screening">상영 중</a>
+	    <a class="nav-link" href="${contextRoot}/movies/screening">상영 중</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="${contextRoot}/movies/coming">상영 예정</a>
+	    <a class="nav-link active" href="${contextRoot}/movies/coming">상영 예정</a>
 	  </li>
 	</ul>
 
@@ -323,12 +323,12 @@
   		isLoading = true;
   		$("#loadingSpinner").show();
   		$.ajax({
-  			url : "${contextRoot}/movies/screening.mv",
+  			url : "${contextRoot}/movies/coming.mv",
   			data : {
   				page : page	
   			},
   			success : function(movieList){
-  				console.log(movieList);
+  				
   				if(movieList.length === 0){
   					$("#movieBox").append('<div class="alert-box">'
 											+ '<i class="fas fa-film"></i> 더 이상 불러올 영화가 없습니다.'
@@ -397,7 +397,7 @@
 		isLoading = true;
 		
 		$.ajax({
-			url : "${contextRoot}/movies/searchOfScreening.mv",
+			url : "${contextRoot}/movies/searchOfComing.mv",
 			data : {
 				page : page,
 				condition : condition,

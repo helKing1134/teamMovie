@@ -8,19 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class StillCut {
+	private int stillCutId;//	STILLCUT_ID	NUMBER
+	private int movieId;//	MOVIE_ID	NUMBER
+	private int fileLevel;//	FILE_LEVEL	NUMBER
+	private String stillCutFile;//	STILLCUT_FILE	VARCHAR2(100 BYTE)
 	
-//	STILLCUT_ID	NUMBER
-	private int stillcutId;
-//	MOVIE_ID	NUMBER
-	private int movieId;
-//	FILE_LEVEL	NUMBER
-	private int fileLevel;
-//	STILLCUT_FILE	VARCHAR2(100 BYTE)
-	private String stilcutFile;
 	
-	public void setStillCutFile(String stillCutPath) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

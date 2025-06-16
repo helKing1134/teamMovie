@@ -3,6 +3,8 @@ package com.kh.teammovie.movie.model.vo;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Movie {
-	
 	//영화 테이블
 	private int movieId;//	MOVIE_ID	NUMBER
 	private int typeId;//	TYPE_ID	NUMBER
@@ -20,9 +21,13 @@ public class Movie {
 	private String director;//	DIRECTOR	VARCHAR2(15 BYTE)
 	private String duration;//	DURATION	VARCHAR2(100 BYTE)
 	private String rating;//	RATING	VARCHAR2(20 BYTE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date releaseDate;//	RELEASE_DATE	DATE
-	
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date endDate; // (6.10) endDate 필드 추가 (by 이수한)
+	
+	
+
 	
 	private String status;//	STATUS	VARCHAR2(9 BYTE)
 	private String posterPath;//	POSTER_PATH	VARCHAR2(100 BYTE)
