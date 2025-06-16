@@ -21,7 +21,7 @@
 	  gap: 40px; /* 좌우 간격 조절 */
 	  align-items: start;
 	  max-width: 1200px;
-	  margin: 0 auto;
+   	  margin-top: 120px;
 	}
 
 	
@@ -299,6 +299,7 @@
   max-width: 500px;
   margin: 0 auto 40px;
   text-align: center;
+  top: 300px;
 }
 
 .audience-selector h4 {

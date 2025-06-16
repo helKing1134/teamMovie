@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -40,6 +41,12 @@ public class ReservationController {
 	@Autowired
 	private ReservationService rvService;
 	
+	/*
+	 * 
+	 * 석현님 기존 forwardMovieSelect 메서드입니다
+	 * 수정할 부분이 있어서 매개변수를 추가했는데
+	 * 기존 메서드 필요하시면 다시 쓰시면 됩니다
+	 * 
 	@RequestMapping("movie/select")
 	public String forwardMovieSelect(Model model) {
 		
@@ -59,10 +66,35 @@ public class ReservationController {
 		return "movie/movieSelectPage";
 		
 	}
+	*/
+	
+	@RequestMapping("movie/select")
+	public String forwardMovieSelect(Model model,
+									@RequestParam(defaultValue = "0") int movieNo) {
+		
+		//현재 개봉중인 영화만 리스트로 가져옴
+		String status = "P";
+//		ArrayList<Movie> mlist = rvService.movieListAll(status);
+		ArrayList<Movie> mlist = rvService.movieAll();
+		
+//		for (Movie m : mlist) {
+//		    System.out.println("영화: " + m.getMovieTitle());
+//		}
+		
+		
+		model.addAttribute("mlist",mlist);
+		model.addAttribute("selectedMovieId",movieNo);
+		//model.addAttribute("targetMvId", movieId);
+		
+
+		
+		return "movie/movieSelectPage";
+		
+	}
 	
 	@GetMapping("movie/schedule")
 	@ResponseBody
-	public List<ScheduleWithTitle> getSchedules(int movieId){
+	public List<ScheduleWithTitle> getSchedules(@RequestParam("movieId") int movieId){
 		
 		
 		ArrayList<Schedule> schedules = rvService.schSelect(movieId);

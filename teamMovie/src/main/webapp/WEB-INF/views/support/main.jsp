@@ -29,6 +29,7 @@
             background-color: #f0ede9;
             padding: 2rem 1rem;
             border-right: 1px solid #ddd3ca;
+            margin-top: 120px;
         }
 
         .sidebar h2 {

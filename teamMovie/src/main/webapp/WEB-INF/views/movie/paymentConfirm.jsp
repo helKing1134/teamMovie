@@ -309,12 +309,12 @@
 <body>
 
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
-	
+	<br><br><br>
 	<h2>결제하기</h2>
     <hr>
 
     <div class="reserve-info">
-        <span class="text">예매정보</span>
+        <h4>예매정보</h4>
         <div class="movimg">
             <img src="${pageContext.request.contextPath}/resources/image/mimpfinal.jpg" alt="미션 임파서블 : 파이널 레코닝" width="100" height="143">
         </div>
