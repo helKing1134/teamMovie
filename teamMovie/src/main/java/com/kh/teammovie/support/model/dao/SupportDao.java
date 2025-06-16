@@ -95,6 +95,17 @@ public class SupportDao {
 	}
 
 
+	public int countInquiries(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("inquiryMapper.countInquiries");
+	}
+
+
+	public int deleteStatus(SqlSessionTemplate sqlSession, int bno) {
+	    return sqlSession.update("inquiryMapper.deleteStatus", bno);
+	}
+
+
 
 
 	

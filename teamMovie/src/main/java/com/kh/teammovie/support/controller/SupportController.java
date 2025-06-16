@@ -29,6 +29,15 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		
 		@Autowired
 		private SupportService service;
+		
+		 @RequestMapping("/main")
+		    public String countInquiries(HttpSession session,Model model) {
+		        int countInquiries = service.countInquiries();
+		        model.addAttribute("countInquiries", countInquiries);
+		        session.setAttribute("countInquiries", countInquiries);
+		        System.out.println(countInquiries);
+		        return "/main";
+		    }
 
 		
 		//문의하기 메인
@@ -115,7 +124,7 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 			
 			
 			int result = service.deleteAnswer(bno);
-			int result2 = service.updateStatus(bno);
+			int result2 = service.deleteStatus(bno);
 			
 			
 			if(result>0 && result2>0) {

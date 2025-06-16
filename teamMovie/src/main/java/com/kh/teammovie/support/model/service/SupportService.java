@@ -37,8 +37,11 @@ public interface SupportService {
 		int insertInquiryAnswer(InquiryAnswer a);
 
 		int updateStatus(int inquiryId);
+		int deleteStatus(int bno);
 
 		int deleteAnswer(int bno);
+
+		int countInquiries();
 
 
 

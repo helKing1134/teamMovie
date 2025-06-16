@@ -45,11 +45,7 @@
 <div class="container mt-5 mb-5">
 	<h2 class="mb-4">문의글 관리</h2>
 	
-	<!-- 필터 체크박스 -->
-<div class="mb-3" style="text-align: right;">
-    <label class="mr-2"><input type="checkbox" class="status-filter" value="N"> 답변대기</label>
-    <label class="ml-3"><input type="checkbox" class="status-filter" value="Y"> 답변완료</label>
-</div>
+
 	
 	
 	<table id="inquiryList" class="table table-hover text-center">
@@ -226,19 +222,6 @@ $(function(){
 
             <br clear="both"><br>
 
-            <form id="searchForm" action="${contextRoot }/search.bo" method="get" align="center">
-                <div class="select">
-                    <select class="custom-select" name="condition">
-                        <option value="writer">작성자</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                </div>
-                <div class="text">
-                    <input type="text" class="form-control" name="keyword" value="${map.keyword }">
-                </div>
-                <button type="submit" class="searchBtn btn btn-secondary">검색</button>
-            </form>
             <br><br>
         </div>
         <br><br>

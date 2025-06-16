@@ -1,5 +1,7 @@
 package com.kh.teammovie.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.teammovie.member.model.vo.Member;
 
 public interface MemberService {
@@ -15,5 +17,7 @@ public interface MemberService {
 	int deleteMember(Member m);
 	
 	int updatePassword(Member loginUser);
+
+	ArrayList<Member> adminMember();
 
 }

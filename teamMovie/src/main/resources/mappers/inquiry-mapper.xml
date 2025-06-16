@@ -89,14 +89,15 @@
     
 	<update id="updateStatus" parameterType="int">
     UPDATE INQUIRY
-    SET STATUS = CASE 
-                    WHEN STATUS = 'Y' THEN 'N'
-                    ELSE 'Y'
-                END
+    SET STATUS = 'Y' 
     WHERE INQUIRY_ID = #{inquiryId}
 	</update>
 	 
-	 
+	<update id="deleteStatus" parameterType="int">
+    UPDATE INQUIRY
+    SET STATUS = 'N'
+    WHERE INQUIRY_ID = #{inquiryId}
+	</update>
 	 
 	 
 	 
@@ -126,9 +127,11 @@
 	</delete>
 	
 	
-
-
-
+		
+	<select id="countInquiries" resultType="_int">
+	    SELECT COUNT(*) FROM INQUIRY
+	    WHERE STATUS = 'N'
+	</select>
 	
 	 
 	 
