@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.teammovie.movie.model.dao.MovieDAO;
 import com.kh.teammovie.movie.model.vo.Actor;
+import com.kh.teammovie.movie.model.vo.Criterion;
 import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
@@ -134,6 +135,11 @@ public class MovieServiceImpl implements MovieService {
 		
 	}
 	
+	@Override
+	public int registerActor(Actor actor) {
+		return mvDAO.registerActor(sqlSession,actor);
+	}
+	
 	
 	@Override
 	public Movie movieDetail(int mvId) {
@@ -150,10 +156,98 @@ public class MovieServiceImpl implements MovieService {
 		return mvDAO.getStillCuts(sqlSession,mvId);
 	}
 	
+	//리뷰 등록하기 전 아이디값 가져오기
 	@Override
-	public int registerReview(int mvId) {
-		return mvDAO.registerReview(sqlSession,mvId);
+	public int getReviewId() {
+		return mvDAO.getReviewId(sqlSession);
 	}
+	
+	
+	//리뷰 등록하기
+	//REVIEW_CRITERIA 테이블,REVIEW 테이블 모두 등록
+	@Transactional
+	@Override
+	public int registerReview(Review review,int[] selectedCriterionId) {
+		
+		int result = mvDAO.insertReview(sqlSession,review); //REVIEW 테이블 등록
+		int reviewId = review.getReviewId();
+		if(result > 0) { //REVIEW 테이블 등록 성공
+			
+			int result2 = 1;
+			for(int criterionId : selectedCriterionId) {
+				
+				result2 *= mvDAO.insertReviewCriteria(sqlSession,reviewId,criterionId); //REVIEW_CRITERIA 테이블 등록
+				if(result2 == 0) {
+					throw new RuntimeException("REVIEW_CRITERIA 등록 실패");
+				}
+			}
+			
+			return result;
+			
+		}else { //REVIEW 테이블 등록 실패
+			throw new RuntimeException("REVIEW 등록 실패");
+		}
+	}
+
+
+	@Override
+	//현재 상영중인 영화목록 가져오기
+	public ArrayList<Movie> movieSelect(String status) {
+
+		return mvDAO.movieSelect(sqlSession, status);
+	}
+
+	@Override
+	// 스케줄 목록 가져오기
+	public ArrayList<Schedule> schSelect(int movieId) {
+		// TODO Auto-generated method stub
+		return mvDAO.schSelect(sqlSession, movieId);
+	}
+
+	@Override
+	public List<Schedule> getSchByMvId(int movieId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+//	선택한 영화 데이터 가져오기 
+	public Movie getMovieById(int movieId) {
+		// TODO Auto-generated method stub
+		return mvDAO.getMovieById(sqlSession, movieId);
+	}
+
+	@Override
+	// 아이디로 상영정보 객체 가져오기 
+	public Schedule getSchById(int scheduleId) {
+		// TODO Auto-generated method stub
+		return mvDAO.getSchById(sqlSession, scheduleId);
+	}
+
+	@Override
+	//아이디로 상영관 객체 가져오기
+	public Screen getScreenById(int screenId) {
+		// TODO Auto-generated method stub
+		return mvDAO.getScreenById(sqlSession, screenId);
+	}
+
+	@Override
+	// 상영관 아이디를 가지고 좌석 목록 가져오기
+	public ArrayList<Seat> getStListBySchId(int screenId) {
+		// TODO Auto-generated method stub
+		return mvDAO.getStListBySchId(sqlSession, screenId);
+	}
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+
 
 
 //	@Override

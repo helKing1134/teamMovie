@@ -52,11 +52,15 @@ public class MemberController {
 		
 		
 		
+		
 		if (loginUser != null && bcrypt.matches(m.getPassword1(),loginUser.getPassword1())) {
 			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("memRole", memRole);
 			session.setAttribute("alertMsg", "성공적으로 로그인 하였습니다.");
+			
 			return "redirect:/";
+			
+			
 		} else {
 			model.addAttribute("errorMsg", "잘못 입력하셨습니다. 다시 로그인을 시도하여 주세요.");
 			//viewResolver가 WEB-INF/views/ 와 .jsp를 붙여서 경로를 완성해준다

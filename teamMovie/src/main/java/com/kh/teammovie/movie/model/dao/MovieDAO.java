@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.teammovie.movie.model.vo.Actor;
+import com.kh.teammovie.movie.model.vo.Criterion;
 import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.schedule.model.vo.Schedule;
@@ -84,10 +85,6 @@ public class MovieDAO {
 		return (ArrayList)sqlSession.selectList("movieMapper.findActors",keyword);
 	}
 		
-	//리뷰 등록하기
-	public int registerReview(SqlSessionTemplate sqlSession, int mvId) {
-		return sqlSession.insert("movieMapper.registerReview",mvId);
-	}
 		
 		
 
@@ -184,6 +181,45 @@ public class MovieDAO {
 		
 		return sqlSession.insert("movieMapper.insertStillCut",stillCutMap);
 	}
+	
+	//REVIEW 테이블에 리뷰 1개 등록
+	public int insertReview(SqlSessionTemplate sqlSession,Review review) {
+		return sqlSession.insert("movieMapper.insertReview",review);
+	}
+	
+	//REVIEW_CRITERIA 테이블에 리뷰 1개당 기준 여러개 등록
+	public int insertReviewCriteria(SqlSessionTemplate sqlSession,int reviewId,int criterionId) {
+		HashMap<String,Integer> reviewCriteriaMap = new HashMap<>();
+		reviewCriteriaMap.put("reviewId", reviewId);
+		reviewCriteriaMap.put("criterionId", criterionId);
+		return sqlSession.insert("movieMapper.insertReviewCriteria",reviewCriteriaMap);
+	}
+
+	public int getReviewId(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("movieMapper.getReviewId");
+	}
+
+	public int registerActor(SqlSessionTemplate sqlSession, Actor actor) {
+		return sqlSession.insert("movieMapper.registerActor", actor);
+
+
+	}
+	
+	
+		
+	
+		
+
+	
+
+
+
+	
+
+	
+
+
+	
 	
 	
 	

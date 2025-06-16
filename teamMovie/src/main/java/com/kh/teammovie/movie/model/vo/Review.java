@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Review {
-	
 	private int reviewId;//	REVIEW_ID	NUMBER
 	private int memberNo;//	MEMBER_NO	NUMBER
 	private int movieId;//	MOVIE_ID	NUMBER
@@ -19,5 +18,6 @@ public class Review {
 	private String reviewWriter; //memberId 가져오기 위한 필드
 	
 	private ArrayList<Criterion> criteria; //평가 기준들
-
+	
+	
 }
