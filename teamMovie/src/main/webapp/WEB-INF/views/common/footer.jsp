@@ -51,6 +51,7 @@
         font-weight: 600;
         cursor: pointer;
         margin-bottom: 20px; /* 아래 공간 약간 띄우기 */
+
         
     }
 

@@ -70,7 +70,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	//멤버 식별자로 환불 객체 가져오기 
-	public List<Refund> getRefundByMemberNo(String memberNo) {
+	public List<Refund> getRefundByMemberNo(int memberNo) {
 		// TODO Auto-generated method stub
 		return pmDao.getRefundByMemberNo(sqlSession, memberNo);
 	}

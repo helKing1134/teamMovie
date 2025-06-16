@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Member {
 
-	private String memberNo; //MEMBER_NO
+	private int memberNo; //MEMBER_NO
 	private String memberId; //MEMBER_ID
 	private String memberName; //MEMBER_NAME
 	private String password1; //PASSWORD

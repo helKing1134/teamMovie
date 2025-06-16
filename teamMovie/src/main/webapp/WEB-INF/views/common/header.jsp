@@ -253,68 +253,87 @@
         </ul>
     </div>
 </div>
-<!-- 헤더 끝 -->
-
-<!-- 로그인 모달 -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">로그인</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <form action="${contextRoot}/login.me" method="post">
-
-                <div class="modal-body">
-
-                   <!--  <label for="userId">아이디</label>
-                    <input type="text" class="form-control" id="userId" name="userId" placeholder="아이디" autocomplete="username" />
-
-                    <label for="userPwd">비밀번호</label>
-                    <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호" autocomplete="current-password" />
-                    -->
-                    <!-- 아이디 저장 토글 버튼 -->
 
 
-                    <label for="memberId" class="mr-sm-2">ID :</label>
-                    <input type="text" class="form-control mb-2" id="memberId" name="memberId" placeholder="아이디 입력">
-                    <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
-                    <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
-                    <div class="form-check mt-2 mb-3 d-flex align-items-center">
-                 	<div class="form-check mt-2 mb-3">
-				    <input class="form-check-input" type="checkbox" id="rememberMe">
-				    <label class="form-check-label" for="rememberMe">아이디 저장</label>
-				</div>
-                </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">로그인</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                </div>
-            </form>
-        </div>
-    </div>
-   
-</div>
 
  <br clear="both"/>
 
 
-<!-- 아이디 저장 토글 스크립트 -->
-<script>
-  /*
-    const btn = document.getElementById('rememberBtn');
-    let isChecked = false;
-
-    btn.addEventListener('click', () => {
-        isChecked = !isChecked;
-        btn.innerHTML = isChecked ? '&#x2611;' : '&#x2610;';
-    });
-    */
-</script> 
 
 
+
+
+</head>
+	<body>
+		<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
+		
+		<script type="text/javascript">
+		    var msg = "${alertMsg}";
+		    if(msg != "") {
+		        alert(msg);
+		    }
+		</script> 
+		
+		<c:remove var="alertMsg"/>
+		
+		<div id="header">
+		    <div id="header_1">
+		        <div id="header_1_left">
+		            <!-- 예매 플랫폼용 로고로 교체 -->
+		            <img src="https://yourdomain.com/resources/images/logo_movie.png" alt="영화 예매 플랫폼 로고" />
+		        </div>
+		        <div id="header_1_center"></div>
+		        <div id="header_1_right">
+		            <c:choose>
+		                <c:when test="${empty loginUser}">
+		                    <a href="${contextRoot}/register.me">회원가입</a>
+		                    <a data-toggle="modal" data-target="#loginModal">로그인</a>
+		                </c:when>
+		                <c:otherwise>
+		                    <span>${loginUser.memberName}님 환영합니다</span>
+		                    <a href="${contextRoot}/mypage.me">마이페이지</a>
+		                    <a href="${contextRoot}/logout.me">로그아웃</a>
+		                </c:otherwise>
+		            </c:choose>
+		        </div>
+		    </div>
+		    <div id="header_2">
+		        <ul>
+		            <li><a href="${contextRoot}/movies">영화</a></li>
+		            <li><a href="${contextRoot}/movie/select">예매</a></li>
+		            <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
+		        </ul>
+		    </div>
+		</div>
+		
+		<!-- 로그인 모달 -->
+		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-sm" role="document">
+		        <div class="modal-content">
+		            <!-- Modal Header -->
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="loginModalLabel">로그인</h5>
+		                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
+		                    <span aria-hidden="true">&times;</span>
+		                </button>
+		            </div>
+		
+		            <form action="${contextRoot}/login.me" method="post">
+		                <div class="modal-body">
+		                    <label for="memberId" class="mr-sm-2">ID :</label>
+		                    <input type="text" class="form-control mb-2" id="memberId" name="memberId" placeholder="아이디 입력">
+		                    <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
+		                    <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
+		                </div>
+		                <div class="modal-footer">
+		                    <button type="submit" class="btn btn-primary">로그인</button>
+		                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		                </div>
+		            </form>
+		        </div>
+		    </div>
+		</div>
+		
+		<br clear="both"/>
+	</body>
+</html>
