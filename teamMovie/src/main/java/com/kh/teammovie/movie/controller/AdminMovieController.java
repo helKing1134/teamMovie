@@ -184,11 +184,11 @@ public class AdminMovieController {
 	    // 상태 계산
 	    String status;
 	    if (now.isBefore(releaseDate)) {
-	        status = "P"; // 개봉예정
+	        status = "S"; // 개봉예정
 	    } else if (now.isAfter(endDate)) {
 	        status = "E"; // 상영종료
 	    } else {
-	        status = "S"; // 상영중
+	        status = "P"; // 상영중
 	    }
 	    
 	    

@@ -103,7 +103,7 @@
 		      ,POSTER_PATH
 		      ,RELEASE_DATE
 		FROM MOVIE
-		WHERE STATUS = 'S'
+		WHERE STATUS = 'P'
 		ORDER BY RELEASE_DATE DESC   
 	</select>
 	
@@ -135,7 +135,7 @@
 			</otherwise>
 		</choose>
 		LIKE '%' || LOWER(#{keyword}) || '%'
-		AND STATUS = 'S'
+		AND STATUS = 'P'
 		GROUP BY MOVIE_ID,MOVIE_TITLE,DESCRIPTION,RATING,POSTER_PATH,RELEASE_DATE
 		ORDER BY RELEASE_DATE DESC
 	</select>
@@ -149,7 +149,7 @@
 		      ,RELEASE_DATE
 		      ,STATUS
 		FROM MOVIE
-		WHERE STATUS = 'P'
+		WHERE STATUS = 'S'
 		ORDER BY RELEASE_DATE DESC   
 	</select>
 	
@@ -181,7 +181,7 @@
 			</otherwise>
 		</choose>
 		LIKE '%' || LOWER(#{keyword}) || '%'
-		AND STATUS = 'P'
+		AND STATUS = 'S'
 		GROUP BY MOVIE_ID,MOVIE_TITLE,DESCRIPTION,RATING,POSTER_PATH,RELEASE_DATE
 		ORDER BY RELEASE_DATE DESC
 	</select>
