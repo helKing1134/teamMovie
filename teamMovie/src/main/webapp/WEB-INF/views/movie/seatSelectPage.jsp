@@ -21,7 +21,7 @@
 	  gap: 40px; /* 좌우 간격 조절 */
 	  align-items: start;
 	  max-width: 1200px;
-	  margin: 0 auto;
+   	  margin-top: 120px;
 	}
 
 	
@@ -299,6 +299,7 @@
   max-width: 500px;
   margin: 0 auto 40px;
   text-align: center;
+  top: 300px;
 }
 
 .audience-selector h4 {
@@ -439,7 +440,7 @@
  	    <input type="hidden" name="movieId" id="movieId" value="${m.movieId}" />
  	 	<input type="hidden" name="scheduleId" id="scheduleId" value="${sch.scheduleId }" />
  	 	<input type="hidden" name="screenId" id="screenId" value="${s.screenId }" />
- 	 	<input type="hidden" name="memberId"  value=1 />
+ 	 	<input type="hidden" name="memberId"  value="${mem.memberNo }" />
  	 <c:forEach var="rsSeat" items="${rsList }">
  	 	<input type="hidden" name="rSeats" value="${rsSeat.reservedSeatId }">
  	 </c:forEach>

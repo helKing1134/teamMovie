@@ -27,6 +27,7 @@
             background-color: #f0ede9;
             padding: 2rem 1rem;
             border-right: 1px solid #ddd3ca;
+            margin-top: 120px;
         }
 
         .sidebar h2 {
@@ -109,10 +110,16 @@
             <li><a href="${pageContext.request.contextPath}/support" class="active">고객센터 홈</a></li>
             <li><a href="${pageContext.request.contextPath}/support/faq">자주 묻는 질문</a></li>
             <li><a href="#">공지사항</a></li>
-            <li><a href="${pageContext.request.contextPath}/support/inquiry" id="inquiry">1:1 문의</a></li>
-            <li><a href="${pageContext.request.contextPath}/inquiryList">1:1 관리자 문의목록</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin">관리자 페이지</a></li>
-            <li><a href="${pageContext.request.contextPath}/myInquiryList" id="myInquiryList">나의 문의 내역</a></li>
+
+            <li><a href="${contextRoot}/support/inquiry" id = "inquiry">1:1 문의</a></li>
+			<!-- 관리자 로그인시 보여지는 속성 by sh.k -->
+			<c:if test="${memRole == 'ADMIN'}">
+				<li><a href="${contextRoot}/inquiryList">1:1 관리자 문의목록</a></li>
+				<li><a href="${contextRoot}/admin">관리자 페이지</a></li>
+				<li><a href="${contextRoot}/admin/refund">환불 이력 관리</a></li>
+			</c:if>
+            <li><a href="${contextRoot}/myInquiryList">나의 문의 내역</a></li>
+
             <li><a href="#">분실물 문의</a></li>
             <li><a href="#">이용약관</a></li>
             <li><a href="#">개인정보처리방침</a></li>

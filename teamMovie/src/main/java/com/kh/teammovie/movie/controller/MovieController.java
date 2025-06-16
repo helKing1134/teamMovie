@@ -130,7 +130,7 @@ public class MovieController { //written by 이수한
 							 ,Model model) { //매개변수 mvId = movieId(영화 아이디)
 		
 		
-		System.out.println(mvId);
+		System.out.println("영화아이디 :"+mvId);
 		Movie movie = service.movieDetail(mvId);
 		model.addAttribute("movie",movie);
 		System.out.println(movie);

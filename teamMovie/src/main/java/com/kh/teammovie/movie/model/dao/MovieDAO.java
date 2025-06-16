@@ -1,25 +1,22 @@
 package com.kh.teammovie.movie.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.teammovie.movie.model.vo.Actor;
-import com.kh.teammovie.movie.model.vo.Criterion;
 import com.kh.teammovie.movie.model.vo.Genre;
 import com.kh.teammovie.movie.model.vo.Movie;
-import com.kh.teammovie.schedule.model.vo.Schedule;
-import com.kh.teammovie.screen.model.vo.Screen;
-import com.kh.teammovie.seat.model.vo.Seat;
 import com.kh.teammovie.movie.model.vo.Review;
 import com.kh.teammovie.movie.model.vo.StillCut;
 import com.kh.teammovie.movie.model.vo.Type;
-
-import org.apache.ibatis.session.RowBounds;
-import java.util.HashMap;
-import java.util.ArrayList;
+import com.kh.teammovie.schedule.model.vo.Schedule;
+import com.kh.teammovie.screen.model.vo.Screen;
+import com.kh.teammovie.seat.model.vo.Seat;
 
 @Repository
 public class MovieDAO {
@@ -204,6 +201,10 @@ public class MovieDAO {
 
 
 	}
+	
+	 public List<Movie> selectTop4Movies(SqlSessionTemplate sqlSession) {
+	        return sqlSession.selectList("movieMapper.selectTop4Movies");
+    }
 	
 	
 		

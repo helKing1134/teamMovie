@@ -40,7 +40,7 @@ public interface ReservationService {
 		int insertRsInit(List<Integer> seatIds, int scheduleId, int memberId);
 		
 		//결제 검증 메소드
-		boolean tempSeatExists(int scheduleId);
+		boolean tempSeatExists(int scheduleId, int memberNo);
 
 		boolean insertRefund(ReqRefundDTO dto);
 		// 예약좌석 즉시삭제 메소드
@@ -51,5 +51,8 @@ public interface ReservationService {
 		
 		// 스케줄에 대한 예약좌석 리스트만을 가져오는 메소드
 		List<ReservedSeat> getRSeatsBySchedule(int scheduleId);
+		
+		//모든 영화가져오기
+		ArrayList<Movie> movieAll();
 
 }

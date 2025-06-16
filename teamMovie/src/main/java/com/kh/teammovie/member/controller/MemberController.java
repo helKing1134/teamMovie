@@ -3,7 +3,6 @@ package com.kh.teammovie.member.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,7 @@ public class MemberController {
 	@Autowired
 	private ReservationService rvService;
 	
+
 	@PostMapping("/saveRedirectUrl")
 	@ResponseBody
 	public void saveRedirectUrl(@RequestBody Map<String, String> data, HttpSession session) {

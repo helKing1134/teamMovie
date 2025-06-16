@@ -88,9 +88,9 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	//결제 검증 메소드 
-	public boolean tempSeatExists(int scheduleId) {
+	public boolean tempSeatExists(int scheduleId, int memberNo) {
 		// TODO Auto-generated method stub
-		int count = rvDAO.existsTempSeat(sqlSession, scheduleId);
+		int count = rvDAO.existsTempSeat(sqlSession, scheduleId, memberNo);
 		return count > 0;
 	}
 
@@ -122,6 +122,12 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<ReservedSeat> getRSeatsBySchedule(int scheduleId) {
 		// TODO Auto-generated method stub
 		return rvDAO.getRSeatsBySchedule(sqlSession, scheduleId);
+	}
+	
+	@Override
+	public ArrayList<Movie> movieAll() {
+		// TODO Auto-generated method stub
+		return rvDAO.movieAll(sqlSession);
 	}
 
 	

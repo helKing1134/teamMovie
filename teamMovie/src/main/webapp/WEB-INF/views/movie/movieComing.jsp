@@ -353,17 +353,17 @@
 											      '<div class="card-body text-center">' +
 											        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 											        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
-											        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
+											        '<a href="${contextRoot}/movie/select?movieNo=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 											      '</div>' +
 											    '</div>' +
 											  '</div>'
 						  						 );
 	  					
-	  					if(movie.rating === '전체'){
+	  					if(movie.rating === '전체관람가'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
-						}else if(movie.rating === '12세'){
+						}else if(movie.rating === '12세이상관람가'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
-						}else if(movie.rating === '15세'){
+						}else if(movie.rating === '15세이상관람가'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 						}else{
 							$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
@@ -436,16 +436,16 @@
 										      '<div class="card-body text-center">' +
 										        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 										        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
-										        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
+										        '<a href="${contextRoot}/movie/select?movieNo=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 										      '</div>' +
 										    '</div>' +
 										  '</div>'
 					  						 );
-					if(movie.rating === '전체'){
+					if(movie.rating === '전체관람가'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
-					}else if(movie.rating === '12세'){
+					}else if(movie.rating === '12세이상관람가'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
-					}else if(movie.rating === '15세'){
+					}else if(movie.rating === '15세이상관람가'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 					}else{
 						$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');

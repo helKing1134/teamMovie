@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+   <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <!-- 영화 예매 페이지 created by SH.k  -->
 <html>
@@ -15,7 +16,7 @@
   display: flex;
   justify-content: center;
   gap: 40px;
-  margin-top: 30px;
+  margin: 100px;
   flex-wrap: wrap;
 }
 
@@ -50,7 +51,7 @@
 .choice-container .btn-outline-secondary.selected {
   background-color: #007bff;
   color: white;
-  border-color: #007bff;
+  border-color: #ffffff;
 }
 
 .movie-choice, .theater-choice, .time-choice {
@@ -121,7 +122,7 @@ form .btn.next:not(:disabled):hover {
 .schedule-option.selected {
   background-color: #007bff;
   color: white;
-  border-color: #007bff;
+  border-color: #ffffff;
 }
 
 body {
@@ -159,192 +160,167 @@ body {
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <div class="head-title"><h3>예매</h3></div>
 
+
+
 <div class="choice-container" align="center">
-	<div class="movie-choice">
-		<ul>
-		<c:forEach var="movie" items="${mlist}">
-		    <li>
-		      <button class="btn btn-outline-secondary" movie-no="${movie.movieId}"><span class="txt">${movie.movieTitle}</span></button>
-		    </li>
-		</c:forEach>
-		</ul>
-	</div>
+    <div class="movie-choice">
+        <ul>
+			 <c:forEach var="movie" items="${mlist}">
+			    <li>
+			    	<c:choose>
+			    		<c:when test="${selectedMovieId != 0}">
+					       	<button 
+							    class="btn btn-outline-secondary ${selectedMovieId eq movie.movieId ? 'selected' : ''}"
+							    data-movieId="${movie.movieId}" >
+							    <span class="txt">${movie.movieTitle}</span>
+							</button>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<button class="btn btn-outline-secondary" data-movieId="${movie.movieId}">
+							    <span class="txt">${movie.movieTitle}</span>
+							    <div></div>
+							</button>
+			    		</c:otherwise>
+			    	</c:choose>
+			    </li>
+			</c:forEach>
+        </ul>
+    </div>
+	
+	
 
-	<div class="theater-choice">
-	
-		<ul>
-			<li>
-			<button class="btn btn-outline-secondary">서울 영등포구 극장</button>
-			</li>
-		</ul>
-	
-	</div>
 
-	<div class="time-choice">
-	
-		<ul>
-			<li>
-			</li>
-		</ul>
-	
-	</div>
+    <div class="theater-choice">
+        <ul>
+            <li>
+                <button class="btn btn-outline-secondary">서울 영등포구 극장</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="time-choice">
+        <ul></ul>
+    </div>
 </div>
 
-
-
-<br><br><br><br><br><br><br><br>
- <form id="movieSelectForm" method="post" action="${contextRoot }/movie/reserveSeat">
- 	 <input type="hidden" name="movieId" id="movieId" />
- 	 <input type="hidden" name="scheduleId" id="scheduleId" />
- 	 <input type="hidden" name="screenId" id="screenId" />
- 	 <input type="hidden" name="memberId" value=1  />
+<form id="movieSelectForm" method="post" action="${contextRoot}/movie/reserveSeat">
+    <input type="hidden" name="movieId" id="movieId" value="${selectedMovieId}" />
+    <input type="hidden" name="scheduleId" id="scheduleId" />
+    <input type="hidden" name="screenId" id="screenId" />
+    <input type="hidden" name="memberId" value="1" />
     <div align="center">
-            <button type="submit" class="btn btn-primary next" disabled>다음으로</button>
-     </div>
- </form>
+        <button type="submit" class="btn btn-primary next" disabled>다음으로</button>
+    </div>
+</form>
 
-<br><br><br><br><br><br><br><br>
+	<script>
+		$("button").click(function(){
+			console.log($(this).data("movieId"));
+		});
+	</script>
 
-<script>	
-	/* 00.버튼 클릭 함수  */
-	$('.choice-container').on('click', '.btn-outline-secondary', function (e) {
-	  const $btn = $(e.currentTarget);
-	  const $group = $btn.closest('.movie-choice, .time-choice, .theater-choice');
+<script>
+$(document).ready(function () {
+    const selectedBtn = $('.movie-choice .btn-outline-secondary.selected');
+    console.log(selectedBtn);
+    if (selectedBtn.length > 0) {
+        $('#movieId').val(selectedBtn.attr('data-movieId'));
+        fetchSchedules(selectedBtn.attr('data-movieId'));
+    }
 
-	  if ($btn.hasClass('selected')) {
-	    $btn.removeClass('selected');
-	    
-	  } else {
-	    $group.find('.btn-outline-secondary').removeClass('selected');
-	    $btn.addClass('selected');
-	    
-	  }
-	});
-	
-	/*01.영화 선택시 ajax 호출  */
-	$('.movie-choice .btn-outline-secondary').click(function(e){
-		const $btn = $(e.currentTarget);
-		/* movie-no에 저장된 값을 가져와 movieId에 넣어줌  */
-	    const movieId = $btn.attr('movie-no');
-        //무비선택을 변경하면 상영정보와 상영관 초기화 
-		$('#scheduleId').val('');
-        $('#screenId').val('');
-		
-        // hidden input에 값 저장
+    $('.choice-container').on('click', '.btn-outline-secondary', function (e) {
+        const $btn = $(e.currentTarget);
+        const $group = $btn.closest('.movie-choice, .time-choice, .theater-choice');
+        $group.find('.btn-outline-secondary').removeClass('selected');
+        $btn.addClass('selected');
+    });
+
+    $('.movie-choice .btn-outline-secondary').click(function (e) {
+        const $btn = $(e.currentTarget);
+        const movieId = $btn.attr('data-movieId');
+        console.log(movieId);
+
         $('#movieId').val(movieId);
-		
-		/* 버튼 선택 해제시 time-choice 클래스를 비워줌 */
-	    if ($btn.hasClass('selected')) {
-	        $('.time-choice ul').empty(); 
-	        
-	        $('#movieId').val(''); // 폼 안의 영화 아이디 값도 비워줌
-            $('#scheduleId').val('');
-            $('#screenId').val('');
-            
-	        checkFormReady() // 버튼 비활성화 
-	    }else{
-	    	
-	    	/* ajax로 상영정보 요청  */
-	    	$.ajax({
-	    		url : '<%= request.getContextPath() %>/movie/schedule',
-	    		method : 'GET',
-	    		data : { movieId: movieId },
-	    		success : function(schedules){
-	    			
-	    			const $list = $('.time-choice ul');
-	                $list.empty(); // 함수 실행시 초기화 
-	                
-	                schedules.forEach(function (schedule){
-	                	
-	                	console.log(schedule);
-	                	
-                        const item = `
-                            <li>
-                                <button 
-                                    class="btn btn-outline-secondary schedule-option" 
-                                    data-schedule-id="\${schedule.scheduleId}" 
-                                    data-screen-id="\${schedule.screenId}">
-                                    <span class="time">
-                                        <strong>\${schedule.startTime}</strong>
-                                    </span>
-                                    <span class="title">
-                                        <strong title="\${schedule.movieTitle}">\${schedule.movieTitle}</strong>
-                                        <em>\${schedule.language}</em>
-                                    </span>
-                                    <span class="screen">
-                                    	<strong>제 \${schedule.screenId}관</strong>
-                                    </span
-                                </button>
-                            </li>`;
-	                		
-						$list.append(item);
-	                	
-	                });
-	                
-	                //동적 이벤트 바인딩
-	                bindScheduleSelectEvent();
-	    			
-	    		},
-	    		error : function(){
-	    			console.log('상영 정보를 불러오지 못했습니다.');
-	    		}
-	    		
-	    	});
-	    }
-		
-	    checkFormReady(); // 상태 확인
-		
-	});
-	
-	
-	/* 02. 각 클래스의 버튼이 활성화 되었으면 다음버튼 활성화 */
+        $('#scheduleId').val('');
+        $('#screenId').val('');
+        $('.time-choice ul').empty();
+        checkFormReady();
+
+        fetchSchedules(movieId);
+    });
+
+    function fetchSchedules(movieId) {
+        $.ajax({
+            url: '<%= request.getContextPath() %>/movie/schedule',
+            method: 'GET',
+            data: { movieId: movieId },
+            success: function (schedules) {
+                const $list = $('.time-choice ul');
+                $list.empty();
+                schedules.forEach(function (schedule) {
+                    const item = `
+                        <li>
+                            <button 
+                                class="btn btn-outline-secondary schedule-option" 
+                                data-schedule-id="\${schedule.scheduleId}" 
+                                data-screen-id="\${schedule.screenId}">
+                                <span class="time"><strong>\${schedule.startTime}</strong></span>
+                                <span class="title"><strong title="\${schedule.movieTitle}">${schedule.movieTitle}</strong><em>${schedule.language}</em></span>
+                                <span class="screen"><strong>제 \${schedule.screenId}관</strong></span>
+                            </button>
+                        </li>`;
+                    $list.append(item);
+                });
+                bindScheduleSelectEvent();
+            },
+            error: function () {
+                console.log('상영 정보를 불러오지 못했습니다.');
+            }
+        });
+    }
+    
+    
+
+    function bindScheduleSelectEvent() {
+        $('.schedule-option').click(function () {
+            $('.schedule-option').removeClass('selected');
+            $(this).addClass('selected');
+            $('#scheduleId').val($(this).data('schedule-id'));
+            $('#screenId').val($(this).data('screen-id'));
+            checkFormReady();
+        });
+    }
+
     function checkFormReady() {
         const movieId = $('#movieId').val();
         const scheduleId = $('#scheduleId').val();
         const screenId = $('#screenId').val();
-
         const $btn = $('.btn.next');
-        
-        
+
         if (movieId && scheduleId && screenId) {
             $btn.prop('disabled', false);
         } else {
             $btn.prop('disabled', true);
         }
     }
-	
-	/* 03. 상영 시간 선택 이벤트 바인딩 함수  */
-	function bindScheduleSelectEvent() {
-        $('.schedule-option').click(function () {
-        	const $btn = $('.schedule-option');
-        	
-        	console.log($btn);
-        	
-        	if ($btn.hasClass('selected')) {
-        		
-                $('#scheduleId').val('');
-                $('#screenId').val('');
-                checkFormReady();
-				
-			}else{
-	            const scheduleId = $(this).data('schedule-id');
-	            const screenId = $(this).data('screen-id');
-	
-	            $('#scheduleId').val(scheduleId);
-	            $('#screenId').val(screenId);
-	
-	            checkFormReady();
-			}
-        });
+    
+    
+    //function chk	
+});
+
+ // 처음 자동 호출
+function loadScheduleForSelectedMovie() {
+    // selected 클래스가 붙은 버튼을 찾음
+    const $selectedBtn = $('.btn-outline-secondary.selected');
+    const movieId = $selectedBtn.attr('data-movieId');
+    
+    if (movieId) {
+    	fetchSchedules(movieId)
     }
-
-	
-	
-
+    
+ }
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-
-
 </body>
 </html>

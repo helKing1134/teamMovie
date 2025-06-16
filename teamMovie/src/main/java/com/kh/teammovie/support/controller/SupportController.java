@@ -79,7 +79,12 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		
 		//자주묻는질문
 		@RequestMapping("admin")
-		public String admin() {
+		public String admin(HttpSession session, Model model) {
+			
+			// member의 권한 정보 추가 
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			String memRole  = loginUser.getRole();
+			model.addAttribute("memRole", memRole);
 			
 			return "support/admin";
 		}

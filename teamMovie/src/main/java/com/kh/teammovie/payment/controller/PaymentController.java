@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.kh.teammovie.member.model.vo.Member;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.payment.model.service.PaymentService;
 import com.kh.teammovie.payment.model.vo.Payment;
@@ -79,7 +80,8 @@ public class PaymentController {
 		//상영정보 객체
 		Schedule sch = rvService.getSchById(p.getScheduleId());
 		
-		
+		//멤버 객체
+		Member mem = pmService.getMemByPmId(paymentId);
 		
 		//영화
 		Movie m = rvService.getMovieById(sch.getMovieId());
@@ -123,6 +125,7 @@ public class PaymentController {
 	    // 모든 연결 데이터를 paymentId 하나로 열람
 	    model.addAttribute("p", p);
 	    model.addAttribute("sch", swt);
+	    model.addAttribute("mem", mem);
 	    model.addAttribute("m", m);
 	    model.addAttribute("r", r);
 	    model.addAttribute("s", s);
