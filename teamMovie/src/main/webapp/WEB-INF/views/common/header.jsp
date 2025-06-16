@@ -237,6 +237,7 @@
             </c:choose>
         </div>
     </div>
+
     <div class="nav-bar">
         <ul>
             <li><a href="${contextRoot}/movies">영화</a></li>
@@ -249,6 +250,7 @@
 				
         </ul>
     </div>
+
 </div>
 
 

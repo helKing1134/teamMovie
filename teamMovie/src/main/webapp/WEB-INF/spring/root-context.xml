@@ -10,7 +10,7 @@
     <!-- 1단계: DB 접속 정보 -->
     <bean class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
         <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="url" value="jdbc:oracle:thin:@192.168.150.45:1521:xe"/>
         <property name="username" value="MOVIE"/>
         <property name="password" value="MOVIE"/>
     </bean>
@@ -38,5 +38,6 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
+    
 
 </beans>

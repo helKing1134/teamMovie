@@ -33,6 +33,13 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 	</context:component-scan>
 	
+	<mvc:interceptors>
+    <mvc:interceptor>
+        <mvc:mapping path="/admin/**" />
+        <bean class="com.kh.teammovie.common.interceptor.RoleInterceptor" />
+    </mvc:interceptor>
+	</mvc:interceptors>
+	
 	
 	
     <!-- ✅ 어노테이션 기반 MVC 설정 -->
