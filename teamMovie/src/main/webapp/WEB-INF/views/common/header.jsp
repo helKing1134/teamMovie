@@ -255,57 +255,6 @@
 </div>
 
 
-
- <br clear="both"/>
-
-
-
-
-
-
-</head>
-	<body>
-		<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
-		
-		<script type="text/javascript">
-		    var msg = "${alertMsg}";
-		    if(msg != "") {
-		        alert(msg);
-		    }
-		</script> 
-		
-		<c:remove var="alertMsg"/>
-		
-		<div id="header">
-		    <div id="header_1">
-		        <div id="header_1_left">
-		            <!-- 예매 플랫폼용 로고로 교체 -->
-		            <img src="https://yourdomain.com/resources/images/logo_movie.png" alt="영화 예매 플랫폼 로고" />
-		        </div>
-		        <div id="header_1_center"></div>
-		        <div id="header_1_right">
-		            <c:choose>
-		                <c:when test="${empty loginUser}">
-		                    <a href="${contextRoot}/register.me">회원가입</a>
-		                    <a data-toggle="modal" data-target="#loginModal">로그인</a>
-		                </c:when>
-		                <c:otherwise>
-		                    <span>${loginUser.memberName}님 환영합니다</span>
-		                    <a href="${contextRoot}/mypage.me">마이페이지</a>
-		                    <a href="${contextRoot}/logout.me">로그아웃</a>
-		                </c:otherwise>
-		            </c:choose>
-		        </div>
-		    </div>
-		    <div id="header_2">
-		        <ul>
-		            <li><a href="${contextRoot}/movies">영화</a></li>
-		            <li><a href="${contextRoot}/movie/select">예매</a></li>
-		            <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
-		        </ul>
-		    </div>
-		</div>
-		
 		<!-- 로그인 모달 -->
 		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
 		    <div class="modal-dialog modal-sm" role="document">
