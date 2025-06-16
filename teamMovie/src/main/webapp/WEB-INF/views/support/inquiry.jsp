@@ -9,7 +9,7 @@
 
     <c:choose>
         <c:when test="${not empty loginUser}">
-            <form method="post" action="${pageContext.request.contextPath}/support/inquiry" enctype="multipart/form-data">
+            <form method="post" action="${pageContext.request.contextPath}/support/inquiry" >
                 <table class="table table-bordered">
                     <tbody>
                         <tr>

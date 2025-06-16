@@ -20,7 +20,7 @@ public interface SupportService {
 		//관리자 문의 게시판 목록 
 		ArrayList<Inquiry> inquiryList(PageInfo pi);
 		//나의 문의내역
-		ArrayList<Inquiry> myInquiryList();
+		List<Inquiry> myInquiryList(int memberId);
 		
 		List<Inquiry> findAllInquiries();
 		List<Inquiry> selectInquiriesByStatuses(@Param("statuses") List<String> statuses);
@@ -39,6 +39,7 @@ public interface SupportService {
 		int updateStatus(int inquiryId);
 
 		int deleteAnswer(int bno);
+
 
 
 		

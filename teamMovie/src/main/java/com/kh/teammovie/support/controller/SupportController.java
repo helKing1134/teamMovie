@@ -36,23 +36,27 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 			return "support/main"; //jsp
 		}
 		
-		//나의 문의 내역
-		@RequestMapping("myInquiryList") //url이름
-		public String myInquiryList(Model model) {
-			ArrayList<Inquiry> list = service.myInquiryList();
-			model.addAttribute("list", list);
-			return "support/myInquiryList"; //jsp
-		}
+//		//나의 문의 내역
+//		@RequestMapping("/myInquiryList")
+//		public String myInquiryList(HttpSession session, Model model) {
+//		    Member loginUser = (Member) session.getAttribute("loginUser");
+//		    if (loginUser == null) return "redirect:/login";
+//
+//		    List<Inquiry> myList = service.myInquiryList(loginUser.getMemberId());
+//		    model.addAttribute("list", myList);
+//		    return "inquiry/myInquiryList";
+//		}
+
 		
-		@GetMapping("/filterInquiries")
-		@ResponseBody
-		public List<Inquiry> filterInquiries(@RequestParam(required = false) 
-		List<String> statuses) {
-		    if (statuses == null || statuses.isEmpty()) {
-		        return service.findAllInquiries(); // 모든 문의글 반환
-		    }
-		    return service.selectInquiriesByStatuses(statuses); // 상태에 따라 필터링
-		}
+//		@GetMapping("/filterInquiries")
+//		@ResponseBody
+//		public List<Inquiry> filterInquiries(@RequestParam(required = false) 
+//		List<String> statuses) {
+//		    if (statuses == null || statuses.isEmpty()) {
+//		        return service.findAllInquiries(); // 모든 문의글 반환
+//		    }
+//		    return service.selectInquiriesByStatuses(statuses); // 상태에 따라 필터링
+//		}
 
 		
 		//자주묻는질문
@@ -132,8 +136,6 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 			
 		    Member loginUser = (Member) session.getAttribute("loginUser");
 		    
-		    System.out.println(i);
-
 		    if (loginUser != null) {
 		        i.setInquiryWriter(loginUser.getMemberNo());  
 		    } else {

@@ -89,6 +89,13 @@ public class SupportDao {
 	}
 
 
+	public List<Inquiry> myInquiryList(SqlSessionTemplate sqlSession,int memberId) {
+		// TODO Auto-generated method stub
+		List<Inquiry> list = (ArrayList)sqlSession.selectList("inquiryMapper.myInquiryList",memberId);
+		return list;
+	}
+
+
 
 	
 }
