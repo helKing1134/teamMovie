@@ -58,7 +58,7 @@ public class PaymentDao {
 		return sqlSession.selectOne("paymentMapper.getRefundByRfId", refundId);
 	}
 	
-	public List<Refund> getRefundByMemberNo(SqlSessionTemplate sqlSession, String memberNo) {
+	public List<Refund> getRefundByMemberNo(SqlSessionTemplate sqlSession, int memberNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("paymentMapper.getRefundByMemberNo", memberNo);
 	}

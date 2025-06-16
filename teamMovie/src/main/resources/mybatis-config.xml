@@ -24,6 +24,8 @@
  		<typeAlias type="com.kh.teammovie.seat.model.vo.Seat" alias="Seat"/>
  		<typeAlias type="com.kh.teammovie.seat.model.vo.ReservedSeat" alias="ReservedSeat"/>
  		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
+ 		<typeAlias type="com.kh.teammovie.support.model.vo.Inquiry" alias="Inquiry"/>
+ 		<typeAlias type="com.kh.teammovie.support.model.vo.InquiryAnswer" alias="InquiryAnswer"/>
  		<typeAlias type="com.kh.teammovie.payment.model.vo.Payment" alias="Payment"/>
  		<typeAlias type="com.kh.teammovie.reservation.model.vo.Reservation" alias="Reservation"/>
  		<typeAlias type="com.kh.teammovie.refund.model.dto.ReqRefundDTO" alias="ReqRefundDTO"/>
@@ -36,7 +38,7 @@
  		<typeAlias type="com.kh.teammovie.movie.model.vo.Review" alias="Review"/>
  		<typeAlias type="com.kh.teammovie.movie.model.vo.StillCut" alias="StillCut"/>
  		<typeAlias type="com.kh.teammovie.movie.model.vo.Type" alias="Type"/>
- 		
+
  	</typeAliases>
  	
 </configuration>

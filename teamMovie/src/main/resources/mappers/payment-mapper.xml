@@ -86,7 +86,7 @@
 	
 	</select>
 	
-		<select id="getRefundByMemberNo" parameterType="String" resultMap="refundResultMap">
+		<select id="getRefundByMemberNo" parameterType="_int" resultMap="refundResultMap">
 		SELECT
 			*
 		FROM
