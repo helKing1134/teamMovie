@@ -9,7 +9,7 @@
     <hr>
 
     <c:choose>
-        <c:when test="${empty myInquiries}">
+        <c:when test="${empty list}">
             <div class="alert alert-info text-center">
                 등록한 문의가 없습니다.
             </div>
@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="i" items="${inquiry}">
+                    <c:forEach var="i" items="${list}">
                         <tr>
                             <td>${i.inquiryId}</td>
                             <td class="text-left">${i.title}</td>
@@ -53,5 +53,17 @@
         </c:otherwise>
     </c:choose>
 </div>
+
+
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        const loginRequired = "${loginRequired}";
+        if (loginRequired === 'true') {
+            alert("로그인 후 이용 가능한 서비스입니다.");
+            $('#loginModal').modal('show');
+        }
+    });
+</script>
+
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

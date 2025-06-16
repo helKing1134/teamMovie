@@ -40,6 +40,12 @@ public class SupportDao {
 
 		return list;
 	}
+	
+	public ArrayList<Inquiry> myInquiryList(SqlSessionTemplate sqlSession,int memberNo) {
+		// TODO Auto-generated method stub
+		ArrayList<Inquiry> list = (ArrayList)sqlSession.selectList("inquiryMapper.myInquiryList",memberNo);
+		return list;
+	}
 
 	public Inquiry inquiryDetail(SqlSessionTemplate sqlSession, int bno) {
 		// TODO Auto-generated method stub
@@ -88,12 +94,6 @@ public class SupportDao {
 		return sqlSession.selectList("inquiryMapper.selectInquiriesByStatuses",statuses);
 	}
 
-
-	public List<Inquiry> myInquiryList(SqlSessionTemplate sqlSession,int memberId) {
-		// TODO Auto-generated method stub
-		List<Inquiry> list = (ArrayList)sqlSession.selectList("inquiryMapper.myInquiryList",memberId);
-		return list;
-	}
 
 
 

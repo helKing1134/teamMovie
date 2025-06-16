@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String contextRoot = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-
-
-
-
+    <meta charset="UTF-8">
+    <title>고객센터 홈</title>
     <style>
         body {
             margin: 0;
@@ -23,7 +22,6 @@
             min-height: 100vh;
         }
 
-        /* 사이드바 */
         .sidebar {
             width: 220px;
             background-color: #f0ede9;
@@ -62,7 +60,6 @@
             color: #2c2c2c;
         }
 
-        /* 메인 콘텐츠 */
         .main {
             flex: 1;
             padding: 2.5rem;
@@ -72,21 +69,6 @@
             font-size: 1.8rem;
             margin-bottom: 1.5rem;
             color: #4d392b;
-        }
-
-        .main .section {
-            margin-bottom: 2rem;
-        }
-
-        .main .section h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #3b3b3b;
-        }
-
-        .main .section p {
-            font-size: 0.95rem;
-            color: #555;
         }
 
         .quick-box {
@@ -115,23 +97,20 @@
             color: #666;
         }
     </style>
-    
-    
 </head>
 <body>
 
-	<%@ include file="/WEB-INF/views/common/header.jsp" %>
-	
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
-	
-	<div class="container">
+<div class="container">
     <!-- 사이드바 -->
     <aside class="sidebar">
         <h2>고객센터</h2>
         <ul>
-            <li><a href="${contextRoot}/support" class="active">고객센터 홈</a></li>
-            <li><a href="${contextRoot}/support/faq">자주 묻는 질문</a></li>
+            <li><a href="${pageContext.request.contextPath}/support" class="active">고객센터 홈</a></li>
+            <li><a href="${pageContext.request.contextPath}/support/faq">자주 묻는 질문</a></li>
             <li><a href="#">공지사항</a></li>
+
             <li><a href="${contextRoot}/support/inquiry" id = "inquiry">1:1 문의</a></li>
 			<!-- 관리자 로그인시 보여지는 속성 by sh.k -->
 			<c:if test="${memRole == 'ADMIN'}">
@@ -140,6 +119,7 @@
 				<li><a href="${contextRoot}/admin/refund">환불 이력 관리</a></li>
 			</c:if>
             <li><a href="${contextRoot}/myInquiryList">나의 문의 내역</a></li>
+
             <li><a href="#">분실물 문의</a></li>
             <li><a href="#">이용약관</a></li>
             <li><a href="#">개인정보처리방침</a></li>
@@ -167,11 +147,54 @@
         </div>
     </main>
 </div>
-	
-	
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+<!-- 로그인 상태 확인 변수 -->
+<c:set var="isLogin" value="${empty sessionScope.loginUser ? 'false' : 'true'}" />
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const isLogin = "${isLogin}" === 'true';
+
+        const inquiryLink = document.getElementById("inquiry");
+        const myInquiryLink = document.getElementById("myInquiryList");
+
+        function handleAuthClick(e, targetUrl) {
+            if (!isLogin) {
+                e.preventDefault();
+
+                // 세션에 리다이렉트 URL 저장
+                fetch("/saveRedirectUrl", { method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ url: targetUrl })
+                })
+                .then(() => {
+                    $('#loginModal').modal('show');
+                })
+                .catch(error => {
+                    console.error("Redirect URL 저장 실패:", error);
+                });
+            }
+        }
+
+        if (inquiryLink) {
+            inquiryLink.addEventListener("click", function(e) {
+                handleAuthClick(e, "/support/inquiry");
+            });
+        }
+
+        if (myInquiryLink) {
+            myInquiryLink.addEventListener("click", function(e) {
+                handleAuthClick(e, "/myInquiryList");
+            });
+        }
+    });
+</script>
+
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 </body>
-
-
+</html>
+</body>
 </html>
