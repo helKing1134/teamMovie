@@ -31,6 +31,6 @@ public interface PaymentService {
 	Refund getRefundByRfId(int refundId);
 	
 	//멤버 넘버(식별자)로 환불 아이디 가져오기
-	List<Refund> getRefundByMemberNo(String memberNo);
+	List<Refund> getRefundByMemberNo(int memberNo);
 
 }

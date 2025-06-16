@@ -1,8 +1,8 @@
 package com.kh.teammovie.member.controller;
 
+
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,16 +43,14 @@ public class MemberController {
 	private ReservationService rvService;
 	
 	@RequestMapping("login.me")
+
 	public String loginMember(Member m, HttpSession session, Model model) {
 		
 		Member loginUser = service.loginMember(m);
 		
 		//사용자 권한별 일반 사용자 화면 과 백오피스 화면을 나누기 위해 추가함 by SH.K
 		String memRole  = loginUser.getRole();
-		
-		
-		
-		
+				
 		if (loginUser != null && bcrypt.matches(m.getPassword1(),loginUser.getPassword1())) {
 			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("memRole", memRole);
@@ -67,6 +65,8 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	}
+
+	
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 		session.removeAttribute("loginUser");
@@ -265,21 +265,5 @@ public class MemberController {
 	}
 
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
