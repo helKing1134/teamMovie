@@ -34,12 +34,5 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
 
-    <!-- Interceptor 설정 -->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/support/inquiry"/>
-            <bean class="com.kh.teammovie.common.interceptor.LoginCheckInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
 
 </beans>

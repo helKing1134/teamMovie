@@ -29,23 +29,34 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		
 		@Autowired
 		private SupportService service;
+
 		
 		//문의하기 메인
 		@RequestMapping("support") //url이름
-		public String main() {
+		public String main(@RequestParam(value="loginRequired", required=false) String loginRequired,
+                HttpSession session, Model model) {
+
+		    // 로그인한 사용자 객체를 세션에서 가져옴
+		    Object loginUser = session.getAttribute("loginUser");
+		    model.addAttribute("loginUser", loginUser); // null일 수도 있음
+		    model.addAttribute("loginRequired", loginRequired); // 로그인 모달 띄울지 판단용
 			return "support/main"; //jsp
 		}
 		
-//		//나의 문의 내역
-//		@RequestMapping("/myInquiryList")
-//		public String myInquiryList(HttpSession session, Model model) {
-//		    Member loginUser = (Member) session.getAttribute("loginUser");
-//		    if (loginUser == null) return "redirect:/login";
-//
-//		    List<Inquiry> myList = service.myInquiryList(loginUser.getMemberId());
-//		    model.addAttribute("list", myList);
-//		    return "inquiry/myInquiryList";
-//		}
+		//나의 문의 내역
+		@RequestMapping("/myInquiryList")
+		public String myInquiryList(HttpSession session, Model model) {
+		    Member loginUser = (Member) session.getAttribute("loginUser");
+		    if (loginUser == null) {
+		        model.addAttribute("errorMsg", "로그인이 필요한 서비스입니다.");
+		        return "common/errorPage";
+		        }
+
+		    ArrayList<Inquiry> list = service.myInquiryList(loginUser.getMemberNo());
+		    System.out.println(list);
+		    model.addAttribute("list", list);
+		    return "support/myInquiryList";
+		}
 
 		
 //		@GetMapping("/filterInquiries")

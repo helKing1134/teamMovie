@@ -94,76 +94,77 @@
         }
     </style>
 </head>
-	<body>
-		<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
-		
-		<script type="text/javascript">
-		    var msg = "${alertMsg}";
-		    if(msg != "") {
-		        alert(msg);
-		    }
-		</script> 
-		
-		<c:remove var="alertMsg"/>
-		
-		<div id="header">
-		    <div id="header_1">
-		        <div id="header_1_left">
-		            <!-- 예매 플랫폼용 로고로 교체 -->
-		            <img src="https://yourdomain.com/resources/images/logo_movie.png" alt="영화 예매 플랫폼 로고" />
-		        </div>
-		        <div id="header_1_center"></div>
-		        <div id="header_1_right">
-		            <c:choose>
-		                <c:when test="${empty loginUser}">
-		                    <a href="${contextRoot}/register.me">회원가입</a>
-		                    <a data-toggle="modal" data-target="#loginModal">로그인</a>
-		                </c:when>
-		                <c:otherwise>
-		                    <span>${loginUser.memberName}님 환영합니다</span>
-		                    <a href="${contextRoot}/mypage.me">마이페이지</a>
-		                    <a href="${contextRoot}/logout.me">로그아웃</a>
-		                </c:otherwise>
-		            </c:choose>
-		        </div>
-		    </div>
-		    <div id="header_2">
-		        <ul>
-		            <li><a href="${contextRoot}/movies">영화</a></li>
-		            <li><a href="${contextRoot}/movie/select">예매</a></li>
-		            <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
-		        </ul>
-		    </div>
-		</div>
-		
-		<!-- 로그인 모달 -->
-		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-		    <div class="modal-dialog modal-sm" role="document">
-		        <div class="modal-content">
-		            <!-- Modal Header -->
-		            <div class="modal-header">
-		                <h5 class="modal-title" id="loginModalLabel">로그인</h5>
-		                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
-		                    <span aria-hidden="true">&times;</span>
-		                </button>
-		            </div>
-		
-		            <form action="${contextRoot}/login.me" method="post">
-		                <div class="modal-body">
-		                    <label for="memberId" class="mr-sm-2">ID :</label>
-		                    <input type="text" class="form-control mb-2" id="memberId" name="memberId" placeholder="아이디 입력">
-		                    <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
-		                    <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
-		                </div>
-		                <div class="modal-footer">
-		                    <button type="submit" class="btn btn-primary">로그인</button>
-		                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-		                </div>
-		            </form>
-		        </div>
-		    </div>
-		</div>
-		
-		<br clear="both"/>
-	</body>
+<body>
+<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
+
+<script type="text/javascript">
+    var msg = "${alertMsg}";
+    if(msg != "") {
+        alert(msg);
+    }
+</script> 
+
+<c:remove var="alertMsg"/>
+
+<div id="header">
+    <div id="header_1">
+        <div id="header_1_left">
+            <!-- 예매 플랫폼용 로고로 교체 -->
+            <img src="https://yourdomain.com/resources/images/logo_movie.png" alt="영화 예매 플랫폼 로고" />
+        </div>
+        <div id="header_1_center"></div>
+        <div id="header_1_right">
+            <c:choose>
+                <c:when test="${empty loginUser}">
+                    <a href="${contextRoot}/register.me">회원가입</a>
+                    <a data-toggle="modal" data-target="#loginModal">로그인</a>
+                </c:when>
+                <c:otherwise>
+                    <span>${loginUser.memberName}님 환영합니다</span>
+                    <a href="${contextRoot}/mypage.me">마이페이지</a>
+                    <a href="${contextRoot}/logout.me">로그아웃</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+    <div id="header_2">
+        <ul>
+            <li><a href="${contextRoot}/movies">영화</a></li>
+            <li><a href="${contextRoot}/movie/select">예매</a></li>
+            <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 로그인 모달 -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">로그인</h5>
+                <button type="button" class="close" data-dismiss="modal" id="cancelBtn aria-label="닫기">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form action="${contextRoot}/login.me" method="post">
+                <div class="modal-body">
+                    <label for="memberId" class="mr-sm-2">ID :</label>
+                    <input type="text" class="form-control mb-2" id="memberId" name="memberId" placeholder="아이디 입력">
+                    <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
+                    <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">로그인</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelBtn">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<br clear="both"/>
+</body>
 </html>

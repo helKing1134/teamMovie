@@ -3,6 +3,7 @@ package com.kh.teammovie.member.controller;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,29 +44,38 @@ public class MemberController {
 	@Autowired
 	private ReservationService rvService;
 	
-	@RequestMapping("login.me")
-
-	public String loginMember(Member m, HttpSession session, Model model) {
-		
-		Member loginUser = service.loginMember(m);
-		
-		//사용자 권한별 일반 사용자 화면 과 백오피스 화면을 나누기 위해 추가함 by SH.K
-		String memRole  = loginUser.getRole();
-				
-		if (loginUser != null && bcrypt.matches(m.getPassword1(),loginUser.getPassword1())) {
-			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("memRole", memRole);
-			session.setAttribute("alertMsg", "성공적으로 로그인 하였습니다.");
-			
-			return "redirect:/";
-			
-			
-		} else {
-			model.addAttribute("errorMsg", "잘못 입력하셨습니다. 다시 로그인을 시도하여 주세요.");
-			//viewResolver가 WEB-INF/views/ 와 .jsp를 붙여서 경로를 완성해준다
-			return "common/errorPage";
-		}
+	@PostMapping("/saveRedirectUrl")
+	@ResponseBody
+	public void saveRedirectUrl(@RequestBody Map<String, String> data, HttpSession session) {
+	    System.out.println("세션 컨트롤러");
+		session.setAttribute("redirectAfterLogin", data.get("redirect"));
 	}
+
+	
+	@RequestMapping("login.me")
+	public String loginMember(Member m, HttpSession session, Model model) {
+	    Member loginUser = service.loginMember(m);
+
+	    if (loginUser != null && bcrypt.matches(m.getPassword1(), loginUser.getPassword1())) {
+	        session.setAttribute("loginUser", loginUser);
+	        session.setAttribute("memRole", loginUser.getRole());
+	        session.setAttribute("alertMsg", "성공적으로 로그인 하였습니다.");
+
+	        // 이전 URL로 리다이렉트
+	        String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
+	        if (redirectUrl != null) {
+	            session.removeAttribute("redirectAfterLogin");
+	            return "redirect:" + redirectUrl;
+	        }
+
+	        return "redirect:/support";  // fallback
+	    } else {
+	        model.addAttribute("errorMsg", "로그인 실패");
+	        return "common/errorPage";
+	    }
+	}
+
+
 
 	
 	@RequestMapping("logout.me")

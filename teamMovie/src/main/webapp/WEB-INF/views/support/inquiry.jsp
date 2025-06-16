@@ -6,7 +6,7 @@
 <div class="container mt-5">
     <h3>1:1 문의 작성</h3>
     <hr>
-
+    
     <c:choose>
         <c:when test="${not empty loginUser}">
             <form method="post" action="${pageContext.request.contextPath}/support/inquiry" >
@@ -66,16 +66,6 @@
         </c:otherwise>
     </c:choose>
 </div>
-
-<script>
-    window.addEventListener("DOMContentLoaded", function () {
-        const loginRequired = "${loginRequired}";
-        if (loginRequired === 'true') {
-            alert("로그인 후 이용 가능한 서비스입니다.");
-            $('#loginModal').modal('show');
-        }
-    });
-</script>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

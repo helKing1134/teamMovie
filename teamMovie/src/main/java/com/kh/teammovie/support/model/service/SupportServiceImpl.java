@@ -88,9 +88,9 @@ public class SupportServiceImpl implements SupportService {
 	}
 
 	@Override
-	public List<Inquiry> myInquiryList(int memberId) {
+	public ArrayList<Inquiry> myInquiryList(int memberNo) {
 		// TODO Auto-generated method stub
-		return dao.myInquiryList(sqlSession,memberId);
+		return dao.myInquiryList(sqlSession,memberNo);
 	}
 
 

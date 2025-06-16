@@ -20,7 +20,7 @@ public interface SupportService {
 		//관리자 문의 게시판 목록 
 		ArrayList<Inquiry> inquiryList(PageInfo pi);
 		//나의 문의내역
-		List<Inquiry> myInquiryList(int memberId);
+		ArrayList<Inquiry> myInquiryList(int memberNo);
 		
 		List<Inquiry> findAllInquiries();
 		List<Inquiry> selectInquiriesByStatuses(@Param("statuses") List<String> statuses);
