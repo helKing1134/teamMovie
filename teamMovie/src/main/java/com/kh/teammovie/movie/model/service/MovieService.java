@@ -92,6 +92,9 @@ public interface MovieService {
 	//배우 등록하기
 	int registerActor(Actor actor);
 	
+	//DB에서 영화4개 가져오기
+    List<Movie> selectTop4Movies();
+	
 	
 	
 	

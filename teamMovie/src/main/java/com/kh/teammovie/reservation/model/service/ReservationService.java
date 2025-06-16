@@ -51,5 +51,8 @@ public interface ReservationService {
 		
 		// 스케줄에 대한 예약좌석 리스트만을 가져오는 메소드
 		List<ReservedSeat> getRSeatsBySchedule(int scheduleId);
+		
+		//모든 영화가져오기
+		ArrayList<Movie> movieAll();
 
 }

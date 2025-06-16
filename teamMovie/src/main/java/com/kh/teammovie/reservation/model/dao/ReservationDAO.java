@@ -105,5 +105,11 @@ public class ReservationDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("reservedSeatMapper.getRSeatsBySchedule", scheduleId);
 	}
+	
+	public ArrayList<Movie> movieAll(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		
+		return  (ArrayList) sqlSession.selectList("movieMapper.movieAll");
+	}
 
 }

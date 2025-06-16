@@ -123,6 +123,12 @@ public class ReservationServiceImpl implements ReservationService {
 		// TODO Auto-generated method stub
 		return rvDAO.getRSeatsBySchedule(sqlSession, scheduleId);
 	}
+	
+	@Override
+	public ArrayList<Movie> movieAll() {
+		// TODO Auto-generated method stub
+		return rvDAO.movieAll(sqlSession);
+	}
 
 	
 	
