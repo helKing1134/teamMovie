@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.teammovie.member.model.vo.Member;
 import com.kh.teammovie.payment.model.vo.Payment;
 import com.kh.teammovie.refund.model.vo.Refund;
 import com.kh.teammovie.seat.model.vo.Seat;
@@ -60,6 +61,12 @@ public class PaymentDao {
 	public List<Refund> getRefundByMemberNo(SqlSessionTemplate sqlSession, String memberNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("paymentMapper.getRefundByMemberNo", memberNo);
+	}
+	public Member getMemByPmId(SqlSessionTemplate sqlSession, int paymentId) {
+		// TODO Auto-generated method stub
+		
+		String payId = String.valueOf(paymentId);
+		return sqlSession.selectOne("paymentMapper.getMemByPmId", payId);
 	}
 
 }

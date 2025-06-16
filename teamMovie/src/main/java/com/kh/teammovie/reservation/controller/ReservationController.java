@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.teammovie.member.model.vo.Member;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.refund.model.dto.ReqRefundDTO;
 import com.kh.teammovie.request.RqPayment;
@@ -96,6 +99,7 @@ public class ReservationController {
 									int  scheduleId, 
 									int  screenId, 
 									int memberId,
+									HttpSession session,
 									Model model) {
 		
 		System.out.println("무비 아이디 : "+movieId);
@@ -104,8 +108,10 @@ public class ReservationController {
 		System.out.println("멤버 아이디 : "+memberId);
 		
 		// 데이터 받아온 것 확인 
-		// 보내줄 데이터 : 영화제목, 상영정보, 상영관, 좌석리스트
+		// 보내줄 데이터 : 영화제목, 상영정보, 상영관, 좌석리스트, 멤버 
 		
+		//멤버
+		Member mem = (Member) session.getAttribute("loginUser");
 		//영화 
 		Movie m = rvService.getMovieById(movieId);
 		//상영정보
@@ -131,6 +137,7 @@ public class ReservationController {
 		//시작시간, 종료 시간
 		Map<String,String> timeMap = timeCalculator(sch, m);
  		//모델에 데이터 삽입
+		model.addAttribute("mem",mem);
 		model.addAttribute("m",m);
 		model.addAttribute("sch",swt);
 		model.addAttribute("s",s);
@@ -142,7 +149,9 @@ public class ReservationController {
 		
 	}
 	@PostMapping("movie/payment")
-	public String forwardMoviePayment(RqPayment rqp, Model model) {
+	public String forwardMoviePayment(RqPayment rqp, 
+									HttpSession session,
+									Model model) {
 		
 		int movieId = rqp.getMovieId();
 		int screenId = rqp.getScreenId();
@@ -153,6 +162,8 @@ public class ReservationController {
 
 		
 		//객체들 불러오기 
+		//멤버
+		Member mem = (Member) session.getAttribute("loginUser");
 		//영화 
 		Movie m = rvService.getMovieById(movieId);
 		//상영정보
@@ -230,6 +241,7 @@ public class ReservationController {
 
 	
 		//모델에 정보 전달 
+		model.addAttribute("mem",mem);
 		model.addAttribute("m",m);
 		model.addAttribute("sch",swt);
 		model.addAttribute("s",s);
@@ -253,6 +265,8 @@ public class ReservationController {
 	@ResponseBody
 	public Map<String, Object> requestRefund(@RequestBody ReqRefundDTO dto) {
 	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    System.out.println("예약취소" +dto.getUserId());
 
 	    boolean success = rvService.insertRefund(dto);
 
@@ -267,10 +281,10 @@ public class ReservationController {
 	//결제 검증 로직 
 	@PostMapping("reservation/checkTempSeat")
 	@ResponseBody
-	public String checkTempSeat( int scheduleId) {
+	public String checkTempSeat( int scheduleId,  int memberNo) {
 		
 		
-	    boolean exists = rvService.tempSeatExists(scheduleId);
+	    boolean exists = rvService.tempSeatExists(scheduleId, memberNo);
 	    
 	    return exists ? "valid" : "expired";
 	}

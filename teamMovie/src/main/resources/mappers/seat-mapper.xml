@@ -82,11 +82,11 @@
 	</select>
 	
 	<!-- 결제 검증용  -->
-	<select id="existsTempSeat" parameterType="_int" resultType="int">
+	<select id="existsTempSeat" parameterType="map" resultType="int">
 	    SELECT COUNT(*) 
 	    FROM reserved_seat 
 	    WHERE schedule_id = #{scheduleId}
-	    AND	  seat_selector = 1
+	    AND	  seat_selector = #{memberNo}
       AND status = 'TEMP'
 	</select>
 
