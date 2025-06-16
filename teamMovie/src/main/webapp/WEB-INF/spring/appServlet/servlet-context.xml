@@ -32,7 +32,16 @@
 		<beans:property name="maxUploadSize" value="100000000"/> <!-- 업로드 파일 용량 제한 -->
 		<beans:property name="maxInMemorySize" value="100000000"/> <!-- 임시 메모리 보관 크기설정 -->
 	</beans:bean>
-	
+	<!-- 
+	<interceptors>
+		<interceptor>
+			
+			<mapping path="/**"/>
+			 
+			<beans:bean class="com.kh.teammovie.common.interceptor.MainInterceptor"/>
+		</interceptor>
+	</interceptors>
+	 -->
 
 	<context:component-scan base-package="com.kh.teammovie" />
 

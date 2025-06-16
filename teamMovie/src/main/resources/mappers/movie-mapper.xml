@@ -56,6 +56,21 @@
 		ORDER BY RELEASE_DATE DESC
 	</select>
 	
+	<select id="movieAll" resultMap="movieListResultMap">
+	    SELECT 
+	        MOVIE_ID,
+	        TYPE_ID,
+	        MOVIE_TITLE,
+	        DESCRIPTION,
+	        DIRECTOR,
+	        DURATION,
+	        RATING,
+	        RELEASE_DATE,
+	        STATUS,
+	        POSTER_PATH
+    	FROM MOVIE
+	</select>
+	
 	<select id="searchOfAllMovie" resultMap="movieListResultMap">
 		SELECT MOVIE_ID
 		      ,MOVIE_TITLE
@@ -286,6 +301,29 @@
 			schedule_id = #{scheduleId}
 	</select>
 	
+	<!-- 최신 영화 4편을 가져오는 쿼리 -->
+	<select id="selectTop4Movies" resultMap="movieResultMap">
+	  <![CDATA[
+	    SELECT *
+	    FROM (
+	      SELECT 
+	          MOVIE_ID, 
+	          TYPE_ID,
+	          MOVIE_TITLE, 
+	          DESCRIPTION, 
+	          DIRECTOR,
+	          DURATION,
+	          RATING, 
+	          POSTER_PATH, 
+	          GIF_PATH, 
+	          RELEASE_DATE
+	      FROM MOVIE
+	      ORDER BY RELEASE_DATE DESC
+	    )
+	    WHERE ROWNUM <= 4
+	  ]]>
+	</select>
+		
 	
 	<!-- 영화 resultMap  -->
 	<resultMap type="Movie" id="movieResultMap">
@@ -299,6 +337,7 @@
 		<result property="releaseDate" column="RELEASE_DATE"/>
 		<result property="status" column="STATUS"/>
 		<result property="posterPath" column="POSTER_PATH"/>
+		<result property="gifPath" column="GIF_PATH"/>
 	</resultMap>
 	
 	<!-- 상영정보 resultMap  -->

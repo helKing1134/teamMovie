@@ -125,6 +125,12 @@ public class MovieServiceImpl implements MovieService {
 		return mvDAO.getStListBySchId(sqlSession, screenId);
 	}
 	
+
+	@Override
+	public List<Movie> selectTop4Movies() {
+	    return mvDAO.selectTop4Movies(sqlSession); // ✅ 이렇게!
+	}
+		
 	
 
 }

@@ -14,6 +14,7 @@ import com.kh.teammovie.movie.model.vo.Review;
 import com.kh.teammovie.movie.model.vo.StillCut;
 import org.apache.ibatis.session.RowBounds;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ArrayList;
 
 @Repository
@@ -24,6 +25,7 @@ public class MovieDAO {
 		
 		int limit = 4;
 		int offset = (page - 1) * limit;
+		
 		
 		return (ArrayList)sqlSession.selectList("movieMapper.movieListAll",null,new RowBounds(offset, limit));
 	}
@@ -119,6 +121,10 @@ public class MovieDAO {
 		// TODO Auto-generated method stub
 		return (ArrayList) sqlSession.selectList("seatMapper.getStListBySchId", screenId);
 	}
+
+	   public List<Movie> selectTop4Movies(SqlSessionTemplate sqlSession) {
+	        return sqlSession.selectList("movieMapper.selectTop4Movies");
+	    }
 	
 	
 

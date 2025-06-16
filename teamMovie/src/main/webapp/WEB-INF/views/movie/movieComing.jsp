@@ -353,7 +353,7 @@
 											      '<div class="card-body text-center">' +
 											        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 											        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
-											        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
+											        '<a href="${contextRoot}/movie/select?movieNo=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 											      '</div>' +
 											    '</div>' +
 											  '</div>'
@@ -436,7 +436,7 @@
 										      '<div class="card-body text-center">' +
 										        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 										        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
-										        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
+										        '<a href="${contextRoot}/movie/select?movieNo=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 										      '</div>' +
 										    '</div>' +
 										  '</div>'

@@ -22,6 +22,7 @@
  		<typeAlias type="com.kh.teammovie.screen.model.vo.Screen" alias="Screen"/>
  		<typeAlias type="com.kh.teammovie.seat.model.vo.Seat" alias="Seat"/>
  		<typeAlias type="com.kh.teammovie.member.model.vo.Member" alias="Member"/>
+ 		
  	</typeAliases>
  	
 </configuration>

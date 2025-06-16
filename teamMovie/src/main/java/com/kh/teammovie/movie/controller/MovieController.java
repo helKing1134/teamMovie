@@ -3,11 +3,14 @@ package com.kh.teammovie.movie.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teammovie.movie.model.service.MovieService;
@@ -23,11 +26,29 @@ public class MovieController { //written by 이수한
 	
 	@Autowired
 	private MovieService service;
-
+	
 	
 	
 	/*====================영화 목록 조회 메서드=====================*/
+	@GetMapping("/select")
+	public String selectMovie(@RequestParam("movieId") int movieId,
+	                          @RequestParam("title") String title,
+	                          HttpSession session,
+	                          Model model) {
 
+	    session.setAttribute("selectedMovieId", movieId);
+	    session.setAttribute("selectedMovieTitle", title);
+	    
+	    System.out.println("movieId = " + movieId);
+	    System.out.println("세션 selectedMovieId = " + session.getAttribute("selectedMovieId"));
+	    // 전체 영화 목록 가져오기
+	    
+	    
+	    ArrayList<Movie> mlist = service.movieListAll(1); // 예: 1페이지
+	    model.addAttribute("mlist", mlist); // ✅ 기존 네이밍 유지
+
+	    return "movie/movieSelectPage";
+	}
 	
 	
 	
@@ -41,6 +62,7 @@ public class MovieController { //written by 이수한
 	public ArrayList<Movie> movieListAll(int page) {
 		
 		ArrayList<Movie> movieListAll = service.movieListAll(page);
+		
 		
 		return movieListAll;
 	}

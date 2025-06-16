@@ -1,5 +1,6 @@
 package com.kh.teammovie.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +28,30 @@ public class MemberController {
 	
 	
 	@RequestMapping("login.me")
-	public String loginMember(Member m, HttpSession session, Model model) {
+	public String loginMember(Member m, HttpSession session, Model model,HttpServletRequest request) {
 		//System.out.println(bcrypt.encode(m.getPassword1()));
 		Member loginUser = service.loginMember(m);
 		//System.out.println(loginUser.getPassword1());
-		
-		if (loginUser != null && bcrypt.matches(m.getPassword1(),loginUser.getPassword1())) {
-			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("alertMsg", "성공적으로 로그인 하였습니다.");
-			return "redirect:/";
-		} else {
-			model.addAttribute("errorMsg", "잘못 입력하셨습니다. 다시 로그인을 시도하여 주세요.");
-			//viewResolver가 WEB-INF/views/ 와 .jsp를 붙여서 경로를 완성해준다
-			return "common/errorPage";
-		}
+		//System.out.println("평문에 대한 암호문 : "+bcrypt.encode(m.getPassword1()));
+	    if (loginUser != null && bcrypt.matches(m.getPassword1(), loginUser.getPassword1())) {
+	        session.setAttribute("loginUser", loginUser);
+	        session.setAttribute("alertMsg", "성공적으로 로그인 하였습니다.");
+	        
+	        
+	        // ✅ 관리자면 어드민 홈으로
+	        if ("ADMIN".equals(loginUser.getRole())) {
+	            return "redirect:/admin/home";
+	        } else {
+	        	return "redirect:/"; // 일반 회원은 메인 페이지
+	        }
+
+	    } else {
+	        // ❌ 로그인 실패
+	        model.addAttribute("errorMsg", "잘못 입력하셨습니다. 다시 로그인을 시도하여 주세요.");
+	        return "common/errorPage"; // 또는 "member/loginForm" 등 원하는 곳으로
+	    }
 	}
+	
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 		session.removeAttribute("loginUser");

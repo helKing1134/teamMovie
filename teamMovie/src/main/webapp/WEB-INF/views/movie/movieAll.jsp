@@ -328,7 +328,7 @@
   				page : page	
   			},
   			success : function(movieList){
-  				
+  				console.log(movieList);
   				if(movieList.length === 0){
   					$("#movieBox").append('<div class="alert-box">'
 											+ '<i class="fas fa-film"></i> 더 이상 불러올 영화가 없습니다.'
@@ -353,7 +353,7 @@
 											      '<div class="card-body text-center">' +
 											        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 											        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
-											        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
+											        '<a href="${contextRoot}/movie/select?movieNo=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 											      '</div>' +
 											    '</div>' +
 											  '</div>'
@@ -436,7 +436,7 @@
 										      '<div class="card-body text-center">' +
 										        '<h5 class="card-title" id="' + movie.movieId + '">' + movie.movieTitle + '</h5>' +
 										        '<p class="card-text text-muted">' + movie.releaseDate + '</p>' +
-										        '<a href="${contextRoot}/reserve.mv?mvId=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
+										        '<a href="${contextRoot}/movie/select?movieNo=' + movie.movieId + '" class="reserve-btn">예매하기</a>' +
 										      '</div>' +
 										    '</div>' +
 										  '</div>'

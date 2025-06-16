@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+
     <meta charset="UTF-8">
     <title>영화 예매 플랫폼</title>
     <!-- jQuery -->
@@ -19,8 +19,26 @@
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <style>
-        div { box-sizing: border-box; }
+ 
+<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
+
+
+<!-- 구글 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<script type="text/javascript">
+    var msg = "${alertMsg}";
+    if(msg != "") {
+        alert(msg);
+    }
+</script> 
+
+<c:remove var="alertMsg"/>
+
+
+<style>
+
+    div { box-sizing: border-box; }
         #header {
     width: 80%;
     height: 100px;
@@ -32,25 +50,8 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 	}
->>>>>>> refs/remotes/origin/main
 
-<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
 
-<<<<<<< HEAD
-<!-- 구글 폰트 -->
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-=======
-<script type="text/javascript">
-    var msg = "${alertMsg}";
-    if(msg != "") {
-        alert(msg);
-    }
-</script> 
-
-<c:remove var="alertMsg"/>
->>>>>>> refs/remotes/origin/main
-
-<style>
     * {
         box-sizing: border-box;
     }
@@ -225,7 +226,7 @@
                 <c:when test="${empty loginUser}">
 
                     <a href="${contextRoot}/register">회원가입</a>
-                    <a href="#" data-toggle="modal" data-target="#loginModal">로그인</a>
+                    <a href="${contextRoot}/login.me" data-toggle="modal" data-target="#loginModal">로그인</a>
 
                 </c:when>
                 <c:otherwise>
@@ -239,13 +240,16 @@
     <div class="nav-bar">
         <ul>
             <li><a href="${contextRoot}/movies">영화</a></li>
-            <li><a href="${contextRoot}/booking">예매</a></li>
+            <li><a href="${contextRoot}/movie/select">예매</a></li>
             <li><a href="${contextRoot}/theaters">극장</a></li>
 
             <!--  <li><a href="${contextRoot}/mypage">스토어</a></li>-->
 
             <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
-
+	        <c:if test="${not empty loginUser && loginUser.role == 'ADMIN'}">
+	    		<a href="${pageContext.request.contextPath}/admin/home">[관리자 홈]</a>
+			</c:if>
+				
         </ul>
     </div>
 </div>
@@ -263,7 +267,7 @@
                 </button>
             </div>
 
-            <form action="${contextRoot}/login" method="post">
+            <form action="${contextRoot}/login.me" method="post">
 
                 <div class="modal-body">
 
@@ -274,16 +278,18 @@
                     <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호" autocomplete="current-password" />
                     -->
                     <!-- 아이디 저장 토글 버튼 -->
-                    <div class="form-check mt-2 mb-3 d-flex align-items-center">
-                        <button type="button" class="btn btn-outline-secondary p-1 me-2" id="rememberBtn">&#x2610;</button>
-                        <span>아이디 저장</span>
-                    </div>
+
 
                     <label for="memberId" class="mr-sm-2">ID :</label>
                     <input type="text" class="form-control mb-2" id="memberId" name="memberId" placeholder="아이디 입력">
                     <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
                     <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
-
+                    <div class="form-check mt-2 mb-3 d-flex align-items-center">
+                 	<div class="form-check mt-2 mb-3">
+				    <input class="form-check-input" type="checkbox" id="rememberMe">
+				    <label class="form-check-label" for="rememberMe">아이디 저장</label>
+				</div>
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">로그인</button>
@@ -292,14 +298,15 @@
             </form>
         </div>
     </div>
-    <br clear="both"/>
+   
 </div>
 
-
+ <br clear="both"/>
 
 
 <!-- 아이디 저장 토글 스크립트 -->
 <script>
+  /*
     const btn = document.getElementById('rememberBtn');
     let isChecked = false;
 
@@ -307,6 +314,7 @@
         isChecked = !isChecked;
         btn.innerHTML = isChecked ? '&#x2611;' : '&#x2610;';
     });
+    */
 </script> 
 
 

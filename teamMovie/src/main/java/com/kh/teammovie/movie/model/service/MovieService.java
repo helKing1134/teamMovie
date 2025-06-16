@@ -59,7 +59,7 @@ public interface MovieService {
 	
 	// 상영관 아이디를 가지고 좌석 목록 가져오기
 	ArrayList<Seat> getStListBySchId(int screenId);
-	
-	
+	//DB에서 영화4개 가져오기
+	  List<Movie> selectTop4Movies();
 
 }

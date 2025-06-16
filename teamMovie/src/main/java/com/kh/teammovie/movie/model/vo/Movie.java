@@ -28,7 +28,7 @@ public class Movie {
 	
 	private String status;//	STATUS	VARCHAR2(9 BYTE)
 	private String posterPath;//	POSTER_PATH	VARCHAR2(100 BYTE)
-	
+	private String gifPath; //GIF_PATH	VARCHAR2(100 BYTE)
 	//영화 관련 다른 테이블
 	private ArrayList<Genre> genres; //영화 1개당 갖고 있는 장르들
 	private ArrayList<Actor> actors; //영화 1개당 갖고 있는 배우들
