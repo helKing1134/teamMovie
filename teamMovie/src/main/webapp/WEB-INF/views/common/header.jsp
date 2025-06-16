@@ -86,6 +86,41 @@
             padding: 5% 10%;
             background-color: white;
         }
+        
+        /* 공통 버튼 스타일 */
+.login_btn, .cancel_btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 로그인 버튼 스타일 */
+.login_btn {
+  background-color: #4CAF50; /* 예쁜 초록색 */
+  color: white;
+}
+
+.login_btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 취소 버튼 스타일 */
+.cancel_btn {
+  background-color: #f44336; /* 빨간색 */
+  color: white;
+}
+
+.cancel_btn:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
     </style>
 </head>
 <body>
@@ -151,8 +186,8 @@
                     <input type="password" class="form-control mb-2" id="password1" name="password1" placeholder="비밀번호 입력">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">로그인</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="submit" class="login_btn">로그인</button>
+                    <button type="button" class="cancel_btn" data-dismiss="modal">취소</button>
                 </div>
             </form>
         </div>

@@ -25,7 +25,7 @@ public class MemberController {
 	private BCryptPasswordEncoder bcrypt;
 	
 	
-	@RequestMapping("login.me")
+	@RequestMapping("/login.me")
 	public String loginMember(Member m, HttpSession session, Model model) {
 		//System.out.println(bcrypt.encode(m.getPassword1()));
 		Member loginUser = service.loginMember(m);
@@ -41,7 +41,7 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	}
-	@RequestMapping("logout.me")
+	@RequestMapping("/logout.me")
 	public String logoutMember(HttpSession session) {
 		session.removeAttribute("loginUser");
 		session.setAttribute("alertMsg","로그아웃하였습니다.");
@@ -49,12 +49,12 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("register.me")   // 회원가입 버튼 누르면 회원가입 페이지로 이동
+	@GetMapping("/register.me")   // 회원가입 버튼 누르면 회원가입 페이지로 이동
 	public String registerMember() {
 		return "member/registrationPage";  
 	}
 	
-	@PostMapping("register.me") //회원가입 정보 받아서 DB 에 insert 하는 구문
+	@PostMapping("/register.me") //회원가입 정보 받아서 DB 에 insert 하는 구문
 	public String registerMember(Member m, HttpSession session, Model model) {
 		
 	
@@ -74,13 +74,13 @@ public class MemberController {
 	}
 	
 	//마이페이지로 단순 이동
-	@RequestMapping("mypage.me")
+	@RequestMapping("/mypage.me")
 	public String myPage(Member m) {
 		return "member/myPage";
 		
 	}
 	    
-	@RequestMapping("update.me")
+	@RequestMapping("/update.me")
 	public String updateMember(Member m, HttpSession session, Model model) {
 
 		int result = service.updateMember(m);
@@ -97,13 +97,11 @@ public class MemberController {
 		} else {
 			model.addAttribute("errorMsg", "정보 수정 중 에러가 발생하였습니다. 다시 시도해 주십시오.");
 			return "common/errorPage";
-
 		}
-
 	}
 	
 	@ResponseBody
-	@RequestMapping("dupCheck.me")
+	@RequestMapping("/dupCheck.me")
 	public String dupCheck(String memberId) {
 		//ajax 구문 내에서 작성한 userId 변수 매개변수로 받아오기 
 		int count = service.dupCheck(memberId);
@@ -115,7 +113,8 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("delete.me")
+	//회원탈퇴 메소드
+	@RequestMapping("/delete.me")
 	public String deleteMember(Member m,@RequestParam("passwordForDelete")String passwordForDelete, HttpSession session, Model model) {
 		Member loginUser = service.loginMember(m);
 		
@@ -124,32 +123,76 @@ public class MemberController {
 		int result= service.deleteMember(m);
 			if(result>0) {
 				session.setAttribute("alertMsg", "회원탈퇴 되었습니다.");
+				session.removeAttribute("loginUser"); //회원탈퇴 후 로그인 안한 상태의 마이페이지 보여주기
 				return "redirect:/";
 			} else {
 				model.addAttribute("errorMsg","에러가 발생하였습니다. 다시 시도하여 주십시오.");
 				return "common/errorPage";
 			}
 		}else {
-			model.addAttribute("errorMsg","비밀번호가 일치하지 않습니다. 다시 입력하여 주십시오");
-			return "redirect:/mypage.me";
+			session.setAttribute("alertMsg","비밀번호가 일치하지 않습니다. 다시 입력하여 주십시오");
+			return "member/myPage";
 		}
 	};
 	
+	
+	//비밀번호 수정시 현재 비밀번호 입력 후 일치하는지 확인
 	@ResponseBody
-	@PostMapping("checkcurrentpwd.me")
-	public String checkPassword(@RequestParam("password") String Password, HttpSession session) {
+	@PostMapping("/checkcurrentpwd.me")
+	public String checkPassword(@RequestParam("currentPassword") String currentPassword, HttpSession session) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		System.out.println(loginUser);
-		System.out.println(Password);
+		System.out.println(currentPassword);
 		System.out.println(loginUser.getPassword1());
-		if(loginUser!=null &&  bcrypt.matches(Password,loginUser.getPassword1())){
+		if(loginUser!=null && bcrypt.matches(currentPassword,loginUser.getPassword1())){
 			return "true";
 		}else {
 		return "false";
-		}}
+		}
+	}
+
+	//비밀번호 수정시 현재 비밀번호 입력 후 일치하는지 확인
+	@ResponseBody
+	@PostMapping("/confirmpassword.me")
+	public String confirmPassword(@RequestParam("confirmPassword") String confirmPassword,
+			@RequestParam("newPassword") String newPassword, HttpSession session) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		System.out.println(loginUser);
+		
+		if (confirmPassword.equals(newPassword)) {
+			
+			loginUser.setPassword1(bcrypt.encode(confirmPassword));
+			int result = service.updatePassword(loginUser);
+			if(result>0) {
+				session.setAttribute("alertMsg", "메인 화면으로 돌아갑니다");
+				return "true";
+			} else {
+				return "false";
+			}
+	
+		} else {
+			return "false";
+		}
+
+	}
+
+	//회원가입시 비밀번호 & 비밀번호 확인 일치하는지 확인
+	@ResponseBody
+	@PostMapping("/passwordCheck.me")
+	public String passwordCheck (@RequestParam("password1") String password1, @RequestParam("password2") String password2) {
+		if(password1.equals(password2)) {  
+			return "NNNNY";
+		} else {
+			return "NNNNN";
+		}
+	}
+	
+
 
 }
+	
+
 	
 	
 	

@@ -21,8 +21,24 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kh.teammovie" />
+
 	
+	<!-- 마이페이지 정보수정, 회원 탈퇴 등 기능은 로그인 후에만 사용 가능하도록 인터셉터 등록-->
 	
+	 
+	<interceptors>
+		<interceptor>
+			<mapping path="/*.me"/>
+			 <exclude-mapping path="/login.me"/> <!-- 밑에는 메소드 매핑주소 확인해서 바꾸기-->
+			 <exclude-mapping path="/register.me"/>
+			 <exclude-mapping path="/dupCheck.me"/>
+			 <exclude-mapping path="/passwordCheck.me"/>
+			<beans:bean class="com.kh.teammovie.common.interceptor.LoginInterceptor"/>
+			
+		</interceptor>
+	</interceptors>
+	
+<context:component-scan base-package="com.kh.teammovie"/>		
 	
 </beans:beans>
+

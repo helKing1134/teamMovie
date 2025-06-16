@@ -15,9 +15,9 @@
 </resultMap>
 
 <select id="loginMember" parameterType="Member" resultMap="memberResultMap">
-	SELECT MEMBER_NO,MEMBER_ID,MEMBER_NAME,PASSWORD,AGE,EMAIL,PHONE,ROLE,CREATED_AT
+	SELECT MEMBER_NO,MEMBER_ID,MEMBER_NAME,PASSWORD,IDNUM,EMAIL,PHONE,ROLE,CREATED_AT
 	FROM MEMBER
-	WHERE MEMBER_ID=#{memberId}
+	WHERE MEMBER_ID=#{memberId} AND "ROLE" = 'GENERAL'
 </select>
 
 <insert id="registerMember" parameterType="Member">
@@ -25,11 +25,11 @@
                     MEMBER_ID,
                     MEMBER_NAME,
                     PASSWORD,
-                    AGE,
+                    IDNUM,
                     EMAIL,
                     PHONE
                     ) 
-                    VALUES(#{memberId},#{memberName},#{password1},#{age},#{email},#{phone})
+                    VALUES(#{memberId},#{memberName},#{password1},#{idNum},#{email},#{phone})
 </insert>
 
 <update id="updateMember" parameterType="Member">
@@ -40,6 +40,7 @@
 	        EMAIL = #{email},
 	        PHONE= #{phone}
 	WHERE MEMBER_ID = #{memberId}
+		  
 </update>    
 
 <select id="dupCheck" resultType="_int">
@@ -52,6 +53,12 @@
 		UPDATE MEMBER
 		SET "ROLE" ='DELETED'
 		WHERE MEMBER_ID=#{memberId}
+</update>
+
+<update id="updatePassword" parameterType="Member">
+	UPDATE MEMBER
+	SET PASSWORD = #{password1}
+	WHERE MEMBER_ID=#{memberId}
 </update>
 
 
