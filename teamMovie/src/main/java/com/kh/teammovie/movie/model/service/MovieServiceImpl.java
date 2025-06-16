@@ -242,9 +242,7 @@ public class MovieServiceImpl implements MovieService {
 	public List<Movie> selectTop4Movies() {
 	    return mvDAO.selectTop4Movies(sqlSession); // ✅ 이렇게!
 	}
-	
-	
-	
+
 	
 
 	

@@ -1,5 +1,7 @@
 package com.kh.teammovie.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,12 @@ public class MemberServiceImpl implements MemberService  {
 	public int updatePassword(Member loginUser) {
 		
 		return dao.updatePassword(sqlSession,loginUser);
+	}
+
+	@Override
+	public ArrayList<Member> adminMember() {
+		// TODO Auto-generated method stub
+		return dao.adminMember(sqlSession);
 	}
 
 }

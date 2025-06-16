@@ -96,15 +96,7 @@ public interface MovieService {
     List<Movie> selectTop4Movies();
 	
 	
-	
-	
-	
-	
 
-
-
-
-	
 	
 	
 

@@ -86,6 +86,12 @@ public class SupportServiceImpl implements SupportService {
 		// TODO Auto-generated method stub
 		return dao.updateStatus(sqlSession,inquiryId);
 	}
+	
+	@Override
+	public int deleteStatus(int bno) {
+		// TODO Auto-generated method stub
+		return dao.deleteStatus(sqlSession,bno);
+	}
 
 	@Override
 	public ArrayList<Inquiry> myInquiryList(int memberNo) {
@@ -93,7 +99,10 @@ public class SupportServiceImpl implements SupportService {
 		return dao.myInquiryList(sqlSession,memberNo);
 	}
 
-
+	@Override
+    public int countInquiries() {
+        return dao.countInquiries(sqlSession);
+    }
 
 
 	

@@ -45,13 +45,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <th>첨부파일</th>
-                            <td colspan="3">
-                                <input type="file" class="form-control-file" name="file" multiple />
-                                <small class="form-text text-muted">JPEG, PNG 이미지 (5MB 이하, 최대 5개)</small>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
 

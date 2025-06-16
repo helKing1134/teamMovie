@@ -1,8 +1,10 @@
 package com.kh.teammovie.member.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +70,7 @@ public class MemberController {
 	            return "redirect:" + redirectUrl;
 	        }
 
-	        return "redirect:/support";  // fallback
+	        return "redirect:/";  // fallback
 	    } else {
 	        model.addAttribute("errorMsg", "로그인 실패");
 	        return "common/errorPage";
@@ -273,6 +275,16 @@ public class MemberController {
 		model.addAttribute("totalPrice", totalPrice);
 		
 		return "member/refundStatus";
+	}
+	
+	
+	
+	@RequestMapping("adminMember")
+	public String adminMember(Model model) {
+		ArrayList<Member> members = service.adminMember(); // 전체 회원 목록 조회
+	    model.addAttribute("members", members);
+	    System.out.println(members);
+		return "support/adminMember";
 	}
 
 }

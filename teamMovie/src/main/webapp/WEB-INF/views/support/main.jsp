@@ -109,20 +109,8 @@
         <ul>
             <li><a href="${pageContext.request.contextPath}/support" class="active">고객센터 홈</a></li>
             <li><a href="${pageContext.request.contextPath}/support/faq">자주 묻는 질문</a></li>
-            <li><a href="#">공지사항</a></li>
-
             <li><a href="${contextRoot}/support/inquiry" id = "inquiry">1:1 문의</a></li>
-			<!-- 관리자 로그인시 보여지는 속성 by sh.k -->
-			<c:if test="${memRole == 'ADMIN'}">
-				<li><a href="${contextRoot}/inquiryList">1:1 관리자 문의목록</a></li>
-				<li><a href="${contextRoot}/admin">관리자 페이지</a></li>
-				<li><a href="${contextRoot}/admin/refund">환불 이력 관리</a></li>
-			</c:if>
             <li><a href="${contextRoot}/myInquiryList">나의 문의 내역</a></li>
-
-            <li><a href="#">분실물 문의</a></li>
-            <li><a href="#">이용약관</a></li>
-            <li><a href="#">개인정보처리방침</a></li>
         </ul>
     </aside>
 
@@ -132,19 +120,22 @@
         <p>무엇을 도와드릴까요?</p>
 
         <div class="quick-box">
-            <div class="quick-item">
-                <h4>자주 묻는 질문</h4>
-                <p>자주 묻는 질문을 모았습니다. 빠르게 확인해보세요.</p>
-            </div>
-            <div class="quick-item">
-                <h4>1:1 문의</h4>
-                <p>개인적인 문제나 요청은 1:1 문의를 이용해주세요.</p>
-            </div>
-            <div class="quick-item">
-                <h4>분실물 접수</h4>
-                <p>분실한 물건이 있다면 이곳에서 접수해 주세요.</p>
-            </div>
-        </div>
+    <a href="${contextRoot}/support/faq" class="quick-item" style="text-decoration: none;">
+        <h4>자주 묻는 질문</h4>
+        <p>자주 묻는 질문을 모았습니다. 빠르게 확인해보세요.</p>
+    </a>
+
+    <a href="${contextRoot}/support/inquiry" class="quick-item" style="text-decoration: none;" id="inquiryBox">
+        <h4>1:1 문의</h4>
+        <p>개인적인 문제나 요청은 1:1 문의를 이용해주세요.</p>
+    </a>
+
+    <a href="${contextRoot}/support/lost" class="quick-item" style="text-decoration: none;">
+        <h4>분실물 접수</h4>
+        <p>분실한 물건이 있다면 이곳에서 접수해 주세요.</p>
+    </a>
+</div>
+
     </main>
 </div>
 

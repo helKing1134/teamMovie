@@ -7,12 +7,16 @@
 <mapper namespace="memberMapper">
 
 <resultMap type="Member" id="memberResultMap">
-	<result property="memberNo" column="MEMBER_NO"/>
-	<result property="memberId" column="MEMBER_ID"/>
-	<result property="password1" column="PASSWORD"/>
-	<result property="memberName" column="MEMBER_NAME"/>
-	<result property="createdDate" column="CREATED_AT"/>
-</resultMap>
+	 <id property="memberNo" column="MEMBER_NO"/>
+    <result property="memberId" column="MEMBER_ID"/>
+    <result property="memberName" column="MEMBER_NAME"/>
+    <result property="password1" column="PASSWORD"/>
+    <result property="idNum" column="ID_NUM"/>
+    <result property="email" column="EMAIL"/>
+    <result property="phone" column="PHONE"/>
+    <result property="role" column="ROLE"/>
+    <result property="createdDate" column="CREATED_AT"/>
+    </resultMap>
 
 <select id="loginMember" parameterType="Member" resultMap="memberResultMap">
 	SELECT *
@@ -63,7 +67,9 @@
 	WHERE MEMBER_ID=#{memberId}
 </update>
 
-
+    <select id="adminMember" resultMap="memberResultMap">
+        SELECT * FROM MEMBER ORDER BY created_at DESC
+    </select>
 
 
 
