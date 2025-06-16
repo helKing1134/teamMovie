@@ -33,7 +33,7 @@ public class MemberServiceImpl implements MemberService  {
 	}
 
 	@Override
-	public int dupCheck(int memberId) {
+	public int dupCheck(String memberId) {
 		return dao.dupCheck(sqlSession, memberId);
 	}
 

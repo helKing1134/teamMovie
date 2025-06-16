@@ -140,7 +140,7 @@ public class MemberController {
 	
 	@ResponseBody
 	@RequestMapping("dupCheck.me")
-	public String dupCheck(int memberId) {
+	public String dupCheck(String memberId) {
 		//ajax 구문 내에서 작성한 userId 변수 매개변수로 받아오기 
 		int count = service.dupCheck(memberId);
 		if(count>0) {

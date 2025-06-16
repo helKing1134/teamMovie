@@ -22,7 +22,7 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.updateMember",m);
 	}
 
-	public int dupCheck(SqlSessionTemplate sqlSession, int memberId) {
+	public int dupCheck(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("memberMapper.dupCheck",memberId);
 	}
 

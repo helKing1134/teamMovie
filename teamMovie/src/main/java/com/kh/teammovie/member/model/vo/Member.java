@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Member {
 
 	private int memberNo; //MEMBER_NO
-	private int memberId; //MEMBER_ID
+	private String memberId; //MEMBER_ID
 	private String memberName; //MEMBER_NAME
 	private String password1; //PASSWORD
 	private String newPassword; //비밀번호 변경시
