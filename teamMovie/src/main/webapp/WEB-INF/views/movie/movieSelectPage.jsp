@@ -176,7 +176,7 @@ body {
 							</button>
 			    		</c:when>
 			    		<c:otherwise>
-			    			<button class="btn btn-outline-secondary data-movieId="${movie.movieId}">
+			    			<button class="btn btn-outline-secondary" data-movieId="${movie.movieId}">
 							    <span class="txt">${movie.movieTitle}</span>
 							    <div></div>
 							</button>
@@ -222,9 +222,10 @@ body {
 <script>
 $(document).ready(function () {
     const selectedBtn = $('.movie-choice .btn-outline-secondary.selected');
+    console.log(selectedBtn);
     if (selectedBtn.length > 0) {
-        $('#movieId').val(selectedBtn.attr('movie-no'));
-        fetchSchedules(selectedBtn.attr('movie-no'));
+        $('#movieId').val(selectedBtn.attr('data-movieId'));
+        fetchSchedules(selectedBtn.attr('data-movieId'));
     }
 
     $('.choice-container').on('click', '.btn-outline-secondary', function (e) {
@@ -236,7 +237,8 @@ $(document).ready(function () {
 
     $('.movie-choice .btn-outline-secondary').click(function (e) {
         const $btn = $(e.currentTarget);
-        const movieId = $btn.attr('movie-no');
+        const movieId = $btn.attr('data-movieId');
+        console.log(movieId);
 
         $('#movieId').val(movieId);
         $('#scheduleId').val('');
@@ -260,11 +262,11 @@ $(document).ready(function () {
                         <li>
                             <button 
                                 class="btn btn-outline-secondary schedule-option" 
-                                data-schedule-id="${schedule.scheduleId}" 
-                                data-screen-id="${schedule.screenId}">
-                                <span class="time"><strong>${schedule.startTime}</strong></span>
-                                <span class="title"><strong title="${schedule.movieTitle}">${schedule.movieTitle}</strong><em>${schedule.language}</em></span>
-                                <span class="screen"><strong>제 ${schedule.screenId}관</strong></span>
+                                data-schedule-id="\${schedule.scheduleId}" 
+                                data-screen-id="\${schedule.screenId}">
+                                <span class="time"><strong>\${schedule.startTime}</strong></span>
+                                <span class="title"><strong title="\${schedule.movieTitle}">${schedule.movieTitle}</strong><em>${schedule.language}</em></span>
+                                <span class="screen"><strong>제 \${schedule.screenId}관</strong></span>
                             </button>
                         </li>`;
                     $list.append(item);
@@ -276,6 +278,8 @@ $(document).ready(function () {
             }
         });
     }
+    
+    
 
     function bindScheduleSelectEvent() {
         $('.schedule-option').click(function () {
@@ -300,8 +304,21 @@ $(document).ready(function () {
         }
     }
     
+    
     //function chk	
 });
+
+ // 처음 자동 호출
+function loadScheduleForSelectedMovie() {
+    // selected 클래스가 붙은 버튼을 찾음
+    const $selectedBtn = $('.btn-outline-secondary.selected');
+    const movieId = $selectedBtn.attr('data-movieId');
+    
+    if (movieId) {
+    	fetchSchedules(movieId)
+    }
+    
+ }
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

@@ -225,7 +225,7 @@
             <c:choose>
                 <c:when test="${empty loginUser}">
 
-                    <a href="${contextRoot}/register">회원가입</a>
+                    <a href="${contextRoot}/register.me">회원가입</a>
                     <a href="${contextRoot}/login.me" data-toggle="modal" data-target="#loginModal">로그인</a>
 
                 </c:when>
@@ -241,14 +241,11 @@
         <ul>
             <li><a href="${contextRoot}/movies">영화</a></li>
             <li><a href="${contextRoot}/movie/select">예매</a></li>
-            <li><a href="${contextRoot}/theaters">극장</a></li>
+            <li><a href="#">극장</a></li>
 
             <!--  <li><a href="${contextRoot}/mypage">스토어</a></li>-->
 
             <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
-	        <c:if test="${not empty loginUser && loginUser.role == 'ADMIN'}">
-	    		<a href="${pageContext.request.contextPath}/admin/home">[관리자 홈]</a>
-			</c:if>
 				
         </ul>
     </div>

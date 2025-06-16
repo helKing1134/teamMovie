@@ -359,11 +359,11 @@
 											  '</div>'
 						  						 );
 	  					
-	  					if(movie.rating === '전체'){
+	  					if(movie.rating === '전체관람가'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
-						}else if(movie.rating === '12세'){
+						}else if(movie.rating === '12세이상관람가'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
-						}else if(movie.rating === '15세'){
+						}else if(movie.rating === '15세이상관람가'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 						}else{
 							$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
@@ -441,11 +441,11 @@
 										    '</div>' +
 										  '</div>'
 					  						 );
-					if(movie.rating === '전체'){
+					if(movie.rating === '전체관람가'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
-					}else if(movie.rating === '12세'){
+					}else if(movie.rating === '12세이상관람가'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
-					}else if(movie.rating === '15세'){
+					}else if(movie.rating === '15세이상관람가'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 					}else{
 						$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');

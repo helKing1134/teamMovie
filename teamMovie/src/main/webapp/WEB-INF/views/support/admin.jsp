@@ -14,6 +14,8 @@
                 <a href="${contextRoot}/admin/bookings" class="list-group-item list-group-item-action">🎟️ 예매 현황</a>
                 <a href="${contextRoot}/inquiryList" class="list-group-item list-group-item-action">📩 1:1 문의 관리</a>
                 <a href="${contextRoot}/admin/members" class="list-group-item list-group-item-action">👤 회원 관리</a>
+                <!-- 환불항목 추가 by sh.k 06.16 -->
+                <a href="${contextRoot}/admin/refund" class="list-group-item list-group-item-action">💸 환불 관리</a>
             </div>
         </div>
 

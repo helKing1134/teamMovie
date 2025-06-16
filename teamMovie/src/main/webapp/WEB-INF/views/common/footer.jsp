@@ -107,8 +107,7 @@
 
     <!-- 새 심플 스타일 링크 (헤드셋 아이콘 + 고객센터 텍스트) -->
     <a href="#" class="footer-link-simple">
-        <img src="${pageContext.request.contextPath}/images/CustomerService.jpg" alt="고객센터">
-        <span>고객센터</span>
+        <span onclick="location.href='${contextRoot}/support'">고객센터</span>
     </a>
 
     <!-- 하단 링크들 -->

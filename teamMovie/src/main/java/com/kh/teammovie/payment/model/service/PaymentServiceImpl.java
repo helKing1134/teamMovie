@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.teammovie.member.model.vo.Member;
 import com.kh.teammovie.payment.model.dao.PaymentDao;
 import com.kh.teammovie.payment.model.vo.Payment;
 import com.kh.teammovie.refund.model.vo.Refund;
@@ -73,6 +74,13 @@ public class PaymentServiceImpl implements PaymentService {
 	public List<Refund> getRefundByMemberNo(int memberNo) {
 		// TODO Auto-generated method stub
 		return pmDao.getRefundByMemberNo(sqlSession, memberNo);
+	}
+
+	@Override
+	//결제 아이디로 멤버 객체 가져오기
+	public Member getMemByPmId(int paymentId) {
+		// TODO Auto-generated method stub
+		return pmDao.getMemByPmId(sqlSession, paymentId);
 	}
 
 }

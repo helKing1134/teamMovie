@@ -75,9 +75,13 @@ public class ReservationDAO {
 		return 1;
 	}
 
-	public int existsTempSeat(SqlSessionTemplate sqlSession, int scheduleId) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("seatMapper.existsTempSeat", scheduleId);
+	public int existsTempSeat(SqlSessionTemplate sqlSession, int scheduleId, int memberNo) {
+		
+		Map<String,Object> param = new HashMap<>();
+		param.put("scheduleId", scheduleId);
+		param.put("memberNo", memberNo);
+		
+		return sqlSession.selectOne("seatMapper.existsTempSeat", param);
 	}
 
 	public int insertRefund(SqlSessionTemplate sqlSession, ReqRefundDTO dto) {

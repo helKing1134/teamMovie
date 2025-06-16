@@ -234,6 +234,7 @@
 </style>
 </head>
 <body>
+	
     <!-- 로그인 성공 메시지 알림 -->
     <c:if test="${not empty sessionScope.alertMsg}">
         <script>

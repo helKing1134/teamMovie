@@ -290,7 +290,7 @@
     		contentType: 'application/json',
     		data : JSON.stringify({
     	        paymentId: '${p.paymentId}',
-    	        userId : 1,
+    	        userId : '${mem.memberNo}',
     	        reservationId : '${r.reservationId}'
 
     		}),

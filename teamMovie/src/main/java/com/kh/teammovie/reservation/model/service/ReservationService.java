@@ -40,7 +40,7 @@ public interface ReservationService {
 		int insertRsInit(List<Integer> seatIds, int scheduleId, int memberId);
 		
 		//결제 검증 메소드
-		boolean tempSeatExists(int scheduleId);
+		boolean tempSeatExists(int scheduleId, int memberNo);
 
 		boolean insertRefund(ReqRefundDTO dto);
 		// 예약좌석 즉시삭제 메소드

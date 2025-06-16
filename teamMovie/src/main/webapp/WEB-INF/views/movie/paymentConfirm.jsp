@@ -309,12 +309,12 @@
 <body>
 
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
-	
+	<br><br><br>
 	<h2>결제하기</h2>
     <hr>
 
     <div class="reserve-info">
-        <span class="text">예매정보</span>
+        <h4>예매정보</h4>
         <div class="movimg">
             <img src="${pageContext.request.contextPath}/resources/image/mimpfinal.jpg" alt="미션 임파서블 : 파이널 레코닝" width="100" height="143">
         </div>
@@ -420,7 +420,7 @@
 <!-- form 영역 -->
 <form action="${contextRoot }/movie/payment/process" method="post" id="forwardingForm">
     <input type="hidden" name="movieId" id="movieId">
-    <input type="hidden" name="userId" id="userId" value="1">
+    <input type="hidden" name="userId" id="userId" value="${mem.memberNo }">
     <input type="hidden" name="scheduleId" id="scheduleId">
     <input type="hidden" name="screenId" id="screenId">
     <input type="hidden" name="count" id="count">
@@ -431,14 +431,14 @@
   <input type="hidden" name="movieId" value="${m.movieId}">
   <input type="hidden" name="scheduleId" value="${sch.scheduleId}">
   <input type="hidden" name="screenId" value="${s.screenId}">
-  <input type="hidden" name="memberId" value="1">
+  <input type="hidden" name="memberId" value="${mem.memberNo }">
 </form>
 
 <form id="prevForm" action="${contextRoot }/reservation/cancel" method="post" style="display: none;">
   <input type="hidden" name="movieId" value="${m.movieId}">
   <input type="hidden" name="scheduleId" value="${sch.scheduleId}">
   <input type="hidden" name="screenId" value="${s.screenId}">
-  <input type="hidden" name="memberId" value="1">
+  <input type="hidden" name="memberId" value="${mem.memberNo }">
 </form>
 
     
@@ -521,7 +521,8 @@
 	        url: '${contextRoot }/reservation/checkTempSeat',
 	        method: 'POST',
 	        data: {
-	            scheduleId: ${sch.scheduleId}  // 또는 예약좌석 ID 등
+	            scheduleId: ${sch.scheduleId},  // 또는 예약좌석 ID 등
+	            memberNo : ${mem.memberNo}
 	        },
 	        success: function(response) {
 	            if (response === 'valid') {

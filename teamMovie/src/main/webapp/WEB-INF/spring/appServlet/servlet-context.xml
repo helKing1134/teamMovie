@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
            http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <!-- 어노테이션 기반 MVC 설정 -->
+    <!-- ✅ interceptor 설정 파일 import -->
+    <import resource="../Interceptor-servlet.xml" />
+
+    <!-- ✅ 컴포넌트 스캔 -->
+    <!-- 
+    <context:component-scan base-package="com.kh.teammovie" />
+	 -->
+
+	
+	 
+	 <!-- 파일 업로드 처리용 MultipartResolver 등록하기  -->
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+		<!-- 업로드 되는 파일에 대한 인코딩 설정 -->
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!-- 용량제한 : 10*1024*1024 로 10MB 정도 설정하기 (계산식이 적용되지 않기때문에 직접 크기 설정)-->
+		<property name="maxUploadSize" value="100000000"/> <!-- 업로드 파일 용량 제한 -->
+		<property name="maxInMemorySize" value="100000000"/> <!-- 임시 메모리 보관 크기설정 -->
+	</bean>
+	
+	<!-- root-context에서 등록한 컴포넌트들은 제외시키기(중복충돌방지) -->
+	<context:component-scan base-package="com.kh.teammovie" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	</context:component-scan>
+	
+	
+	
+    <!-- ✅ 어노테이션 기반 MVC 설정 -->
     <mvc:annotation-driven />
 
-    <!-- 정적 리소스 처리 -->
+    <!-- ✅ 정적 리소스 처리 -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
-    <!-- View Resolver 설정 -->
+    <!-- ✅ View Resolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
-
-    <!-- 파일 업로드 처리용 MultipartResolver 등록 -->
-    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
-        <property name="defaultEncoding" value="UTF-8"/>
-        <property name="maxUploadSize" value="100000000"/>
-        <property name="maxInMemorySize" value="100000000"/>
-    </bean>
-
-    <!-- 컴포넌트 스캔 -->
-    <context:component-scan base-package="com.kh.teammovie">
-        <!-- root-context에서 이미 등록한 Service, Repository 제외 -->
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
-    </context:component-scan>
-
-    <!-- Interceptor 설정 -->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/support/inquiry"/>
-            <bean class="com.kh.teammovie.common.interceptor.LoginCheckInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
 
 </beans>
