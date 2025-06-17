@@ -17,7 +17,6 @@
  	<!--created by sh.k 예약 인터셉터  -->
  	<mvc:interceptor>
  		<mvc:mapping path="/movie/reserveSeat"/>
- 		<mvc:mapping path="/mypage.me"/>
  		<mvc:mapping path="/refund.me"/>
  		<mvc:mapping path="/movie/payment"/>
  		<!-- 환불 요청  -->

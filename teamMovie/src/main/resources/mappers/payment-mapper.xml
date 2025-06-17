@@ -63,7 +63,6 @@
 		    #{method},
 		    SYSDATE
 		)
-	
 	</insert>
 	
 	<select id="findById" parameterType="_int" resultMap="paymentResultMap">

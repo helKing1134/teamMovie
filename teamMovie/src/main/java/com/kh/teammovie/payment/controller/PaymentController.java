@@ -48,6 +48,7 @@ public class PaymentController {
 		
 		int insertResultP = pmService.insertPayment(p);
 		
+		//메소드내에서 생성된 객체 p에서 db안에 있는 paymentId가 추가된다
 		int paymentId = p.getPaymentId();
 		System.out.println(paymentId);
 		

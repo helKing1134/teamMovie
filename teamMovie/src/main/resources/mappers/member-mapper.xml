@@ -11,7 +11,7 @@
     <result property="memberId" column="MEMBER_ID"/>
     <result property="memberName" column="MEMBER_NAME"/>
     <result property="password1" column="PASSWORD"/>
-    <result property="idNum" column="ID_NUM"/>
+    <result property="idNum" column="IDNUM"/>
     <result property="email" column="EMAIL"/>
     <result property="phone" column="PHONE"/>
     <result property="role" column="ROLE"/>
@@ -42,7 +42,6 @@
 	UPDATE MEMBER
 	SET
 	        MEMBER_NAME = #{memberName},
-	        PASSWORD = #{password1},
 	        EMAIL = #{email},
 	        PHONE= #{phone}
 	WHERE MEMBER_ID = #{memberId}

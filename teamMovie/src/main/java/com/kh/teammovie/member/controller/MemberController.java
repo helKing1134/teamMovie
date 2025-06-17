@@ -82,6 +82,8 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 		session.removeAttribute("loginUser");
+		//로그아웃시 memRole 데이터 또한 비어줌
+		session.removeAttribute("memRole");
 		session.setAttribute("alertMsg","로그아웃하였습니다.");
 		
 		return "redirect:/";
@@ -97,7 +99,6 @@ public class MemberController {
 		
 	
 		String encPwd = bcrypt.encode(m.getPassword1()); //평문 암호문으로 변경 
-		System.out.println(encPwd);
 		m.setPassword1(encPwd);//객체에 암호문 비밀번호 넣기
 		int result = service.registerMember(m);
 		try {
@@ -118,6 +119,8 @@ public class MemberController {
 						Model model ) {
 		
 		Member mem = (Member) session.getAttribute("loginUser");
+	
+		System.out.println(mem.getIdNum());
 		
 		List<Refund> rfList = pmService.getRefundByMemberNo(mem.getMemberNo());
 		
@@ -186,10 +189,10 @@ public class MemberController {
 	
 	@ResponseBody
 	@PostMapping("checkcurrentpwd.me")
-	public String checkPassword(@RequestParam("password") String Password, HttpSession session) {
-
+	public String checkPassword(@RequestParam("currentPassword") String currentPassword, HttpSession session) {
+		//password -> currentPassword
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		if (loginUser != null && bcrypt.matches(Password, loginUser.getPassword1())) {
+		if (loginUser != null && bcrypt.matches(currentPassword, loginUser.getPassword1())) {
 			return "true";
 		} else {
 			return "false";
