@@ -20,4 +20,6 @@ public interface MemberService {
 
 	ArrayList<Member> adminMember();
 
+	void updateMemberRole(int memberNo, String role);
+
 }

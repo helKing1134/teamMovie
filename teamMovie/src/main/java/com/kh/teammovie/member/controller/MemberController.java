@@ -49,7 +49,6 @@ public class MemberController {
 	@PostMapping("/saveRedirectUrl")
 	@ResponseBody
 	public void saveRedirectUrl(@RequestBody Map<String, String> data, HttpSession session) {
-	    System.out.println("세션 컨트롤러");
 		session.setAttribute("redirectAfterLogin", data.get("redirect"));
 	}
 
@@ -286,6 +285,14 @@ public class MemberController {
 	    System.out.println(members);
 		return "support/adminMember";
 	}
+	
+	@PostMapping("/admin/updateRole")
+	public String updateMemberRole(@RequestParam("memberNo") int memberNo,
+	                               @RequestParam("role") String role) {
+	    service.updateMemberRole(memberNo, role);
+	    return "redirect:/admin/adminMember"; // 권한 수정 후 다시 목록으로
+	}
+
 
 }
 	

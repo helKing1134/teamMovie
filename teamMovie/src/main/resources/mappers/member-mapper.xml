@@ -46,7 +46,6 @@
 	        EMAIL = #{email},
 	        PHONE= #{phone}
 	WHERE MEMBER_ID = #{memberId}
-		  
 </update>    
 
 <select id="dupCheck" resultType="_int">
@@ -68,8 +67,22 @@
 </update>
 
     <select id="adminMember" resultMap="memberResultMap">
-        SELECT * FROM MEMBER ORDER BY created_at DESC
+        SELECT * 
+		FROM MEMBER 
+		ORDER BY 
+		    CASE ROLE 
+		        WHEN 'ADMIN' THEN 0 
+		        ELSE 1 
+		    END,
+		    CREATED_AT DESC
+
     </select>
+    
+    <update id="updateMemberRole" parameterType="Member">
+	    UPDATE MEMBER
+	    SET ROLE = #{role}
+	    WHERE MEMBER_NO = #{memberNo}
+	</update>   
 
 
 

@@ -33,6 +33,7 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		 @RequestMapping("/main")
 		    public String countInquiries(HttpSession session,Model model) {
 		        int countInquiries = service.countInquiries();
+		        System.out.println("뭐가 들어오나?");
 		        model.addAttribute("countInquiries", countInquiries);
 		        session.setAttribute("countInquiries", countInquiries);
 		        System.out.println(countInquiries);
@@ -51,6 +52,7 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		    model.addAttribute("loginRequired", loginRequired); // 로그인 모달 띄울지 판단용
 			return "support/main"; //jsp
 		}
+		
 		
 		//나의 문의 내역
 		@RequestMapping("/myInquiryList")

@@ -36,10 +36,6 @@
  		<ref bean="adminMovieInterceptor"/>
  	</mvc:interceptor>
  	
- 	<mvc:interceptor>
- 		<mvc:mapping path="/support/inquiry"/>
- 		<ref bean="LoginCheckInterceptor"/>
- 	</mvc:interceptor>
  	
  	
  </mvc:interceptors>

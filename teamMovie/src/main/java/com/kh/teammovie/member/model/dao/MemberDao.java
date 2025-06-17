@@ -1,6 +1,7 @@
 package com.kh.teammovie.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -40,6 +41,11 @@ public class MemberDao {
 	public ArrayList<Member> adminMember(SqlSessionTemplate sqlSession) {
 		ArrayList<Member> list = (ArrayList)sqlSession.selectList("memberMapper.adminMember");
 		return list;
+	}
+
+	public void updateMemberRole(int memberNo, String role,SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		 sqlSession.update("memberMapper.updateMemberRole", Map.of("memberNo", memberNo, "role", role));
 	}
 
 	

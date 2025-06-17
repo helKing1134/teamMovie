@@ -7,6 +7,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- JSP HEAD 영역 안에 추가 -->
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+
     <meta charset="UTF-8">
     <title>고객센터 홈</title>
     <style>
@@ -110,7 +114,7 @@
             <li><a href="${pageContext.request.contextPath}/support" class="active">고객센터 홈</a></li>
             <li><a href="${pageContext.request.contextPath}/support/faq">자주 묻는 질문</a></li>
             <li><a href="${contextRoot}/support/inquiry" id = "inquiry">1:1 문의</a></li>
-            <li><a href="${contextRoot}/myInquiryList">나의 문의 내역</a></li>
+            <li><a href="${contextRoot}/myInquiryList" id = "myInquiryList">나의 문의 내역</a></li>
         </ul>
     </aside>
 
@@ -138,6 +142,7 @@
 
     </main>
 </div>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <!-- 로그인 상태 확인 변수 -->
 <c:set var="isLogin" value="${empty sessionScope.loginUser ? 'false' : 'true'}" />
@@ -145,20 +150,21 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const isLogin = "${isLogin}" === 'true';
-
+        
         const inquiryLink = document.getElementById("inquiry");
         const myInquiryLink = document.getElementById("myInquiryList");
-
+        
+        
         function handleAuthClick(e, targetUrl) {
             if (!isLogin) {
                 e.preventDefault();
 
                 // 세션에 리다이렉트 URL 저장
-                fetch("/saveRedirectUrl", { method: "POST",
+                fetch("${pageContext.request.contextPath}/saveRedirectUrl", { method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ url: targetUrl })
+                    body: JSON.stringify({ redirect: targetUrl })
                 })
                 .then(() => {
                     $('#loginModal').modal('show');
@@ -183,7 +189,6 @@
     });
 </script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 </body>
 </html>
