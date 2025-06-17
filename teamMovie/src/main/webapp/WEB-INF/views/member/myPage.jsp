@@ -41,8 +41,6 @@
             width: 30%;
         }
 
-    
-        
 		        #passwordModal {
 		    display: none; /* 처음에는 숨김 */
 		    position: fixed;
@@ -100,7 +98,7 @@
                 </div>
 
 				<c:set var="genderCode" value="${fn:substring(loginUser.idNum, 6, 7)}" />
-
+				
 				<c:set var="genderText">
     			<c:choose>
         		<c:when test="${genderCode == '1' || genderCode == '3'}">남자</c:when>
@@ -125,7 +123,15 @@
                     <label class="form-label">전화번호</label>
                     <input type="text" class="form-control" name="phone" value="${loginUser.phone}" />
                 </div>
-        
+                <br>
+                	<!-- 환불 현황 페이지 전환  -->
+				<div style="text-align: center;" >
+				  <button type="button" id="recentRefundBtn" class="btn btn-primary2" 
+				          onclick="location.href='<%= request.getContextPath() %>/refund.me?refundId=${rfList[0].refundId}'" 
+				          style="background-color:blue; color:white; font-weight:bold;">
+				    최근 환불 이력
+				  </button>
+				</div>
                <br>
                 <div style="text-align: center;">
                	<div>
@@ -288,9 +294,7 @@
  				alert("서버에 오류가 발생하였습니다. 잠시 후 다시 시도하여 주십시오");
  			}
  		});
- 		
- 		
- 	
+
  		}
  	
 	function nextStep(step){

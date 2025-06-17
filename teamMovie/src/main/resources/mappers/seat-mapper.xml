@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="seatMapper">
+
+	<resultMap type="Seat" id="seatResultMap">
+		<result property="seatId" column="SEAT_ID"/>
+		<result property="screenId" column="SCREEN_ID"/>
+		<result property="seatRows" column="SEAT_ROWS"/>
+		<result property="seatCols" column="SEAT_COLS"/>
+	</resultMap>
+	
+	<resultMap type="ReservedSeat" id="RsResultMap">
+		<result property="reservedSeatId" column="RESERVED_SEAT_ID"/>
+		<result property="seatId" column="SEAT_ID"/>
+		<result property="status" column="STATUS"/>
+		<result property="reservedSeatId" column="RESERVED_SEAT_ID"/>
+		<result property="seatSelector" column="SEAT_SELECTOR"/>
+		
+	</resultMap>
+	
+	<select id="getStListBySchId" parameterType="_int" resultMap="seatResultMap">
+		SELECT
+			*
+		FROM
+			seat
+		WHERE
+			screen_id = #{screenId}
+	</select>
+	
+	<select id="getStListByStId" parameterType="list" resultMap="seatResultMap">
+	    SELECT *
+	    FROM seat
+	    WHERE seat_id IN
+	    <foreach item="id" collection="list" open="(" separator="," close=")">
+	        #{id}
+	    </foreach>
+	</select>
+	
+<insert id="insertSingleSeat" parameterType="map">
+  INSERT INTO RESERVED_SEAT (
+    RESERVED_SEAT_ID,
+    SEAT_ID,
+    STATUS,
+    CREATED_AT,
+    SCHEDULE_ID,
+    SEAT_SELECTOR
+  ) VALUES (
+    seq_reserved_seat.NEXTVAL,
+    #{seatId},
+    'TEMP',
+    SYSDATE,
+    #{scheduleId},
+    #{memberId}
+  )
+</insert>
+
+<!-- 예약 좌석 테이블 업데이트  -->
+<update id="updateRseatTable" parameterType="map">
+    UPDATE reserved_seat
+    SET payment_id = #{paymentId},
+    	status = 'CONFIRM'
+    WHERE seat_id IN
+    <foreach item="id" collection="seatIds" open="(" separator="," close=")">
+        #{id}
+    </foreach>
+</update>
+
+	<!-- 결제 아이디로 좌석 아이디 가져오기 (join 사용) -->
+	<select id="getStListByPmId" parameterType="_int" resultMap="seatResultMap">
+		SELECT
+		    s.*
+		FROM
+		         seat s
+		    JOIN reserved_seat rs ON s.seat_id = rs.seat_id
+		WHERE
+		    rs.payment_id = #{paymentId}
+	    AND rs.status = 'CONFIRM'
+	</select>
+	
+	<!-- 결제 검증용  -->
+	<select id="existsTempSeat" parameterType="_int" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM reserved_seat 
+	    WHERE schedule_id = #{scheduleId}
+	    AND	  seat_selector = 1
+      AND status = 'TEMP'
+	</select>
+
+
+</mapper>

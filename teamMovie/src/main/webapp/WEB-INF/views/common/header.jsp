@@ -12,7 +12,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!--
+    	이거 대신에 밑에 줄에 있는 번들 사용하셔도 문제없습니다
+    	오히려 번들이 popper.js까지 포함하고 있어서 확장성이 더 높습니다
+    	written by 이수한
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <style>
         div { box-sizing: border-box; }
         #header {
@@ -159,8 +165,7 @@
     <div id="header_2">
         <ul>
             <li><a href="${contextRoot}/movies">영화</a></li>
-            <li><a href="${contextRoot}/booking">예매</a></li>
-            <li><a href="${contextRoot}/theaters">극장</a></li>
+            <li><a href="${contextRoot}/movie/select">예매</a></li>
             <li><a href="${contextRoot}/mypage.me">마이페이지</a></li>
         </ul>
     </div>

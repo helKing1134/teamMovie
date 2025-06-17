@@ -17,11 +17,14 @@
 <select id="loginMember" parameterType="Member" resultMap="memberResultMap">
 	SELECT MEMBER_NO,MEMBER_ID,MEMBER_NAME,PASSWORD,IDNUM,EMAIL,PHONE,ROLE,CREATED_AT
 	FROM MEMBER
-	WHERE MEMBER_ID=#{memberId} AND "ROLE" = 'GENERAL'
+	WHERE MEMBER_ID=#{memberId} AND "ROLE" in ('GENERAL', 'ADMIN')
+
 </select>
+<!-- 어드민으로 로그인할때를 고려 안함 수정 by sh.k -->
 
 <insert id="registerMember" parameterType="Member">
 	INSERT INTO MEMBER (
+					MEMBER_NO,
                     MEMBER_ID,
                     MEMBER_NAME,
                     PASSWORD,
@@ -29,18 +32,17 @@
                     EMAIL,
                     PHONE
                     ) 
-                    VALUES(#{memberId},#{memberName},#{password1},#{idNum},#{email},#{phone})
+                    VALUES(SEQ_MEMBER.NEXTVAL,#{memberId},#{memberName},#{password1},#{idNum},#{email},#{phone})
+
 </insert>
 
 <update id="updateMember" parameterType="Member">
 	UPDATE MEMBER
 	SET
 	        MEMBER_NAME = #{memberName},
-	        PASSWORD = #{password1},
 	        EMAIL = #{email},
 	        PHONE= #{phone}
-	WHERE MEMBER_ID = #{memberId}
-		  
+	WHERE MEMBER_ID = #{memberId}  
 </update>    
 
 <select id="dupCheck" resultType="_int">

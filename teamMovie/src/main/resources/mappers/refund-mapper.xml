@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="refundMapper">
+
+	<!-- 환불 resultmap  -->
+	<resultMap type="Refund" id="refundResultMap">
+		<result property="refundId" column="REFUND_ID" />
+		<result property="paymentId" column="PAYMENT_ID" />
+		<result property="requestUserId" column="REQUEST_USER_ID" />
+		<result property="requestTime" column="REQUEST_TIME" />
+		<result property="approveTime" column="APPROVE_TIME" />
+		<result property="status" column="STATUS" />
+	
+	</resultMap>
+	
+	<!-- 환불 DTO resultMap -->
+	<resultMap type="ReqRefundWithName" id="dtoResultMap">
+		<result property="refundId" column="REFUND_ID" />
+		<result property="paymentId" column="PAYMENT_ID" />
+		<result property="requestUserId" column="REQUEST_USER_ID" />
+		<result property="requestTime" column="REQUEST_TIME" />
+		<result property="approveTime" column="APPROVE_TIME" />
+		<result property="status" column="STATUS" />
+		<result property="memberName" column="MEMBER_NAME" />
+	</resultMap>
+
+	<insert id="insertRefund" parameterType="ReqRefundDTO">
+    <selectKey resultType="int" keyProperty="refundId" order="BEFORE">
+        SELECT seq_refund.NEXTVAL FROM dual
+    </selectKey>
+    INSERT INTO refund (
+        refund_id,
+        payment_id,
+        request_user_id
+    ) VALUES (
+        #{refundId},
+        #{paymentId},
+        #{userId}
+    )
+</insert>
+	
+	<select id="getAllRefund" resultMap="refundResultMap">
+		SELECT
+    		*
+		FROM
+	    	refund
+	
+	</select>
+	
+	<select id="getAllRefundWithUser" resultMap="dtoResultMap">
+		SELECT r.refund_id, r.payment_id, r.request_user_id, r.status, r.request_time,
+			   r.approve_time,
+           m.member_name 
+    FROM refund r
+    JOIN member m ON r.request_user_id = m.member_no
+	
+	</select>
+	
+	<update id="approveRefund" parameterType="_int">
+		UPDATE refund
+		SET status ='CONFIRM',
+			approve_time = SYSDATE
+		WHERE
+			refund_id = #{refundId}
+		
+	</update>
+	
+	<select id="getPayIdByRfId" parameterType="_int" resultType="int">
+		  SELECT PAYMENT_ID
+		  FROM REFUND
+		  WHERE REFUND_ID = #{refundId}
+	</select>
+	
+	<update id="cancelReservation" parameterType="_int" >
+		  UPDATE RESERVATION
+		  SET STATUS = 'CANCELED'
+		  WHERE PAYMENT_ID = #{paymentId}
+	</update>
+	
+	<update id="rejectRefund" parameterType="map" >
+		UPDATE refund
+		SET status ='REJECT',
+			reject_reason = #{reason}
+		WHERE
+			refund_id = #{refundId}
+	</update>
+	
+
+
+
+
+</mapper>
