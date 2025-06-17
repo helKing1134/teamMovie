@@ -138,13 +138,14 @@
 				  <br><br>
 				</div>
                	<div>
-               	<a href="${contextRoot}/support/myInquiryList.jsp" type="button" class="btn btn-primary0 " id="myInquiryListButton" style="background-color:#00FF7F; color:white; font-weight:bold; text-align: center;"> 문의내역 보기</a>
+               	<a href="${contextRoot}/myInquiryList" type="button" class="btn btn-primary0 " id="myInquiryListButton" style="background-color:#00FF7F; color:white; font-weight:bold; text-align: center;"> 문의내역 보기</a>
                 </div>
                 <br>
                	<div>
                	<button type="button" class="btn btn-primary" id="changePwdButton" data-bs-toggle="modal" data-bs-target="#changePwd" style="background-color:gray; color:white; font-weight:bold;text-align: center;"> 비밀번호 수정하기</button>
                 </div>
                 <br>
+                <div> <!-- 누락된 div 여는 태그 추가  -->
                 <button type="submit" class="btn btn-primary1" id="modifyButton" style="background-color:slateblue; color:white; font-weight:bold;text-align: center;">회원정보 수정하기</button>
                 </div>
                 <br>
