@@ -293,7 +293,7 @@ public class MemberController {
 	public String updateMemberRole(@RequestParam("memberNo") int memberNo,
 	                               @RequestParam("role") String role) {
 	    service.updateMemberRole(memberNo, role);
-	    return "redirect:/admin/adminMember"; // 권한 수정 후 다시 목록으로
+	    return "redirect:/adminMember"; // 권한 수정 후 다시 목록으로
 	}
 
 
