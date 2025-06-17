@@ -40,6 +40,23 @@
     </mvc:interceptor>
 	</mvc:interceptors>
 	
+	<mvc:interceptors>
+    <mvc:interceptor>
+        <mvc:mapping path="/admin/**" />
+        <bean class="com.kh.teammovie.common.interceptor.RoleInterceptor" />
+    </mvc:interceptor>
+
+    <!-- 요청된 추가하고 싶은 인터셉터 -->
+   <mvc:interceptor>
+        <mvc:mapping path="/*.me" />
+        <mvc:exclude-mapping path="/login.me"/>  <!-- 밑에는 메소드 매핑주소 확인해서 바꾸기-->
+        <mvc:exclude-mapping path="/register.me"/>
+        <mvc:exclude-mapping path="/dupCheck.me"/>
+        <mvc:exclude-mapping path="/passwordCheck.me"/>
+        <bean class="com.kh.teammovie.common.interceptor.LoginInterceptor" />
+    </mvc:interceptor>
+</mvc:interceptors>
+	
 	
 	
     <!-- ✅ 어노테이션 기반 MVC 설정 -->
@@ -60,6 +77,9 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
+    
+    
+    
 
 
 
