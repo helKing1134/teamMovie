@@ -11,14 +11,14 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	
-	<c:choose>
-	  <c:when test="${sessionScope.loginUser.role == 'ADMIN'}">
-	    <%@ include file="/WEB-INF/views/support/admin.jsp" %>
-	  </c:when>
-	  <c:otherwise>
-	    <%@ include file="/WEB-INF/views/common/main.jsp" %>
-	  </c:otherwise>
-	</c:choose>
+		<c:choose>
+		  <c:when test="${sessionScope.loginUser.role == 'ADMIN'}">
+		    <jsp:include page="/WEB-INF/views/support/admin.jsp" />
+		  </c:when>
+		  <c:otherwise>
+		    <jsp:include page="/WEB-INF/views/common/main.jsp" />
+		  </c:otherwise>
+		</c:choose>
 	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

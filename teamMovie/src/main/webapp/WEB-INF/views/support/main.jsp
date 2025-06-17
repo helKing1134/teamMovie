@@ -134,10 +134,6 @@
         <p>개인적인 문제나 요청은 1:1 문의를 이용해주세요.</p>
     </a>
 
-    <a href="${contextRoot}/support/lost" class="quick-item" style="text-decoration: none;">
-        <h4>분실물 접수</h4>
-        <p>분실한 물건이 있다면 이곳에서 접수해 주세요.</p>
-    </a>
 </div>
 
     </main>
