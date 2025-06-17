@@ -370,11 +370,10 @@
 
   <div class="seat-container">
     <c:forEach var="seat" items="${stList}" varStatus="status">
-      <%-- 줄바꿈 시작 --%>
+      <%-- 줄바꿈 시작 --%><%-- 현재 좌석이 줄의 첫번째 좌석일 때 줄 바꿈 시작 --%>
       <c:if test="${status.index % s.seatsPerRow == 0}">
         <div class="seat-row">
       </c:if>
-
       <%-- 좌석 ID 설정 --%>
       <c:set var="seatId" value="${seat.seatCols}${seat.seatRows}" />
 
@@ -405,7 +404,7 @@
         </c:otherwise>
       </c:choose>
 
-      <%-- 줄바꿈 끝 --%>
+      <%-- 줄바꿈 끝 --%><%-- 현재 좌석이 줄의 마지막 좌석일 경우, 줄 바꿈 영역을 마감한다. --%>
       <c:if test="${status.index % s.seatsPerRow == s.seatsPerRow - 1}">
         </div>
       </c:if>

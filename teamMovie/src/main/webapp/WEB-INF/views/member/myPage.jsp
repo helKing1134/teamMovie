@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,10 @@
 
     <title>마이페이지 MyPage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS (with Popper) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
   
     <style>
         body {
@@ -31,27 +35,15 @@
             font-weight: bold;
         }
         
-        .btn-primary {
+        .btn-primary, .btn-primary0,.btn-primary1,  .btn-primary2  {
             text-align: center;
             font-weight: bold;
             width: 30%;
         }
 
-        .btn-primary1 {
-            text-align: center;
-            font-weight: bold;
-            width: 30%;
-        }
+    
         
-        .btn-primary2 {
-           	background-color: red;
-           	color: white;
-           	font-weight: bold;
-            text-align: center;
-            width: 30%;
-        }
-        
-	        #passwordModal {
+		        #passwordModal {
 		    display: none; /* 처음에는 숨김 */
 		    position: fixed;
 		    z-index: 1000;
@@ -101,7 +93,12 @@
                     <label class="form-label">이름</label>
                     <input type="text" class="form-control" name="memberName" value="${loginUser.memberName}" />
                 </div>
-				
+			
+              	<div class="mb-3">
+                    <label class="form-label">생년월일</label>
+                    <input type="number" class="form-control" name="birthDate" value="${fn:substring(loginUser.idNum, 0, 6)}" readonly/>
+                </div>
+
 				<c:set var="genderCode" value="${fn:substring(loginUser.idNum, 6, 7)}" />
 
 				<c:set var="genderText">
@@ -111,7 +108,6 @@
         		<c:otherwise>알 수 없음</c:otherwise>
     			</c:choose>
 				</c:set>
-				
 				
 
 				<!-- 기존 생년월일 다음에 추가 -->
@@ -130,19 +126,17 @@
                     <input type="text" class="form-control" name="phone" value="${loginUser.phone}" />
                 </div>
         
-
-                <br>
-				<!-- 환불 현황 페이지 전환  -->
+               <br>
+                <div style="text-align: center;">
+   				<!-- 환불 현황 페이지 전환  -->
 				<div style="text-align: center;" >
 				  <button type="button" id="recentRefundBtn" class="btn btn-primary2" 
 				          onclick="location.href='<%= request.getContextPath() %>/refund.me?refundId=${rfList[0].refundId}'" 
 				          style="background-color:blue; color:white; font-weight:bold;">
 				    최근 환불 이력
 				  </button>
+				  <br><br>
 				</div>
-				  
-               <br>
-                <div style="text-align: center;">
                	<div>
                	<a href="${contextRoot}/support/myInquiryList.jsp" type="button" class="btn btn-primary0 " id="myInquiryListButton" style="background-color:#00FF7F; color:white; font-weight:bold; text-align: center;"> 문의내역 보기</a>
                 </div>
@@ -183,7 +177,7 @@
                         </div>
                         <br>
                             <label for="password" class="mr-sm-2">Password : </label>
-                            <input type="password" id="passwordForDelete" name="passwordForDelete" class="form-control mb-2 mr-sm-2"  placeholder="Enter Password" id="deleteUserPwd" name="password"> <br>
+                            <input type="password" id="passwordForDelete" name="passwordForDelete" class="form-control mb-2 mr-sm-2"  placeholder="Enter Password" > <br>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" align="center">
@@ -213,8 +207,10 @@
           <button class="btn btn-primary w-100" onclick="checkCurrentPassword()">다음</button>
         </div>
 
+
+		<!-- 새 비밀번호 입력 후 다음으로 넘어가기 -->
         <div id="step2" style="display:none;">
-          <label>새 비밀번호</label>
+          <label>새 비밀번호</label>  
           <input type="password" class="form-control mb-3" id="newPassword">
           <!-- 서버 전송용 hidden input tag-->
           <input type="hidden" id="newPasswordHidden" name="newPassword"/>
@@ -235,39 +231,40 @@
   </div>
 </div>
    
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   
+   
  <script>
+//Controller 에서 매개변수로 받기 위해 Hidden Input Tag 의 name 속성값에 value 값 넣어주기 - 변수 지정 필요 없음
+ 	 
  	
- 	//Controller 에서 매개변수로 받기 위해 Hidden Input Tag 의 name 속성값에 value 값 넣어주기 
- 	//변수 지정 필요 없음 
- 	
- 	document.getElementById("newPasswordHidden").value=document.getElementById("newPasswordHidden").value;
+ 	document.getElementById("newPasswordHidden").value=document.getElementById("newPassword").value;
  	document.getElementById("confirmPasswordHidden").value=document.getElementById("confirmPassword").value;
  
  	/* 페이지 이동시 작동 함수 */
-  window.onload = function () {
-    // JSTL 표현식을 안전하게 문자열로 감싸서 처리
-    var rfListSize = ${empty rfList ? 0 : fn:length(rfList)};
-    
-    var btn = document.getElementById("recentRefundBtn");
-    console.log(btn);
-    if (btn && rfListSize === 0) {
-      btn.disabled = true;
-      btn.style.backgroundColor = 'gray';
-    }
-  };
+ 	  window.onload = function () {
+ 	    // JSTL 표현식을 안전하게 문자열로 감싸서 처리
+ 	    var rfListSize = ${empty rfList ? 0 : fn:length(rfList)};
+ 	    
+ 	    var btn = document.getElementById("recentRefundBtn");
+ 	    if (btn && rfListSize === 0) {
+ 	      btn.disabled = true;
+ 	      btn.style.backgroundColor = 'gray';
+ 	    }
+ 	  };
  	
  	
- 	function checkCurrentPassword(){
+ 	function checkCurrentPassword(){ 
+ 		//현재 입력한 비밀번호가 기존 비밀번호와 일치한지 확인 
  		const currentPassword = document.getElementById("currentPassword").value;
  		
  		$.ajax({
  			type:"POST",
  			url:"checkcurrentpwd.me",
- 			data: { password: currentPassword
+ 			data: { currentPassword: currentPassword
  			},
  			success: function(result){
  				if(result==="true"){
+ 					alert("현재 비밀번호와 일치합니다.");
  					document.getElementById("step1").style.display="none";
  					document.getElementById("step2").style.display="block";
  				} else {     
@@ -285,19 +282,38 @@
  	
  	function newPasswordInput(){
  		newPassword = document.getElementById("newPassword").value;
+ 		alert("새로운 패스워드가 입력됨");
  		document.getElementById("step2").style.display="none";
 		document.getElementById("step3").style.display="block";
  	}
  	
  	function confirmNewPassword(){
  		const confirmPassword = document.getElementById("confirmPassword").value;
- 		if(newPassword===confirmPassword){
- 			alert("비밀번호가 변경되었습니다.");
- 		} else {
- 			alert ("비밀번호가 일치하지 않습니다. 다시 입력하세요");
+ 		
+ 		$.ajax({
+ 			type:"POST",
+ 			url:"confirmpassword.me",
+ 			data: {confirmPassword: confirmPassword,
+ 				   newPassword: newPassword
+ 			},
+ 			success: function(result){
+ 				if(result==="true"){
+ 					alert("비밀번호가 성공적으로 변경되었습니다. \n 현재 창을 닫습니다.")
+ 					$("#changePwd").modal('hide'); //성공시 모달 창 자동으로 닫게 하기 
+ 				} else {     
+ 					alert("비밀번호가 일치하지 않습니다.");
+ 					
+ 				}
+ 			},
+ 			error: function(){
+ 				alert("서버에 오류가 발생하였습니다. 잠시 후 다시 시도하여 주십시오");
+ 			}
+ 		});
+ 		
+ 		
+ 	
  		}
- 	}
-	
+ 	
 	function nextStep(step){
 		//먼저 모든 step 숨기기
 		document.getElementById("step1").style.display="none";

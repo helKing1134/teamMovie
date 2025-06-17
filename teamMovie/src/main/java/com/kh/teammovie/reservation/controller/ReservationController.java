@@ -133,12 +133,6 @@ public class ReservationController {
 									int memberId,
 									HttpSession session,
 									Model model) {
-		
-		System.out.println("무비 아이디 : "+movieId);
-		System.out.println("상영정보 아이디 : "+scheduleId);
-		System.out.println("상영관 아이디 : "+screenId);
-		System.out.println("멤버 아이디 : "+memberId);
-		
 		// 데이터 받아온 것 확인 
 		// 보내줄 데이터 : 영화제목, 상영정보, 상영관, 좌석리스트, 멤버 
 		
