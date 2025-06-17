@@ -344,7 +344,7 @@
 											    '<div class="card movie-card h-100">' +
 											      '<div class="poster-wrapper" data-id="' + movie.movieId + '">' +
 												    '<a href="${contextRoot}/movies/detail.mv?mvId=' + movie.movieId + '">' +
-											        '<img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fDu0T5WE0QAoX2yAqZ1RtlWBn6I.jpg" class="card-img-top poster-img" alt="' + movie.movieTitle + '">' +
+											        '<img src="' + movie.posterPath + '" class="card-img-top poster-img" alt="' + movie.movieTitle + '">' +
 											        '<div class="overlay">' +
 											          '<div class="summary-text">' + movie.description + '</div>' +
 											        '</div>' +
@@ -359,11 +359,11 @@
 											  '</div>'
 						  						 );
 	  					
-	  					if(movie.rating === '전체관람가'){
+	  					if(movie.rating === '전체'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
-						}else if(movie.rating === '12세이상관람가'){
+						}else if(movie.rating === '12세'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
-						}else if(movie.rating === '15세이상관람가'){
+						}else if(movie.rating === '15세'){
 							$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 						}else{
 							$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
@@ -441,11 +441,11 @@
 										    '</div>' +
 										  '</div>'
 					  						 );
-					if(movie.rating === '전체관람가'){
+					if(movie.rating === '전체'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag all">전체</span>');
-					}else if(movie.rating === '12세이상관람가'){
+					}else if(movie.rating === '12세'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag twelve">12세</span>');
-					}else if(movie.rating === '15세이상관람가'){
+					}else if(movie.rating === '15세'){
 						$("#" + movie.movieId).prepend('<span class="rating-tag fifteen">15세</span>');
 					}else{
 						$("#" + movie.movieId).prepend('<span class="rating-tag nineteen">19세</span>');
