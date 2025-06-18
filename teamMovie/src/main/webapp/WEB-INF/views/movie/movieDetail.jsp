@@ -102,6 +102,9 @@
   .star-rating label:hover ~ label {
     color: gold;
   }
+  .form-checker-label{
+  	color: white;
+  }
     
   </style>
 </head>
@@ -197,7 +200,7 @@
 		  		  			 <input disabled class="form-check-input" type="checkbox" name="reviewCriteria" value="${c.criteriaId}" id="criteria_${c.criteriaId}">
 		  		  		</c:otherwise>
 		  		  	</c:choose>
-			           		 <label class="form-check-label" for="criteria_${c.criteriaId}">${c.criteria}</label>
+			           		 <label class="form-checker-label" for="criteria_${c.criteriaId}">${c.criteria}</label>
 		           
 		          </div>
 		  </c:forEach>

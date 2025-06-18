@@ -344,7 +344,7 @@
 											    '<div class="card movie-card h-100">' +
 											      '<div class="poster-wrapper" data-id="' + movie.movieId + '">' +
 												    '<a href="${contextRoot}/movies/detail.mv?mvId=' + movie.movieId + '">' +
-											        '<img src="' + movie.posterPath + '" class="card-img-top poster-img" alt="' + movie.movieTitle + '">' +
+											        '<img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fDu0T5WE0QAoX2yAqZ1RtlWBn6I.jpg" class="card-img-top poster-img" alt="' + movie.movieTitle + '">' +
 											        '<div class="overlay">' +
 											          '<div class="summary-text">' + movie.description + '</div>' +
 											        '</div>' +
