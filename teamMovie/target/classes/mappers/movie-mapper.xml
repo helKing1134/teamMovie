@@ -419,6 +419,44 @@
 			movie_id = #{movieId}
 	</update>
 	
+	<!-- 최신 영화 4편을 가져오는 쿼리 -->
+	<select id="selectTop4Movies" resultMap="movieResultMap">
+	  <![CDATA[
+	    SELECT *
+	    FROM (
+	      SELECT 
+	          MOVIE_ID, 
+	          TYPE_ID,
+	          MOVIE_TITLE, 
+	          DESCRIPTION, 
+	          DIRECTOR,
+	          DURATION,
+	          RATING, 
+	          POSTER_PATH, 
+	          GIF_PATH, 
+	          RELEASE_DATE
+	      FROM MOVIE
+	      ORDER BY RELEASE_DATE DESC
+	    )
+	    WHERE ROWNUM <= 4
+	  ]]>
+	</select>
+	
+	<select id="movieAll" resultMap="movieListResultMap">
+	    SELECT 
+	        MOVIE_ID,
+	        TYPE_ID,
+	        MOVIE_TITLE,
+	        DESCRIPTION,
+	        DIRECTOR,
+	        DURATION,
+	        RATING,
+	        RELEASE_DATE,
+	        STATUS,
+	        POSTER_PATH
+    	FROM MOVIE
+	</select>
+	
 	
 	
 	<!--
@@ -440,13 +478,12 @@
 	</select>
 	-->
 	
+	
+	
 		
 	
 
-	
-	
-	
-	
+
 
 	
 	

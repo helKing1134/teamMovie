@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 비어있을 수 없음 필수입력 요소 (해당 mapper를 부르는 별칭)-->
+<mapper namespace="inquiryMapper">
+
+<!-- ResultMap 정의 -->
+    <resultMap id="inquiryResultMap" type="Inquiry">
+        <id property="inquiryId" column="INQUIRY_ID" />
+        <result property="inquiryWriter" column="INQUIRY_WRITER" />
+        <result property="title" column="TITLE" />
+        <result property="content" column="CONTENT" />
+        <result property="createdAt" column="CREATED_AT" />
+    </resultMap>
+    
+    <resultMap id="inquiryAnswerResultMap" type="InquiryAnswer">
+         <id property="answerId" column="ANSWER_ID" />
+        <result property="inquiryId" column="INQUIRY_ID" />
+        <result property="answerContent" column="ANSWER_CONTENT" />
+        <result property="answeredAt" column="ANSWERED_AT" />
+    </resultMap>
+    
+    <!-- 문의글 등록 -->
+    <insert id="insertInquiry" parameterType="Inquiry" >
+        
+        INSERT INTO INQUIRY (
+		    INQUIRY_ID,
+		    INQUIRY_WRITER,
+		    TITLE,
+		    CONTENT,
+		    CREATED_AT,
+		    STATUS,
+		    CATEGORY
+		)
+		VALUES (
+		    INQUIRY_SEQ.NEXTVAL,
+		    #{inquiryWriter},
+		    #{title},
+		    #{content},
+		    SYSDATE,
+		    'N',
+		    #{category})
+    </insert>
+    
+    <!-- 관리자 문의 리스트 -->
+	<!-- 게시판 리스트 -->
+	<select id="inquiryList" resultMap="inquiryResultMap">
+		SELECT * FROM INQUIRY
+		<!-- 
+		WHERE STATUS = 'Y'
+		-->
+		ORDER BY CREATED_AT DESC
+	</select>	
+    
+	<select id="myInquiryList" resultMap="inquiryResultMap">
+		SELECT * FROM INQUIRY
+		WHERE INQUIRY_WRITER = #{inquiryWriter}
+		ORDER BY CREATED_AT DESC
+	</select>	
+	
+    <!-- 리스트 카운트 -->
+    <select id="listCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM INQUIRY
+		<!-- 
+		WHERE STATUS = 'Y'
+		-->
+	</select>
+	
+	
+	 
+	 
+     <insert id="insertInquiryAnswer" parameterType="InquiryAnswer">    
+        INSERT INTO INQUIRY_ANSWER (
+		    ANSWER_ID,
+			INQUIRY_ID,
+			ANSWER_CONTENT,
+			ANSWERED_AT
+		)
+		VALUES (
+		    INQUIRY_ANSWER_SEQ.NEXTVAL,
+		    #{inquiryId},
+		    #{answerContent},
+		   SYSDATE)
+    </insert>
+    
+    
+	<update id="updateStatus" parameterType="int">
+    UPDATE INQUIRY
+    SET STATUS = 'Y' 
+    WHERE INQUIRY_ID = #{inquiryId}
+	</update>
+	 
+	<update id="deleteStatus" parameterType="int">
+    UPDATE INQUIRY
+    SET STATUS = 'N'
+    WHERE INQUIRY_ID = #{inquiryId}
+	</update>
+	 
+	 
+	 
+	 
+	 
+	 
+	<select id="inquiryDetail" resultMap="inquiryResultMap">
+		SELECT * FROM INQUIRY
+		WHERE INQUIRY_ID = #{bno}
+		<!-- 
+		AND STATUS = 'Y'
+		-->
+	</select>
+	 
+	 
+	<select id="answerDetail" resultMap="inquiryAnswerResultMap">
+		SELECT * FROM INQUIRY_ANSWER
+		WHERE INQUIRY_ID = #{bno}
+		<!-- 
+		AND STATUS = 'Y'
+		-->
+	</select>
+	
+	<delete id="deleteAnswer" parameterType="_int">
+	 	DELETE FROM INQUIRY_ANSWER
+	 	WHERE INQUIRY_ID = #{bno}
+	</delete>
+	
+	
+		
+	<select id="countInquiries" resultType="_int">
+	    SELECT COUNT(*) FROM INQUIRY
+	    WHERE STATUS = 'N'
+	</select>
+	
+	 
+	 
+	 
+	 
+
+    
+    
+</mapper>

@@ -21,7 +21,7 @@
 	  gap: 40px; /* 좌우 간격 조절 */
 	  align-items: start;
 	  max-width: 1200px;
-	  margin: 0 auto;
+   	  margin-top: 120px;
 	}
 
 	
@@ -299,6 +299,7 @@
   max-width: 500px;
   margin: 0 auto 40px;
   text-align: center;
+  top: 300px;
 }
 
 .audience-selector h4 {
@@ -369,11 +370,10 @@
 
   <div class="seat-container">
     <c:forEach var="seat" items="${stList}" varStatus="status">
-      <%-- 줄바꿈 시작 --%>
+      <%-- 줄바꿈 시작 --%><%-- 현재 좌석이 줄의 첫번째 좌석일 때 줄 바꿈 시작 --%>
       <c:if test="${status.index % s.seatsPerRow == 0}">
         <div class="seat-row">
       </c:if>
-
       <%-- 좌석 ID 설정 --%>
       <c:set var="seatId" value="${seat.seatCols}${seat.seatRows}" />
 
@@ -404,7 +404,7 @@
         </c:otherwise>
       </c:choose>
 
-      <%-- 줄바꿈 끝 --%>
+      <%-- 줄바꿈 끝 --%><%-- 현재 좌석이 줄의 마지막 좌석일 경우, 줄 바꿈 영역을 마감한다. --%>
       <c:if test="${status.index % s.seatsPerRow == s.seatsPerRow - 1}">
         </div>
       </c:if>
@@ -439,7 +439,7 @@
  	    <input type="hidden" name="movieId" id="movieId" value="${m.movieId}" />
  	 	<input type="hidden" name="scheduleId" id="scheduleId" value="${sch.scheduleId }" />
  	 	<input type="hidden" name="screenId" id="screenId" value="${s.screenId }" />
- 	 	<input type="hidden" name="memberId"  value=1 />
+ 	 	<input type="hidden" name="memberId"  value="${mem.memberNo }" />
  	 <c:forEach var="rsSeat" items="${rsList }">
  	 	<input type="hidden" name="rSeats" value="${rsSeat.reservedSeatId }">
  	 </c:forEach>

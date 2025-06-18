@@ -15,7 +15,6 @@ public class RoleRedirectInterceptor implements HandlerInterceptor {
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-
         HttpSession session = request.getSession(false);
         
         //로그인 안한 경우

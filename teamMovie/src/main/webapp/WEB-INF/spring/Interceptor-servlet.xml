@@ -12,11 +12,12 @@
 
 <beans:bean id="loginInterceptor" class="com.kh.teammovie.common.interceptor.ReservInterceptor"/>
  <beans:bean id="adminMovieInterceptor" class="com.kh.teammovie.common.interceptor.RoleRedirectInterceptor"/>
+ <beans:bean id="LoginCheckInterceptor" class="com.kh.teammovie.common.interceptor.LoginCheckInterceptor"/>
  <mvc:interceptors>
  	<!--created by sh.k 예약 인터셉터  -->
  	<mvc:interceptor>
  		<mvc:mapping path="/movie/reserveSeat"/>
- 		<mvc:mapping path="/mypage.me"/>
+<!--  		<mvc:mapping path="/mypage.me"/> -->
  		<mvc:mapping path="/refund.me"/>
  		<mvc:mapping path="/movie/payment"/>
  		<!-- 환불 요청  -->
@@ -33,6 +34,11 @@
  	<mvc:interceptor>
  		<mvc:mapping path="/movies"/>	
  		<ref bean="adminMovieInterceptor"/>
+ 	</mvc:interceptor>
+ 	
+ 	<mvc:interceptor>
+ 		<mvc:mapping path="/support/inquiry"/>
+ 		<ref bean="LoginCheckInterceptor"/>
  	</mvc:interceptor>
  	
  	

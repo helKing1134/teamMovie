@@ -3,6 +3,7 @@ package com.kh.teammovie.movie.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.kh.teammovie.movie.model.service.MovieService;
 import com.kh.teammovie.movie.model.vo.Movie;
 import com.kh.teammovie.movie.model.vo.Review;
@@ -130,7 +130,7 @@ public class MovieController { //written by 이수한
 							 ,Model model) { //매개변수 mvId = movieId(영화 아이디)
 		
 		
-		System.out.println(mvId);
+		System.out.println("영화아이디 :"+mvId);
 		Movie movie = service.movieDetail(mvId);
 		model.addAttribute("movie",movie);
 		System.out.println(movie);
@@ -191,38 +191,6 @@ public class MovieController { //written by 이수한
 		
 		return "movie/movieModulation";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

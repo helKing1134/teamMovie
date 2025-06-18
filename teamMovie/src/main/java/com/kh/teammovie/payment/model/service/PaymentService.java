@@ -2,6 +2,7 @@ package com.kh.teammovie.payment.model.service;
 
 import java.util.List;
 
+import com.kh.teammovie.member.model.vo.Member;
 import com.kh.teammovie.payment.model.vo.Payment;
 import com.kh.teammovie.refund.model.vo.Refund;
 import com.kh.teammovie.reservation.model.vo.Reservation;
@@ -32,5 +33,7 @@ public interface PaymentService {
 	
 	//멤버 넘버(식별자)로 환불 아이디 가져오기
 	List<Refund> getRefundByMemberNo(int memberNo);
-
+	
+	// 결제 아이디로 멤버 객체 가져오기
+	Member getMemByPmId(int paymentId);
 }

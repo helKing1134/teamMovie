@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
 <!DOCTYPE html>
@@ -35,7 +34,7 @@
             font-weight: bold;
         }
         
-        .btn-primary, .btn-primary0,.btn-primary1,  .btn-primary2  {
+        .btn-primary, .btn-primary0,.btn-primary1,.btn-primary2  {
             text-align: center;
             font-weight: bold;
             width: 30%;
@@ -70,8 +69,8 @@
         
     </style>
 </head>
-<body>
 
+<body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 
@@ -123,6 +122,7 @@
                     <label class="form-label">전화번호</label>
                     <input type="text" class="form-control" name="phone" value="${loginUser.phone}" />
                 </div>
+
                 <br>
                 	<!-- 환불 현황 페이지 전환  -->
 				<div style="text-align: center;" >
@@ -131,24 +131,25 @@
 				          style="background-color:blue; color:white; font-weight:bold;">
 				    최근 환불 이력
 				  </button>
+				  <br><br>
 				</div>
-               <br>
-                <div style="text-align: center;">
+
                	<div>
-               	<a href="${contextRoot}/support/myInquiryList.jsp" type="button" class="btn btn-primary0 " id="myInquiryListButton" style="background-color:#00FF7F; color:white; font-weight:bold; text-align: center;"> 문의내역 보기</a>
+               	<a href="${contextRoot}/myInquiryList" type="button" class="btn btn-primary0 " id="myInquiryListButton" style="background-color:#00FF7F; color:white; font-weight:bold; text-align: center;"> 문의내역 보기</a>
                 </div>
                 <br>
                	<div>
                	<button type="button" class="btn btn-primary" id="changePwdButton" data-bs-toggle="modal" data-bs-target="#changePwd" style="background-color:gray; color:white; font-weight:bold;text-align: center;"> 비밀번호 수정하기</button>
                 </div>
                 <br>
+                <div>
                 <button type="submit" class="btn btn-primary1" id="modifyButton" style="background-color:slateblue; color:white; font-weight:bold;text-align: center;">회원정보 수정하기</button>
                 </div>
                 <br>
                 <div style="text-align: center;" id="deleteButton"  >
                 <button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#deleteForm" style="background-color:red; color:white; font-weight:bold;" >회원 탈퇴하기</button>
                 </div>     
-            </form>   
+         </form> 
         </div>
     </div>
     
@@ -237,7 +238,21 @@
  	document.getElementById("newPasswordHidden").value=document.getElementById("newPassword").value;
  	document.getElementById("confirmPasswordHidden").value=document.getElementById("confirmPassword").value;
  
- 
+
+ 	/* 페이지 이동시 작동 함수 */
+ 	  window.onload = function () {
+ 	    // JSTL 표현식을 안전하게 문자열로 감싸서 처리
+ 	    var rfListSize = ${empty rfList ? 0 : fn:length(rfList)};
+ 	    
+ 	    var btn = document.getElementById("recentRefundBtn");
+ 	    if (btn && rfListSize === 0) {
+ 	      btn.disabled = true;
+ 	      btn.style.backgroundColor = 'gray';
+ 	    }
+ 	  };
+ 	
+ 	
+
  	function checkCurrentPassword(){ 
  		//현재 입력한 비밀번호가 기존 비밀번호와 일치한지 확인 
  		const currentPassword = document.getElementById("currentPassword").value;

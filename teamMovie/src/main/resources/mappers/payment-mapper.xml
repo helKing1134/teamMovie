@@ -30,6 +30,20 @@
 	
 	</resultMap>
 	
+	<!-- 멤버 resultMap  -->
+	<resultMap type="Member" id="memberResultMap">
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="password1" column="PASSWORD" />
+		<result property="idNum" column="IDNUM" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="role" column="ROLE" />
+		<result property="createdDate" column="CREATED_AT" />
+	
+	</resultMap>
+	
 	<insert id="insertPayment" parameterType="Payment">
 	    <selectKey resultType="int" keyProperty="paymentId" order="BEFORE">
 	        SELECT seq_payment.NEXTVAL FROM dual
@@ -49,7 +63,6 @@
 		    #{method},
 		    SYSDATE
 		)
-	
 	</insert>
 	
 	<select id="findById" parameterType="_int" resultMap="paymentResultMap">
@@ -72,7 +85,8 @@
 	
 	</select>
 	
-		<select id="getRefundByMemberNo" parameterType="int" resultMap="refundResultMap">
+
+	<select id="getRefundByMemberNo" parameterType="_int" resultMap="refundResultMap">
 		SELECT
 			*
 		FROM
@@ -80,16 +94,20 @@
 		WHERE
 			request_user_id = #{memberNo}
 		ORDER BY request_time DESC
-	
 	</select>
 	
+	<select id="getMemByPmId" parameterType="String" resultMap="memberResultMap">
+		SELECT
+		    m.*
+		FROM
+		    member m
+		JOIN
+		    payment p ON m.member_no = p.member_no
+		WHERE
+		    p.payment_id = #{payId}
+			
+	</select>
 	
-	
-	
-
-
-
-
 
 
 
