@@ -6,6 +6,7 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+<head>
 
     <meta charset="UTF-8">
     <title>영화 예매 플랫폼</title>
@@ -56,7 +57,7 @@
     * {
         box-sizing: border-box;
     }
-
+	/*
     #header {
         width: 100%;
         font-family: 'Noto Sans KR', sans-serif;
@@ -64,6 +65,7 @@
         color: white;
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
+    */
 
     .header-top {
         display: flex;
@@ -215,7 +217,8 @@
         background-color: #444;
     }
 </style>
-
+</head>
+<body>
 <!-- 헤더 시작 -->
 <div id="header">
     <div class="header-top">

@@ -299,7 +299,7 @@ translateY(
     </div>
     
 </c:forEach>
-
+	
 </div>
 </div>
         <!-- 카드 반복 끝 -->

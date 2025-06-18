@@ -373,6 +373,7 @@
 				let html = "";
 				stillCuts.forEach(function(stillCut){
 					html += "<img src='https://media.themoviedb.org/t/p/w500_and_h282_face/bZiuynt0RzxldXScTJCPfDEvRhI.jpg' alt='엑박'>";
+					console.log(stillCut);
 				});
 				$("#stillCutList").html(html);
 			},
