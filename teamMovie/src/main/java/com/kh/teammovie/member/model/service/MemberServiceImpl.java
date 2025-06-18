@@ -56,4 +56,12 @@ public class MemberServiceImpl implements MemberService  {
 		return dao.adminMember(sqlSession);
 	}
 
+
+	@Override
+	public void updateMemberRole(int memberNo, String role) {
+		// TODO Auto-generated method stub
+		dao.updateMemberRole(memberNo, role,sqlSession);
+
+	}
+
 }

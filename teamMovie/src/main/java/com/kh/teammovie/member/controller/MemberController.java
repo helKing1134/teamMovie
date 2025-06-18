@@ -289,6 +289,14 @@ public class MemberController {
 	    System.out.println(members);
 		return "support/adminMember";
 	}
+	
+	@PostMapping("/admin/updateRole")
+	public String updateMemberRole(@RequestParam("memberNo") int memberNo,
+	                               @RequestParam("role") String role) {
+	    service.updateMemberRole(memberNo, role);
+	    return "redirect:/adminMember"; // 권한 수정 후 다시 목록으로
+	}
+	
 
 }
 	
