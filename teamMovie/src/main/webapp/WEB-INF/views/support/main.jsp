@@ -110,7 +110,6 @@
             <li><a href="${pageContext.request.contextPath}/support" class="active">고객센터 홈</a></li>
             <li><a href="${pageContext.request.contextPath}/support/faq">자주 묻는 질문</a></li>
             <li><a href="${contextRoot}/support/inquiry" id = "inquiry">1:1 문의</a></li>
-            <li><a href="${contextRoot}/myInquiryList" id = "myInquiryList">나의 문의 내역</a></li>
         </ul>
     </aside>
 
