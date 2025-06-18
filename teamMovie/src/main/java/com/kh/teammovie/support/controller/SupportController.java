@@ -30,14 +30,7 @@ import com.kh.teammovie.support.model.vo.InquiryAnswer;
 		@Autowired
 		private SupportService service;
 		
-		 @RequestMapping("/main")
-		    public String countInquiries(HttpSession session,Model model) {
-		        int countInquiries = service.countInquiries();
-		        model.addAttribute("countInquiries", countInquiries);
-		        session.setAttribute("countInquiries", countInquiries);
-		        System.out.println(countInquiries);
-		        return "/main";
-		    }
+		 
 
 		
 		//문의하기 메인

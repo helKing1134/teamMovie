@@ -22,13 +22,15 @@
             <div class="row">
                 
                 <div class="col-md-4 mb-3">
-                    <div class="card text-white bg-warning">
-                        <div class="card-body">
-                            <h5 class="card-title">처리 대기 문의</h5>
-                            <p class="card-text"><strong>14</strong> 건</p>
-                        </div>
-                    </div>
-                </div>
+				    <a href="${contextRoot}/inquiryList" style="text-decoration: none;">
+				        <div class="card text-white" style="background-color: #b98e00;">
+				            <div class="card-body">
+				                <h5 class="card-title">처리 대기 문의</h5>
+				                <p class="card-text"><strong>14</strong> 건</p>
+				            </div>
+				        </div>
+				    </a>
+				</div>
             </div>
         </div>
     </div>

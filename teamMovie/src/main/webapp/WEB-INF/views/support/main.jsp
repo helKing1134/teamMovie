@@ -110,7 +110,7 @@
             <li><a href="${pageContext.request.contextPath}/support" class="active">고객센터 홈</a></li>
             <li><a href="${pageContext.request.contextPath}/support/faq">자주 묻는 질문</a></li>
             <li><a href="${contextRoot}/support/inquiry" id = "inquiry">1:1 문의</a></li>
-            <li><a href="${contextRoot}/myInquiryList">나의 문의 내역</a></li>
+            <li><a href="${contextRoot}/myInquiryList" id = "myInquiryList">나의 문의 내역</a></li>
         </ul>
     </aside>
 
@@ -150,11 +150,11 @@
                 e.preventDefault();
 
                 // 세션에 리다이렉트 URL 저장
-                fetch("/saveRedirectUrl", { method: "POST",
+                fetch("${pageContext.request.contextPath}/saveRedirectUrl", { method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ url: targetUrl })
+                    body: JSON.stringify({ redirect: targetUrl })
                 })
                 .then(() => {
                     $('#loginModal').modal('show');
